@@ -41,8 +41,8 @@
       var utama = rows.filter(function (x) { return x.k.pendamping_utama === SAYA(); }), cad = rows.filter(function (x) { return x.k.pendamping_utama !== SAYA(); });
       var perhatian = rows.filter(function (x) { return x.akhir.status === 'Waspada' || x.akhir.status === 'Perlu tindakan'; }).length;
       return App.pageHead('Koperasi asuhan', 'Anda pendamping utama untuk ' + utama.length + ' koperasi dan cadangan untuk ' + cad.length + '. ' + perhatian + ' koperasi berstatus Waspada atau Perlu tindakan.') +
-        '<div class="stack lg"><section class="card"><h2 style="margin-bottom:12px">Pendamping utama</h2>' + tabelKop(utama, 'asuhan') + '</section>' +
-        (cad.length ? '<section class="card"><h2 style="margin-bottom:4px">Pendamping cadangan</h2><p class="small mute" style="margin-bottom:12px">Anda menerima salinan tiket koperasi ini. Koordinator KJDP dapat menugaskan Anda sebagai utama.</p>' + tabelKop(cad, 'asuhan') + '</section>' : '') + '</div>';
+        '<div class="stack lg"><section class="card"><h2 class="u-mb-3">Pendamping utama</h2>' + tabelKop(utama, 'asuhan') + '</section>' +
+        (cad.length ? '<section class="card"><h2 class="u-mb-1">Pendamping cadangan</h2><p class="u-mb-3 small mute">Anda menerima salinan tiket koperasi ini. Koordinator KJDP dapat menugaskan Anda sebagai utama.</p>' + tabelKop(cad, 'asuhan') + '</section>' : '') + '</div>';
     }
   };
   App.views['kjd/tiket'] = {
@@ -55,9 +55,9 @@
       var salinan = list.filter(function (t) { return t.pemilik_nama !== nama && t.status !== 'Selesai'; });
       var selesai = list.filter(function (t) { return t.status === 'Selesai'; });
       return App.pageHead('Tiket', 'Status Waspada membuat tiket Pendampingan untuk Anda; kontak pertama dengan pengurus dalam 7 hari kerja.') +
-        '<div class="stack lg"><section class="card"><h2 style="margin-bottom:12px">Tugas Anda</h2>' + App.ui.daftarTiket(milik, 'tiket', App.empty('ticket', 'Tidak ada tiket untuk Anda', 'Tiket Pendampingan dibuat otomatis saat koperasi asuhan berstatus Waspada.')) + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:12px">Salinan</h2>' + App.ui.daftarTiket(salinan, 'tiket', App.empty('ticket', 'Tidak ada salinan', 'Salinan tiket Tindak lanjut koperasi asuhan muncul di sini.')) + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:12px">Selesai</h2>' + App.ui.daftarTiket(selesai, 'tiket') + '</section></div>';
+        '<div class="stack lg"><section class="card"><h2 class="u-mb-3">Tugas Anda</h2>' + App.ui.daftarTiket(milik, 'tiket', App.empty('ticket', 'Tidak ada tiket untuk Anda', 'Tiket Pendampingan dibuat otomatis saat koperasi asuhan berstatus Waspada.')) + '</section>' +
+        '<section class="card"><h2 class="u-mb-3">Salinan</h2>' + App.ui.daftarTiket(salinan, 'tiket', App.empty('ticket', 'Tidak ada salinan', 'Salinan tiket Tindak lanjut koperasi asuhan muncul di sini.')) + '</section>' +
+        '<section class="card"><h2 class="u-mb-3">Selesai</h2>' + App.ui.daftarTiket(selesai, 'tiket') + '</section></div>';
     }
   };
 
@@ -88,7 +88,7 @@
       return App.pageHead('Wilayah ' + App.state.koperasi.kabupaten.replace('Kabupaten ', 'Kab. '), semua.length + ' koperasi. Status terakhir dari laporan bulanan; baris merah punya tiket yang lewat tenggat.',
         '<a class="btn outline" href="' + App.href('ekspor') + '">' + icon('download') + 'Ekspor data</a>') +
         '<div class="stack lg">' + sebaran(hitung, semua.length) + (telat ? App.callout('bad', 'clock', '<p><b>' + telat + ' tiket terlambat</b> di wilayah. Tiket tetap harus ditutup oleh penerimanya.</p>') : '') +
-        '<section class="card"><div style="margin-bottom:12px">' + seg + '</div><p class="small mute" style="margin-bottom:8px" aria-live="polite">Menampilkan ' + rows.length + ' koperasi.</p>' +
+        '<section class="card"><div class="u-mb-3">' + seg + '</div><p class="u-mb-2 small mute" aria-live="polite">Menampilkan ' + rows.length + ' koperasi.</p>' +
         (rows.length ? tabelKop(rows, 'wilayah') : App.empty('map', 'Tidak ada koperasi berstatus ' + esc(f), 'Pilih status lain untuk melihat daftar.', '<a class="btn secondary" href="' + App.href('wilayah') + '">Tampilkan semua</a>')) + '</section></div>';
     }
   };
@@ -172,7 +172,7 @@
       var kartu = function (kode, judul, nilaiHtml, persen, targetTxt, catatan, ok) {
         return '<section class="card stack sm" aria-labelledby="h-' + kode + '"><div class="row between"><span class="chip">' + kode + '</span>' + (ok === null ? App.chip('Belum dapat diukur', '', 'clock') : ok ? '<span class="status sehat">' + icon('checkCircle', 'sm') + 'Mencapai target</span>' : '<span class="status waspada">' + icon('alert', 'sm') + 'Di bawah target</span>') + '</div>' +
           '<h2 id="h-' + kode + '">' + judul + '</h2><p class="big">' + nilaiHtml + '</p>' +
-          (persen !== null ? '<div class="bar" style="height:10px" role="img" aria-label="' + Math.round(persen * 100) + ' persen dari target"><i style="width:' + Math.min(100, Math.round(persen * 100)) + '%"></i></div>' : '') +
+          (persen !== null ? '<div class="u-bar-lg bar" role="img" aria-label="' + Math.round(persen * 100) + ' persen dari target"><i style="width:' + Math.min(100, Math.round(persen * 100)) + '%"></i></div>' : '') +
           '<p class="small body"><b>Target:</b> ' + targetTxt + '</p><p class="small mute">' + catatan + '</p></section>';
       };
       return App.pageHead('Papan KPI pilot', 'Lima indikator keberhasilan yang sama dengan esai. Angka di papan ini berasal dari data simulasi dan tidak boleh dibaca sebagai hasil lapangan.') +
@@ -201,7 +201,7 @@
       return App.pageHead('Ambang indikator', 'Ambang awal simulasi yang disetujui dinas, bukan angka resmi PEARLS atau pemerintah.', '<button class="btn outline" data-act="salin-ambang">' + icon('copy') + 'Salin CSV</button>') +
         '<div class="stack lg"><section class="card"><div class="card-head"><h2>Versi ' + esc(amb.versi) + '</h2><span class="small body">Disetujui ' + esc(amb.disetujui_oleh) + ' · ' + App.tglPanjang(amb.tanggal) + '</span></div>' +
         '<div class="table-wrap"><table class="t"><thead><tr><th></th><th>Indikator dan rumus</th><th>Hijau (100)</th><th>Kuning (60)</th><th>Merah (20)</th><th class="r">Bobot</th></tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td></td><td colspan="4"><b>Jumlah bobot</b></td><td class="r strong">100</td></tr></tfoot></table></div></section>' +
-        '<section class="card"><h2 style="margin-bottom:8px">Aturan status</h2><ul class="stack sm body" style="padding-left:20px;margin:0"><li>Skor 80 ke atas Sehat; 55 sampai 79 Waspada; di bawah 55 Perlu tindakan.</li><li>Bila likuiditas (L) merah, status minimal Waspada.</li><li>Bila dua indikator atau lebih merah, status Perlu tindakan.</li><li>Tiga bulan buku pertama berstatus Dikalibrasi.</li></ul></section>' +
+        '<section class="card"><h2 class="u-mb-2">Aturan status</h2><ul class="u-list stack sm body"><li>Skor 80 ke atas Sehat; 55 sampai 79 Waspada; di bawah 55 Perlu tindakan.</li><li>Bila likuiditas (L) merah, status minimal Waspada.</li><li>Bila dua indikator atau lebih merah, status Perlu tindakan.</li><li>Tiga bulan buku pertama berstatus Dikalibrasi.</li></ul></section>' +
         App.callout('info', 'lock', '<p>Prototipe hanya menampilkan ambang. Di produk sesungguhnya perubahan ambang membuat versi baru yang butuh persetujuan dinas yang tercatat; skor lama tetap dihitung ulang dengan versi yang dipakai saat itu.</p>') + '</div>';
     }
   };

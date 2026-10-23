@@ -48,11 +48,11 @@
       if (pb) tasks.push(['', 'lock', 'Tutup buku ' + TK.namaPeriode(pb.id), 'Setelah semua transaksi bulan ini tercatat.', App.href('tutup')]);
       var taskHtml = tasks.map(function (t) {
         var inner = '<span class="ic">' + icon(t[1]) + '</span><span class="grow"><b>' + esc(t[2]) + '</b><span class="small body">' + esc(t[3]) + '</span></span>' + (t[4] ? icon('chevR') : '');
-        return t[4] ? '<a class="task ' + t[0] + '" href="' + t[4] + '" style="text-decoration:none;color:inherit">' + inner + '</a>' : '<div class="task ' + t[0] + '">' + inner + '</div>';
+        return t[4] ? '<a class="u-plain task ' + t[0] + '" href="' + t[4] + '">' + inner + '</a>' : '<div class="task ' + t[0] + '">' + inner + '</div>';
       }).join('');
       return App.pageHead('Halo, ' + App.namaDepan(u.nama), 'Tugas bulan ini untuk ' + esc(s.koperasi.nama) + '.', '<a class="btn primary" href="' + App.href('catat') + '">' + icon('plus') + 'Catat transaksi</a>') +
         stripPengurus() +
-        '<div class="grid g3" style="align-items:start"><section class="card span2" aria-labelledby="h-tugas"><h2 id="h-tugas" style="margin-bottom:12px">Tugas</h2><div class="tasks">' + taskHtml + '</div></section>' +
+        '<div class="u-items-start grid g3"><section class="card span2" aria-labelledby="h-tugas"><h2 id="h-tugas" class="u-mb-3">Tugas</h2><div class="tasks">' + taskHtml + '</div></section>' +
         '<div class="stack">' +
         (skT ? '<section class="card stack sm"><h2>Skor ' + TK.namaPeriode(pt.id) + '</h2><div class="row">' + App.gauge(skT.nilai, skT.status, true) + App.statusBadge(skT.status) + '</div><p class="small body">Laporan terakhir yang terbit ke anggota.</p></section>' : '') +
         (pv ? '<section class="card stack sm"><h2>Pratinjau ' + TK.namaPeriode(pb.id) + '</h2><div class="row">' + App.gauge(pv.skor.nilai, pv.skor.status, true) + App.statusBadge(pv.skor.status) + '</div>' +
@@ -95,11 +95,11 @@
     var baris = v.baris && v.baris.length && v.baris.every(function (b) { return !isNaN(b.debit) && !isNaN(b.kredit); }) ? v.baris : null;
     if (!baris || (!(draft.nominal > 0) && !((draft.pokok || 0) + (draft.jasa || 0) > 0))) return '<p class="body">Isi nominal untuk melihat jurnal.</p>';
     var d = 0, k = 0;
-    var rows = baris.map(function (b) { d += b.debit || 0; k += b.kredit || 0; return '<tr><td class="mono">' + b.akun + '</td><td>' + esc(TK.AKUN[b.akun].nama) + '</td><td class="r">' + (b.debit ? rp(b.debit) : '') + '</td><td class="r">' + (b.kredit ? rp(b.kredit) : '') + '</td></tr>'; }).join('');
-    return '<div class="table-wrap"><table class="t"><thead><tr><th>Akun</th><th>Nama</th><th class="r">Debit</th><th class="r">Kredit</th></tr></thead><tbody>' + rows +
-      '<tr><td></td><td class="strong">Jumlah</td><td class="r strong">' + rp(d) + '</td><td class="r strong">' + rp(k) + '</td></tr></tbody></table></div>' +
-      '<p class="ind ' + (d === k ? 'hijau' : 'merah') + '" style="margin-top:8px">' + icon(d === k ? 'checkCircle' : 'alert', 'sm') + (d === k ? 'Debit sama dengan kredit' : 'Debit dan kredit tidak seimbang') + '</p>' +
-      (v.ok ? '' : '<p class="small mute" style="margin-top:4px">' + esc(v.galat[0].pesan) + '</p>');
+    var rows = baris.map(function (b) { d += b.debit || 0; k += b.kredit || 0; return '<tr><td class="mono hide-m">' + b.akun + '</td><td>' + esc(TK.AKUN[b.akun].nama) + '</td><td class="r">' + (b.debit ? rp(b.debit) : '') + '</td><td class="r">' + (b.kredit ? rp(b.kredit) : '') + '</td></tr>'; }).join('');
+    return '<div class="table-wrap"><table class="t jurnal"><thead><tr><th class="hide-m">Akun</th><th>Nama</th><th class="r">Debit</th><th class="r">Kredit</th></tr></thead><tbody>' + rows +
+      '<tr><td class="hide-m"></td><td class="strong">Jumlah</td><td class="r strong">' + rp(d) + '</td><td class="r strong">' + rp(k) + '</td></tr></tbody></table></div>' +
+      '<p class="u-mt-2 ind ' + (d === k ? 'hijau' : 'merah') + '">' + icon(d === k ? 'checkCircle' : 'alert', 'sm') + (d === k ? 'Debit sama dengan kredit' : 'Debit dan kredit tidak seimbang') + '</p>' +
+      (v.ok ? '' : '<p class="u-mt-1 small mute">' + esc(v.galat[0].pesan) + '</p>');
   }
   function fieldErr(galat, nama) {
     var g = (galat || []).filter(function (x) { return x.field === nama; })[0];
@@ -125,7 +125,7 @@
           (d.anggota_id ? (pjs.length ? '<option value="">Pilih pinjaman</option>' + pjs.map(function (st) { return '<option value="' + st.p.id + '"' + (st.p.id === d.pinjaman_id ? ' selected' : '') + '>' + st.p.id + ' · sisa ' + rp(st.sisa) + ' · ' + st.status + '</option>'; }).join('') : '<option value="">Anggota ini tidak punya pinjaman berjalan</option>') : '<option value="">Pilih anggota dulu</option>') +
           '</select>' + fieldErr(g, 'pinjaman_id');
         var stp = pjs.filter(function (x) { return x.p.id === d.pinjaman_id; })[0];
-        if (stp) f += '<div class="row" style="margin-top:4px">' + App.ui.badgePinjaman(stp) + (stp.tunggakan.length ? '<button type="button" class="btn ghost sm" data-act="isi-tunggakan">Isi ' + stp.tunggakan.length + ' angsuran tertunggak</button>' : '') + (stp.berikut ? '<button type="button" class="btn ghost sm" data-act="isi-satu">Isi satu angsuran (' + rp(stp.berikut.total) + ')</button>' : '') + '</div>';
+        if (stp) f += '<div class="u-mt-1 row">' + App.ui.badgePinjaman(stp) + (stp.tunggakan.length ? '<button type="button" class="btn ghost sm" data-act="isi-tunggakan">Isi ' + stp.tunggakan.length + ' angsuran tertunggak</button>' : '') + (stp.berikut ? '<button type="button" class="btn ghost sm" data-act="isi-satu">Isi satu angsuran (' + rp(stp.berikut.total) + ')</button>' : '') + '</div>';
         f += '</div>';
       }
       if (d.jenis === 'T06' || d.jenis === 'T11') {
@@ -144,22 +144,22 @@
       var antrean = q.length ? '<div class="list">' + q.map(function (it, i) {
         var dr = it.draft, n = dr.nominal || ((dr.pokok || 0) + (dr.jasa || 0));
         return '<div class="li"><div class="grow"><b>' + esc(dr.uraian || TK.JENIS[dr.jenis].nama) + '</b><div class="small mute">' + dr.jenis + ' · ' + tgl(dr.tanggal) + (dr.anggota_id ? ' · ' + esc(App.namaAnggota(dr.anggota_id)) : '') + ' · ' + rp(n) + '</div>' +
-          (it.status === 'Perlu ditinjau' ? '<div class="err" style="margin-top:4px">' + icon('alert', 'sm') + '<span>' + esc((it.galat || [{ pesan: '' }])[0].pesan) + '</span></div>' : '') + '</div>' +
-          '<div class="stack sm" style="align-items:flex-end">' + App.chip(it.status, it.status === 'Perlu ditinjau' ? 'late' : 'amber', it.status === 'Perlu ditinjau' ? 'alert' : 'clock') +
+          (it.status === 'Perlu ditinjau' ? '<div class="u-mt-1 err">' + icon('alert', 'sm') + '<span>' + esc((it.galat || [{ pesan: '' }])[0].pesan) + '</span></div>' : '') + '</div>' +
+          '<div class="u-items-end stack sm">' + App.chip(it.status, it.status === 'Perlu ditinjau' ? 'late' : 'amber', it.status === 'Perlu ditinjau' ? 'alert' : 'clock') +
           (it.status === 'Perlu ditinjau' ? '<div class="row"><button class="btn ghost sm" data-act="antre-perbaiki" data-i="' + i + '">Perbaiki</button><button class="btn ghost sm" data-act="antre-buang" data-i="' + i + '">Buang</button></div>' : '') + '</div></div>';
       }).join('') + '</div>' : '<p class="body">Antrean kosong. Saat luring, transaksi yang Anda simpan muncul di sini bertanda Menunggu sinkron.</p>';
       var menunggu = q.filter(function (x) { return x.status === 'Menunggu sinkron'; }).length;
       var terakhir = s.entri.slice(-3).reverse();
       return App.pageHead('Catat transaksi', 'Satu transaksi per simpan. Jurnal dibentuk otomatis dari jenis transaksi.') +
-        (!s.online ? '<div style="margin-bottom:16px">' + App.callout('warn', 'wifiOff', '<p><b>Anda sedang luring.</b> Transaksi disimpan di antrean perangkat dengan ID klien unik dan dikirim saat daring. Aturan saldo diperiksa ulang saat sinkron.</p>') + '</div>' : '') +
-        '<div class="grid g3" style="align-items:start"><form class="card span2 stack lg" data-form="catat" data-input="catat" novalidate>' +
+        (!s.online ? '<div class="u-mb-4">' + App.callout('warn', 'wifiOff', '<p><b>Anda sedang luring.</b> Transaksi disimpan di antrean perangkat dengan ID klien unik dan dikirim saat daring. Aturan saldo diperiksa ulang saat sinkron.</p>') + '</div>' : '') +
+        '<div class="u-items-start grid g3"><form class="card span2 stack lg" data-form="catat" data-input="catat" novalidate>' +
         (App._catatPerbaiki ? App.callout('info', 'edit', '<p>Memperbaiki entri dari antrean. Simpan untuk mengirim ulang.</p>') : '') +
         '<div class="form-grid">' + f + '</div>' +
-        '<div class="card tint" style="padding:18px"><h3 style="margin-bottom:8px">Pratinjau jurnal</h3><div id="jurnal-preview" aria-live="polite">' + pratinjauJurnal(bacaDraftDari(d)) + '</div></div>' +
+        '<div class="u-p-4 card tint"><h3 class="u-mb-2">Pratinjau jurnal</h3><div id="jurnal-preview" aria-live="polite">' + pratinjauJurnal(bacaDraftDari(d)) + '</div></div>' +
         '<div class="row"><button class="btn primary" type="submit">' + icon(s.online ? 'check' : 'clock') + (s.online ? 'Simpan transaksi' : 'Simpan ke antrean') + '</button><button class="btn outline" type="button" data-act="catat-reset">Kosongkan</button></div></form>' +
         '<div class="stack"><section class="card"><div class="card-head"><h2>Antrean luring</h2>' + (q.length ? App.chip(q.length + ' entri', 'amber') : '') + '</div>' + antrean +
-        (menunggu ? '<button class="btn ' + (s.online ? 'primary' : 'secondary') + ' block" style="margin-top:12px" data-act="sinkron"' + (s.online ? '' : ' disabled aria-disabled="true"') + '>' + icon('refresh') + (s.online ? 'Sinkronkan sekarang' : 'Menunggu sinyal') + '</button>' : '') + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:8px">Tercatat terakhir</h2><div class="list">' + terakhir.map(function (e) { return '<a class="li" href="' + App.href('buku', e.id) + '" style="color:inherit;text-decoration:none"><div class="grow"><b class="small">' + esc(e.uraian) + '</b><div class="xs mute">' + e.id + ' · ' + tgl(e.tanggal) + '</div></div><span class="amt small">' + rp(App.ui.nominalEntri(e)) + '</span></a>'; }).join('') + '</div></section></div></div>';
+        (menunggu ? '<button class="u-mt-3 btn ' + (s.online ? 'primary' : 'secondary') + ' block" data-act="sinkron"' + (s.online ? '' : ' disabled aria-disabled="true"') + '>' + icon('refresh') + (s.online ? 'Sinkronkan sekarang' : 'Menunggu sinyal') + '</button>' : '') + '</section>' +
+        '<section class="card"><h2 class="u-mb-2">Tercatat terakhir</h2><div class="list">' + terakhir.map(function (e) { return '<a class="u-plain li" href="' + App.href('buku', e.id) + '"><div class="grow"><b class="small">' + esc(e.uraian) + '</b><div class="xs mute">' + e.id + ' · ' + tgl(e.tanggal) + '</div></div><span class="amt small">' + rp(App.ui.nominalEntri(e)) + '</span></a>'; }).join('') + '</div></section></div></div>';
     }
   };
   function bacaDraftDari(d) {
@@ -273,7 +273,7 @@
           }).join('') + '</tbody></table></div>';
       }
       return App.pageHead('Anggota dan pinjaman', 'Membuka rincian anggota tercatat di log audit yang bisa dilihat anggota tersebut.', '<a class="btn primary" href="' + App.href('catat') + '?j=T05">' + icon('plus') + 'Cairkan pinjaman</a>') +
-        '<div class="card"><div style="margin-bottom:12px">' + seg + '</div>' + isi + '</div>';
+        '<div class="card"><div class="u-mb-3">' + seg + '</div>' + isi + '</div>';
     }
   };
   App.acts['buka-anggota'] = function (el, e) { if (e.target.closest('a')) return; App.go('anggota', el.getAttribute('data-id')); };
@@ -285,16 +285,16 @@
     var pj = semuaPinjaman().filter(function (x) { return x.p.anggota_id === id; });
     var ent = s.entri.filter(function (e) { return e.anggota_id === id; }).slice(-10).reverse();
     return App.pageHead(a.nama, a.no + (a.jabatan ? ' · ' + a.jabatan : '') + ' · bergabung ' + App.tglPanjang(a.bergabung), '<a class="btn outline" href="' + App.href('anggota', id) + '?cetak=1" data-act="cetak-anggota" data-id="' + id + '">' + icon('print') + 'Ringkasan cetak</a>', [App.href('anggota'), 'Anggota dan pinjaman']) +
-      '<div class="stack lg"><div class="grid g2"><div class="card"><h2>Simpanan</h2><p class="big" style="margin:8px 0 14px">' + rp(sal.total) + '</p><div class="kv"><div><span class="label">Pokok</span><b>' + rp(sal.pokok) + '</b></div><div><span class="label">Wajib</span><b>' + rp(sal.wajib) + '</b></div><div><span class="label">Sukarela</span><b>' + rp(sal.sukarela) + '</b></div></div></div>' +
+      '<div class="stack lg"><div class="grid g2"><div class="card"><h2>Simpanan</h2><p class="u-m-2-4 big">' + rp(sal.total) + '</p><div class="kv"><div><span class="label">Pokok</span><b>' + rp(sal.pokok) + '</b></div><div><span class="label">Wajib</span><b>' + rp(sal.wajib) + '</b></div><div><span class="label">Sukarela</span><b>' + rp(sal.sukarela) + '</b></div></div></div>' +
       '<div class="card stack sm"><h2>Pinjaman</h2>' + (pj.length ? pj.map(function (st) { return '<div class="row between"><span><b class="mono">' + st.p.id + '</b> sisa ' + rp(st.sisa) + '</span>' + App.ui.badgePinjaman(st) + '</div>'; }).join('') : '<p class="body">Tidak ada pinjaman.</p>') + '</div></div>' +
-      '<div class="card"><h2 style="margin-bottom:8px">Transaksi terakhir</h2><div class="list">' + ent.map(function (e) { return '<a class="li" style="color:inherit;text-decoration:none" href="' + App.href('buku', e.id) + '"><div class="grow"><b>' + esc(e.uraian) + '</b><div class="small mute">' + e.id + ' · ' + tgl(e.tanggal) + '</div></div><span class="amt">' + rp(App.ui.nominalEntri(e)) + '</span></a>'; }).join('') + '</div></div></div>';
+      '<div class="card"><h2 class="u-mb-2">Transaksi terakhir</h2><div class="list">' + ent.map(function (e) { return '<a class="u-plain li" href="' + App.href('buku', e.id) + '"><div class="grow"><b>' + esc(e.uraian) + '</b><div class="small mute">' + e.id + ' · ' + tgl(e.tanggal) + '</div></div><span class="amt">' + rp(App.ui.nominalEntri(e)) + '</span></a>'; }).join('') + '</div></div></div>';
   }
   App.acts['cetak-anggota'] = function (el) { App.modal('Ringkasan cetak A5', App.ui.lembarA5(el.getAttribute('data-id')), '<button class="btn primary" data-act="cetak">' + icon('print') + 'Cetak ringkasan</button>'); };
 
   /* ================= Tutup buku ================= */
   App.ui.tabelPeriode = function () {
     var s = App.state;
-    return '<div class="table-wrap"><table class="t stackable"><thead><tr><th>Periode</th><th>Status</th><th class="r">Skor</th><th>Ditutup</th><th>Terbit</th></tr></thead><tbody>' +
+    return '<div class="table-wrap"><table class="t stackable periode-t"><thead><tr><th>Periode</th><th>Status</th><th class="r">Skor</th><th>Ditutup</th><th>Terbit</th></tr></thead><tbody>' +
       s.periode.slice().reverse().map(function (p) {
         var rec = s.skor.filter(function (x) { return x.periode_id === p.id; })[0];
         var telat = p.terbit_pada && !App.tepatWaktu({ periode: p.id, terbit_pada: p.terbit_pada });
@@ -311,7 +311,7 @@
       var top = '';
       if (hasil) {
         top = '<div class="stack">' + App.callout('ok', 'checkCircle', '<p><b>Buku ' + TK.namaPeriode(hasil.periode) + ' ditutup.</b> Skor ' + hasil.nilai + ', ' + esc(hasil.status) + '. Laporan menunggu pengesahan pengawas sebelum terbit ke anggota.</p>' +
-          (hasil.tiket.length ? '<p style="margin-top:6px">Tiket dibuat: ' + hasil.tiket.map(function (t) { return '<b>' + t.id + '</b> ' + esc(t.jenis) + ', tenggat ' + tgl(t.tenggat); }).join('; ') + '.</p>' : '')) + '</div>';
+          (hasil.tiket.length ? '<p class="u-mt-2">Tiket dibuat: ' + hasil.tiket.map(function (t) { return '<b>' + t.id + '</b> ' + esc(t.jenis) + ', tenggat ' + tgl(t.tenggat); }).join('; ') + '.</p>' : '')) + '</div>';
       }
       if (!pb) return App.pageHead('Tutup buku') + top + App.empty('lock', 'Tidak ada periode terbuka', 'Semua periode sudah ditutup.');
       var pv = TK.pratinjauSkor(s, pb.id, App.today());
@@ -324,12 +324,12 @@
       ];
       return App.pageHead('Tutup buku ' + TK.namaPeriode(pb.id), 'Setelah ditutup, skor dihitung dari buku besar dan dikunci. Entri baru bertanggal ' + TK.namaBulan(pb.id) + ' tidak dapat ditambah.') +
         '<div class="stack lg">' + top +
+        '<div class="card action-card"><div class="card-head"><h2>Siap menutup buku ' + TK.namaBulan(pb.id) + '?</h2>' + App.statusBadge(pv.skor.status) + '</div><p class="body u-mb-3">Skor saat ini ' + pv.skor.nilai + '. Setelah ditutup, skor dan sidik jari buku besar dikunci.</p><div class="tasks">' + cek.map(function (c) { return '<div class="task ' + (c[0] ? 'done' : 'attn') + '"><span class="ic">' + icon(c[0] ? 'check' : 'alert') + '</span><span class="grow">' + esc(c[1]) + '</span></div>'; }).join('') + '</div>' +
+        '<button class="u-mt-4 btn primary" data-act="tutup-buku" data-p="' + pb.id + '"' + (q.length ? ' disabled aria-disabled="true" aria-describedby="tutup-alasan"' : '') + '>' + icon('lock') + 'Tutup buku ' + TK.namaBulan(pb.id) + '</button>' +
+        (q.length ? '<p class="u-mt-2 small err" id="tutup-alasan">' + icon('alert', 'sm') + '<span>Sinkronkan atau tinjau dulu ' + q.length + ' entri di antrean luring.</span></p>' : '') + '<p class="u-mt-2 xs mute">Di produk sesungguhnya tombol aktif mulai hari kerja pertama bulan berikutnya. Prototipe mengizinkan tutup buku kapan saja untuk demonstrasi.</p></div>' +
         App.ui.ringkasSkor(pv.skor, 'Pratinjau skor ' + TK.namaPeriode(pb.id), App.chip('Belum terkunci', 'amber')) +
-        '<div class="card"><h2 style="margin-bottom:12px">Pemeriksaan</h2><div class="tasks">' + cek.map(function (c) { return '<div class="task ' + (c[0] ? 'done' : 'attn') + '"><span class="ic">' + icon(c[0] ? 'check' : 'alert') + '</span><span class="grow">' + esc(c[1]) + '</span></div>'; }).join('') + '</div>' +
-        '<button class="btn primary" style="margin-top:16px" data-act="tutup-buku" data-p="' + pb.id + '"' + (q.length ? ' disabled aria-disabled="true"' : '') + '>' + icon('lock') + 'Tutup buku ' + TK.namaBulan(pb.id) + '</button>' +
-        '<p class="xs mute" style="margin-top:8px">Di produk sesungguhnya tombol aktif mulai hari kerja pertama bulan berikutnya. Prototipe mengizinkan tutup buku kapan saja untuk demonstrasi.</p></div>' +
-        '<div class="card"><h2 style="margin-bottom:12px">Rincian indikator</h2>' + App.ui.tabelIndikator(pv.skor) + '</div>' +
-        '<div class="card"><h2 style="margin-bottom:12px">Riwayat periode</h2>' + App.ui.tabelPeriode() + '</div></div>';
+        '<div class="card"><h2 class="u-mb-3">Rincian indikator</h2>' + App.ui.tabelIndikator(pv.skor) + '</div>' +
+        '<div class="card"><h2 class="u-mb-3">Riwayat periode</h2>' + App.ui.tabelPeriode() + '</div></div>';
     }
   };
   App.acts['tutup-buku'] = function (el) {
@@ -354,11 +354,11 @@
     var hMin = TK.tgl.diffDays(rat.tanggal, App.today());
     var batasPaket = TK.tgl.addDays(rat.tanggal, -7);
     var tahap = ['Dijadwalkan', 'Paket terbit', 'Berlangsung', 'Selesai'], iT = tahap.indexOf(rat.status);
-    var stepper = '<ol class="row" style="list-style:none;padding:0;margin:0;gap:8px">' + tahap.map(function (t, i) {
+    var stepper = '<ol class="u-steps row">' + tahap.map(function (t, i) {
       return '<li class="chip' + (i === iT ? ' amber' : '') + '">' + icon(i < iT ? 'check' : i === iT ? 'clock' : 'more', 'sm') + t + '</li>';
     }).join('') + '</ol>';
     var blok = [];
-    blok.push('<div class="card stack"><div class="row between"><div><span class="label">RAT ' + App.tglPanjang(rat.tanggal) + '</span><p class="mid" style="margin-top:4px">' + esc(rat.status) + '</p></div>' + (rat.status === 'Dijadwalkan' ? App.chip(hMin + ' hari lagi', 'amber', 'calendar') : '') + '</div>' + stepper +
+    blok.push('<div class="card stack"><div class="row between"><div><span class="label">RAT ' + App.tglPanjang(rat.tanggal) + '</span><p class="u-mt-1 mid">' + esc(rat.status) + '</p></div>' + (rat.status === 'Dijadwalkan' ? App.chip(hMin + ' hari lagi', 'amber', 'calendar') : '') + '</div>' + stepper +
       '<p class="small body">Kuorum: ' + esc(rat.kuorum_aturan) + ' (' + TK.kuorumRAT(s).perlu + ' dari ' + s.anggota.length + '). Dapat diubah sesuai anggaran dasar.</p></div>');
     if (rat.status === 'Dijadwalkan') {
       var lewat = App.today() > batasPaket;
@@ -372,8 +372,8 @@
       blok.push('<div class="card stack"><div class="card-head"><h2>Paket terkunci</h2>' + App.chip('H-' + rat.paket.h_minus, rat.paket.h_minus >= 7 ? '' : 'late') + '</div>' +
         '<p class="body">Terbit ' + App.tglPanjang(rat.paket.terbit_pada) + '. Hash <span class="hash">' + App.pendek(rat.paket.hash, 16) + '</span>. ' + (TK.periksaPaket(rat) ? '<span class="ind hijau">' + icon('check', 'sm') + 'Isi cocok dengan hash</span>' : '<span class="ind merah">' + icon('alert', 'sm') + 'Isi tidak cocok</span>') + '</p>' +
         '<div class="row"><button class="btn outline sm" data-act="lihat-paket">' + icon('book') + 'Lihat isi paket</button></div>' +
-        '<h3>Pelacakan baca: ' + sudah.length + ' dari ' + s.anggota.length + ' anggota</h3><div class="bar" style="height:10px"><i style="width:' + Math.round(sudah.length / s.anggota.length * 100) + '%"></i></div>' +
-        '<div class="grid g2" style="gap:4px 16px">' + baca.map(function (x) { return '<div class="row between small" style="min-height:32px"><span>' + esc(x.a.nama) + '</span>' + (x.t ? '<span class="ind hijau">' + icon('check', 'sm') + tgl(x.t) + '</span>' : '<span class="mute">Belum</span>') + '</div>'; }).join('') + '</div></div>');
+        '<h3>Pelacakan baca: ' + sudah.length + ' dari ' + s.anggota.length + ' anggota</h3><div class="u-bar-lg bar"><i style="width:' + Math.round(sudah.length / s.anggota.length * 100) + '%"></i></div>' +
+        '<div class="u-gap-1-4 grid g2">' + baca.map(function (x) { return '<div class="u-h-row row between small"><span>' + esc(x.a.nama) + '</span>' + (x.t ? '<span class="ind hijau">' + icon('check', 'sm') + tgl(x.t) + '</span>' : '<span class="mute">Belum</span>') + '</div>'; }).join('') + '</div></div>');
     }
     if (rat.status === 'Paket terbit' && kelola) {
       blok.push('<div class="card stack"><h2>Hari RAT</h2><p class="body">Memulai RAT membuka daftar hadir dan menampilkan kode hadir untuk anggota. Di produk sesungguhnya tombol aktif pada tanggal RAT.</p><div><button class="btn primary" data-act="mulai-rat">' + icon('play') + 'Mulai RAT</button></div></div>');
@@ -381,17 +381,17 @@
     if (rat.status === 'Berlangsung' || rat.status === 'Selesai') {
       var kuo = TK.kuorumRAT(s);
       var hadirIds = rat.kehadiran.map(function (k) { return k.anggota_id; });
-      blok.push('<div class="card stack">' + (rat.status === 'Berlangsung' ? '<div class="row between"><h2>Daftar hadir</h2><div class="stack sm" style="align-items:flex-end"><span class="label">Kode hadir</span><span class="big mono" style="letter-spacing:.15em">' + esc(rat.kode_hadir) + '</span></div></div>' : '<h2>Daftar hadir</h2>') +
+      blok.push('<div class="card stack">' + (rat.status === 'Berlangsung' ? '<div class="row between"><h2>Daftar hadir</h2><div class="u-items-end stack sm"><span class="label">Kode hadir</span><span class="u-code big mono">' + esc(rat.kode_hadir) + '</span></div></div>' : '<h2>Daftar hadir</h2>') +
         '<p>' + (kuo.tercapai ? '<span class="ind hijau">' + icon('checkCircle', 'sm') + 'Kuorum tercapai</span>' : '<span class="ind kuning">' + icon('alert', 'sm') + 'Kuorum belum tercapai</span>') + ' · hadir ' + kuo.hadir + ' dari ' + kuo.anggota + ', perlu ' + kuo.perlu + '.</p>' +
-        '<div class="grid g2" style="gap:4px 16px">' + s.anggota.map(function (a) {
+        '<div class="u-gap-1-4 grid g2">' + s.anggota.map(function (a) {
           var h = hadirIds.indexOf(a.id) >= 0;
-          return '<div class="row between small" style="min-height:44px"><span>' + esc(a.nama) + '</span>' + (h ? '<span class="ind hijau">' + icon('check', 'sm') + 'Hadir</span>' : (kelola && rat.status === 'Berlangsung' ? '<button class="btn ghost sm" data-act="tandai-hadir" data-id="' + a.id + '">Tandai hadir</button>' : '<span class="mute">Tidak hadir</span>')) + '</div>';
+          return '<div class="u-h-touch row between small"><span>' + esc(a.nama) + '</span>' + (h ? '<span class="ind hijau">' + icon('check', 'sm') + 'Hadir</span>' : (kelola && rat.status === 'Berlangsung' ? '<button class="btn ghost sm" data-act="tandai-hadir" data-id="' + a.id + '">Tandai hadir</button>' : '<span class="mute">Tidak hadir</span>')) + '</div>';
         }).join('') + '</div></div>');
       var rek = TK.rekapSuara(s);
-      blok.push('<div class="card"><h2 style="margin-bottom:12px">Hasil suara</h2><div class="table-wrap"><table class="t"><thead><tr><th>Agenda</th><th class="r">Setuju</th><th class="r">Tidak</th><th class="r">Abstain</th><th class="r">Jumlah</th></tr></thead><tbody>' +
+      blok.push('<div class="card"><h2 class="u-mb-3">Hasil suara</h2><div class="table-wrap"><table class="t"><thead><tr><th>Agenda</th><th class="r">Setuju</th><th class="r">Tidak</th><th class="r">Abstain</th><th class="r">Jumlah</th></tr></thead><tbody>' +
         rek.map(function (x) { return '<tr><td>' + esc(x.judul) + '</td><td class="r">' + x.rekap.Setuju + '</td><td class="r">' + x.rekap['Tidak setuju'] + '</td><td class="r">' + x.rekap.Abstain + '</td><td class="r strong">' + x.total + '</td></tr>'; }).join('') +
-        '</tbody></table></div><p class="small mute" style="margin-top:8px">Satu anggota satu suara per agenda; suara tidak dapat diubah. Hanya anggota hadir yang dapat memberi suara.</p>' +
-        (kelola && rat.status === 'Berlangsung' ? '<div style="margin-top:16px"><button class="btn primary" data-act="tutup-rat">' + icon('lock') + 'Tutup RAT dan buat berita acara</button></div>' : '') + '</div>');
+        '</tbody></table></div><p class="u-mt-2 small mute">Satu anggota satu suara per agenda; suara tidak dapat diubah. Hanya anggota hadir yang dapat memberi suara.</p>' +
+        (kelola && rat.status === 'Berlangsung' ? '<div class="u-mt-4"><button class="btn primary" data-act="tutup-rat">' + icon('lock') + 'Tutup RAT dan buat berita acara</button></div>' : '') + '</div>');
     }
     if (rat.berita_acara) blok.push(App.ui.beritaAcara(rat.berita_acara));
     return App.pageHead('Rapat Anggota Tahunan', 'Paket terbit paling lambat H-7 lalu dikunci dengan hash. e-RAT melengkapi rapat tatap muka dan tidak menggantikannya.') + '<div class="stack lg">' + blok.join('') + '</div>';
@@ -428,8 +428,8 @@
       var list = App.tiketKop(App.state.koperasi.id).slice().reverse();
       var buka = list.filter(function (t) { return t.status !== 'Selesai'; }), tutup = list.filter(function (t) { return t.status === 'Selesai'; });
       return App.pageHead('Tindak lanjut', 'Status Perlu tindakan membuat tiket untuk pengurus dengan tenggat 14 hari. Penjelasan tertulis kepada anggota wajib, lalu pengawas memverifikasi. Laporan yang belum terbit menjelang tanggal 10 membuat tiket Pengingat.') +
-        '<div class="stack lg"><section class="card"><h2 style="margin-bottom:12px">Terbuka</h2>' + App.ui.daftarTiket(buka, 'tiket', App.empty('flag', 'Tidak ada tiket terbuka', 'Tiket Tindak lanjut muncul di sini bila tutup buku menghasilkan status Perlu tindakan.')) + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:12px">Selesai</h2>' + App.ui.daftarTiket(tutup, 'tiket') + '</section></div>';
+        '<div class="stack lg"><section class="card"><h2 class="u-mb-3">Terbuka</h2>' + App.ui.daftarTiket(buka, 'tiket', App.empty('flag', 'Tidak ada tiket terbuka', 'Tiket Tindak lanjut muncul di sini bila tutup buku menghasilkan status Perlu tindakan.')) + '</section>' +
+        '<section class="card"><h2 class="u-mb-3">Selesai</h2>' + App.ui.daftarTiket(tutup, 'tiket') + '</section></div>';
     }
   };
 
@@ -443,12 +443,12 @@
         var pb = TK.periodeBerjalan(s);
         return App.pageHead('Tinjau laporan', 'Pengawas mengesahkan laporan sebelum terbit ke anggota. Pengurus tidak dapat mengesahkan laporannya sendiri.', '<button class="btn outline" data-act="keutuhan">' + icon('link') + 'Periksa keutuhan</button>') +
           '<div class="stack lg"><div id="hasil-keutuhan">' + App.ui.hasilKeutuhan(App._keutuhan) + '</div><div class="card">' + App.empty('fileCheck', 'Tidak ada laporan menunggu pengesahan', 'Laporan berikutnya muncul di sini setelah pengurus menutup buku ' + (pb ? TK.namaPeriode(pb.id) : '') + '.') + '</div>' +
-          '<div class="card"><h2 style="margin-bottom:12px">Riwayat periode</h2>' + App.ui.tabelPeriode() + '</div></div>';
+          '<div class="card"><h2 class="u-mb-3">Riwayat periode</h2>' + App.ui.tabelPeriode() + '</div></div>';
       }
       var p = tunggu[0], sk = App.skorDetail(p.id);
       return App.pageHead('Tinjau laporan ' + TK.namaPeriode(p.id), 'Ditutup pengurus ' + App.tglPanjang(p.ditutup_pada) + '. Periksa angka dan keutuhan buku besar sebelum mengesahkan.', '<button class="btn outline" data-act="keutuhan">' + icon('link') + 'Periksa keutuhan</button><button class="btn primary" data-act="sahkan" data-p="' + p.id + '">' + icon('checkCircle') + 'Sahkan laporan ' + TK.namaBulan(p.id) + '</button>') +
         '<div class="stack lg"><div id="hasil-keutuhan">' + App.ui.hasilKeutuhan(App._keutuhan) + '</div>' + App.ui.ringkasSkor(sk, 'Skor ' + TK.namaPeriode(p.id)) +
-        App.ui.laporan(p.id) + '<div class="card"><h2 style="margin-bottom:12px">Rincian indikator</h2>' + App.ui.tabelIndikator(sk) + '</div>' +
+        App.ui.laporan(p.id) + '<div class="card"><h2 class="u-mb-3">Rincian indikator</h2>' + App.ui.tabelIndikator(sk) + '</div>' +
         '<p class="small mute">Hash ujung buku besar saat tutup buku: <span class="hash">' + App.pendek(sk.rekam.ujung_hash, 16) + '</span></p></div>';
     }
   };
@@ -468,8 +468,8 @@
       var list = App.tiketKop(App.state.koperasi.id).filter(function (t) { return t.jenis === 'Tindak lanjut'; }).slice().reverse();
       var tunggu = list.filter(function (t) { return t.status === 'Menunggu verifikasi'; }), lain = list.filter(function (t) { return t.status !== 'Menunggu verifikasi'; });
       return App.pageHead('Verifikasi tindak lanjut', 'Pastikan penjelasan tertulis sudah dibagikan kepada anggota dan tindakannya benar dilakukan.') +
-        '<div class="stack lg"><section class="card"><h2 style="margin-bottom:12px">Menunggu verifikasi</h2>' + App.ui.daftarTiket(tunggu, 'verifikasi', App.empty('checkCircle', 'Tidak ada yang menunggu verifikasi', 'Tiket muncul di sini setelah pengurus mengirim penjelasan tertulis.')) + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:12px">Semua tindak lanjut</h2>' + App.ui.daftarTiket(lain, 'verifikasi') + '</section></div>';
+        '<div class="stack lg"><section class="card"><h2 class="u-mb-3">Menunggu verifikasi</h2>' + App.ui.daftarTiket(tunggu, 'verifikasi', App.empty('checkCircle', 'Tidak ada yang menunggu verifikasi', 'Tiket muncul di sini setelah pengurus mengirim penjelasan tertulis.')) + '</section>' +
+        '<section class="card"><h2 class="u-mb-3">Semua tindak lanjut</h2>' + App.ui.daftarTiket(lain, 'verifikasi') + '</section></div>';
     }
   };
 })();

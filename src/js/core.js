@@ -387,7 +387,7 @@
       icon(s.online ? 'wifi' : 'wifiOff') + '<span class="txt">' + (s.online ? 'Daring' : 'Luring') + '</span>' + (q ? '<span class="count">' + q + '</span>' : '') + '</button>' +
       '<button class="user" data-act="menu-user" aria-haspopup="dialog"><span class="avatar">' + App.inisial(u.nama) + '</span><span class="who"><b>' + esc(u.nama) + '</b><span>' + esc(P.nama === 'Anggota' ? 'Anggota' : u.jabatan) + '</span></span></button>' +
       '</header>' +
-      '<div class="banner" role="note"><span><b>Prototipe.</b> Semua data di layar ini simulasi dan bukan data koperasi nyata.</span><span>Tanggal simulasi: <b>' + App.tgl(s.tanggalSimulasi) + '</b></span></div>' +
+      '<div class="banner" role="note"><span><b>Prototipe.</b> <span class="long">Semua data di layar ini simulasi dan bukan data koperasi nyata.</span><span class="short">Data simulasi.</span></span><span><span class="long">Tanggal simulasi: </span><b>' + App.tgl(s.tanggalSimulasi) + '</b></span></div>' +
       '<div class="layout"><nav class="sidenav" aria-label="Navigasi utama">' + navLinks + '<div class="sep" role="presentation"></div>' + shared + sideInfo(P) + '</nav>' +
       '<main id="konten"><div class="page">' + html + '</div></main></div>' +
       '<nav class="tabbar" aria-label="Navigasi utama">' + tabs + '</nav>' +
@@ -461,8 +461,8 @@
     var maxTab = P.nav.length > 5 ? 4 : P.nav.length;
     var sisa = P.nav.slice(maxTab).concat([['cara-skor', 'Cara skor dihitung', 'calc'], ['tentang', 'Tentang prototipe', 'info']]);
     App.sheet('Menu', '<nav class="stack sm" aria-label="Menu lainnya">' + sisa.map(function (n) {
-      return '<a class="btn outline block" style="justify-content:flex-start" href="#/' + P.kode + '/' + n[0] + '">' + icon(n[2]) + esc(n[1]) + '</a>';
-    }).join('') + '<button class="btn secondary block" style="justify-content:flex-start" data-act="menu-user">' + icon('sun') + 'Tema dan akun</button></nav>');
+      return '<a class="u-start btn outline block" href="#/' + P.kode + '/' + n[0] + '">' + icon(n[2]) + esc(n[1]) + '</a>';
+    }).join('') + '<button class="u-start btn secondary block" data-act="menu-user">' + icon('sun') + 'Tema dan akun</button></nav>');
   };
   if (window.matchMedia) {
     try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { App.applyTheme(); }); } catch (e) { /* peramban lama */ }

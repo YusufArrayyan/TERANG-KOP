@@ -12,15 +12,26 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <style>
 /* TERANG-KOP — token dan komponen.
-   Struktur turunan Wise (Inter, tombol pil, kartu 24 px, kontras permukaan sebagai elevasi),
+   Struktur turunan Wise (Inter, tombol pil, kartu 16 px, kontras permukaan sebagai elevasi). Semua nilai lewat token di :root.
    warna dari logo: hijau koperasi sebagai merek, kuning amber sebagai aksen pertumbuhan. */
 
 :root {
   --font: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, monospace;
 
-  --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 24px; --r-pill: 999px;
-  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+  /* Ukuran huruf: enam langkah. Halaman depan menambah ukuran tampilan sendiri (landing.css). */
+  --fs-xs: .8125rem;   /* 13px keterangan, label tabel */
+  --fs-sm: .9375rem;   /* 15px teks pendukung, tombol kecil */
+  --fs-base: 1rem;     /* 16px teks isi */
+  --fs-md: 1.25rem;    /* 20px judul kartu */
+  --fs-lg: 1.75rem;    /* 28px judul halaman */
+  --fs-xl: 2.25rem;    /* 36px angka utama */
+
+  /* Jarak: kelipatan 4/8 */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
+
+  /* Radius: tiga nilai */
+  --r-sm: 8px; --r-lg: 16px; --r-pill: 999px;
 
   --z-sticky: 10; --z-nav: 20; --z-fab: 30; --z-sheet: 40; --z-toast: 50;
   --ease: cubic-bezier(.22, 1, .36, 1);
@@ -54,6 +65,15 @@
   --focus: oklch(0.55 0.13 230);
   --shadow-pop: 0 1px 2px oklch(0.2 0.02 172 / .08), 0 12px 32px oklch(0.2 0.02 172 / .14);
   --scrim: oklch(0.15 0.02 172 / .45);
+  --on-strong: oklch(1 0 0);              /* teks di atas merah atau merek pekat */
+  --hero-bg: oklch(0.29 0.05 172);        /* bidang hijau tua */
+  --on-hero: oklch(0.97 0.01 172);
+  --on-hero-soft: oklch(0.85 0.03 172);
+  --paper: oklch(1 0 0);                  /* lembar cetak selalu putih */
+  --paper-ink: oklch(0.18 0.01 172);
+  --paper-mute: oklch(0.42 0.01 172);
+  --paper-line: oklch(0.89 0.01 172);
+  --paper-brand: oklch(0.49 0.085 172);
 }
 
 :root[data-theme="dark"] {
@@ -85,29 +105,29 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-padding-top: 80px; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--s8); }
 a, button, input, select, textarea, label { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 body {
-  margin: 0; font-family: var(--font); font-size: 16px; line-height: 1.5; color: var(--ink);
+  margin: 0; font-family: var(--font); font-size: var(--fs-base); line-height: 1.5; color: var(--ink);
   background: var(--canvas); font-feature-settings: "calt", "tnum" 0; -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3, h4 { margin: 0; text-wrap: balance; color: var(--ink); }
-h1 { font-size: 1.875rem; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; }
-h2 { font-size: 1.25rem; line-height: 1.3; font-weight: 700; letter-spacing: -0.01em; }
-h3 { font-size: 1.0625rem; line-height: 1.35; font-weight: 600; }
+h1 { font-size: var(--fs-lg); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: var(--fs-md); line-height: 1.3; font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: var(--fs-base); line-height: 1.35; font-weight: 600; }
 p { margin: 0; text-wrap: pretty; }
 a { color: var(--brand-ink); text-underline-offset: 3px; }
 button, input, select, textarea { font: inherit; color: inherit; }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: var(--r-sm); }
 .num { font-variant-numeric: tabular-nums; }
-.mono { font-family: var(--mono); font-size: .875rem; }
+.mono { font-family: var(--font); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; letter-spacing: .01em; }
 .mute { color: var(--mute); }
 .body { color: var(--body); }
-.small { font-size: .875rem; line-height: 1.45; }
-.xs { font-size: .8125rem; line-height: 1.4; }
+.small { font-size: var(--fs-sm); line-height: 1.45; }
+.xs { font-size: var(--fs-xs); line-height: 1.4; }
 .strong { font-weight: 600; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.skip { position: absolute; left: 12px; top: -60px; background: var(--ink); color: var(--canvas); padding: 10px 16px; border-radius: var(--r-pill); z-index: var(--z-toast); }
+.skip { position: absolute; left: 12px; top: -60px; background: var(--ink); color: var(--canvas); padding: var(--s3) var(--s4); border-radius: var(--r-pill); z-index: var(--z-toast); }
 .skip:focus { top: 12px; }
 svg.i { width: 20px; height: 20px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 svg.i.sm { width: 16px; height: 16px; }
@@ -116,212 +136,223 @@ svg.i.lg { width: 24px; height: 24px; }
 /* ---------- Kerangka ---------- */
 .topbar {
   position: sticky; top: 0; z-index: var(--z-sticky); display: flex; align-items: center; gap: var(--s4);
-  min-height: 64px; padding: 8px 20px; background: var(--surface); border-bottom: 1px solid var(--line);
+  min-height: 64px; padding: var(--s2) var(--s5); background: var(--surface); border-bottom: 1px solid var(--line);
 }
-.brand { display: flex; align-items: center; gap: 12px; min-width: 0; text-decoration: none; color: inherit; }
+.brand { display: flex; align-items: center; gap: var(--s3); min-width: 0; text-decoration: none; color: inherit; }
 .brand svg { width: 38px; height: 44px; flex: none; }
-.brand b { display: block; font-weight: 800; letter-spacing: .01em; font-size: 1rem; line-height: 1.2; }
-.brand span { display: block; font-size: .875rem; color: var(--mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.brand b { display: block; font-weight: 800; letter-spacing: .01em; font-size: var(--fs-base); line-height: 1.2; }
+.brand span { display: block; font-size: var(--fs-sm); color: var(--mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .topbar .spacer { flex: 1; }
 .conn {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: var(--r-pill);
-  border: 0; cursor: pointer; font-weight: 600; font-size: .9375rem; background: var(--ok-bg); color: var(--ok-ink);
+  display: inline-flex; align-items: center; gap: var(--s2); min-height: 44px; padding: 0 var(--s4); border-radius: var(--r-pill);
+  border: 0; cursor: pointer; font-weight: 600; font-size: var(--fs-sm); background: var(--ok-bg); color: var(--ok-ink);
   transition: background var(--t-fast) var(--ease);
 }
 .conn[data-online="false"] { background: var(--warn-bg); color: var(--warn-ink); }
-.conn .count { background: var(--warn-ink); color: var(--warn-bg); border-radius: var(--r-pill); padding: 0 7px; font-size: .75rem; line-height: 20px; }
+.conn .count { background: var(--warn-ink); color: var(--warn-bg); border-radius: var(--r-pill); padding: 0 var(--s2); font-size: var(--fs-xs); line-height: 20px; }
 .user {
-  display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 4px 12px 4px 4px; border-radius: var(--r-pill);
+  display: flex; align-items: center; gap: var(--s3); min-height: 44px; padding: var(--s1) var(--s3) var(--s1) var(--s1); border-radius: var(--r-pill);
   border: 0; background: transparent; cursor: pointer; text-align: left;
 }
 .user:hover { background: var(--surface-2); }
-.avatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--surface); font-weight: 700; font-size: .8125rem; flex: none; }
-.user .who b { display: block; font-size: .9375rem; font-weight: 600; line-height: 1.2; }
-.user .who span { display: block; font-size: .8125rem; color: var(--mute); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--surface); font-weight: 700; font-size: var(--fs-xs); flex: none; }
+.user .who b { display: block; font-size: var(--fs-sm); font-weight: 600; line-height: 1.2; }
+.user .who span { display: block; font-size: var(--fs-xs); color: var(--mute); }
 
 .banner {
-  display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: space-between; align-items: center;
-  padding: 7px 20px; background: var(--amber-pale); color: var(--amber-ink); font-size: .875rem; border-bottom: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: var(--s1) var(--s4); justify-content: space-between; align-items: center;
+  padding: var(--s2) var(--s5); background: var(--amber-pale); color: var(--amber-ink); font-size: var(--fs-sm); border-bottom: 1px solid var(--line);
 }
 .banner b { font-weight: 700; }
+.banner .short { display: none; }
+@media (max-width: 767px) { .banner .short { display: inline; } }
 
 .layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: calc(100vh - 100px); }
-.sidenav { padding: 24px 16px; display: flex; flex-direction: column; gap: 4px; position: sticky; top: 64px; align-self: start; max-height: calc(100vh - 64px); overflow-y: auto; }
+.sidenav { padding: var(--s5) var(--s4); display: flex; flex-direction: column; gap: var(--s1); position: sticky; top: 64px; align-self: start; max-height: calc(100vh - 64px); overflow-y: auto; }
 .sidenav a {
-  display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 16px; border-radius: var(--r-pill);
-  color: var(--ink); text-decoration: none; font-weight: 600; font-size: .9375rem;
+  display: flex; align-items: center; gap: var(--s3); min-height: 48px; padding: 0 var(--s4); border-radius: var(--r-pill);
+  color: var(--ink); text-decoration: none; font-weight: 600; font-size: var(--fs-sm);
   transition: background var(--t-fast) var(--ease);
 }
 .sidenav a:hover { background: var(--surface-2); }
 .sidenav a[aria-current="page"] { background: var(--brand-pale); color: var(--brand-ink); }
-.sidenav .sep { height: 1px; background: var(--line); margin: 12px 8px; }
-.sidenav .meta { padding: 0 16px; font-size: .8125rem; color: var(--mute); margin-top: 4px; }
-.badge-dot { margin-left: auto; min-width: 22px; height: 22px; padding: 0 7px; border-radius: var(--r-pill); background: var(--bad-mark); color: #fff; font-size: .75rem; font-weight: 700; display: grid; place-items: center; }
+.sidenav .sep { height: 1px; background: var(--line); margin: var(--s3) var(--s2); }
+.sidenav .meta { padding: 0 var(--s4); font-size: var(--fs-xs); color: var(--mute); margin-top: var(--s1); }
+.badge-dot { margin-left: auto; min-width: 22px; height: 22px; padding: 0 var(--s2); border-radius: var(--r-pill); background: var(--bad-mark); color: var(--on-strong); font-size: var(--fs-xs); font-weight: 700; display: grid; place-items: center; }
 
-main { padding: 32px 32px 120px; min-width: 0; }
+main { padding: var(--s6) var(--s6) 120px; min-width: 0; }
 .page { max-width: 1180px; }
 #judul:focus { outline: none; } /* fokus terprogram untuk pembaca layar; judul bukan kontrol */
-/* Paragraf prosa rata kiri-kanan di layar lebar; di ponsel tetap rata kiri agar spasi antarkata tidak melebar. */
-@media (min-width: 768px) {
-  .card p.body, .card > p, .callout p, .empty p, .stack.sm.body li, .lp-intro-text p, .lp-letter p, .lp-show-index > p, .lp-fase li, .lp-kpi dd, .lp-lead, .lp-cta-text p, .lp-credit {
+/* Paragraf prosa rata kiri-kanan hanya bila wadahnya cukup lebar (≥ 560 px, sekitar 65 karakter).
+   Di kolom sempit dan di ponsel teks tetap rata kiri agar spasi antarkata tidak melebar. */
+.card, .lp-pilot-text, .lp-surat .lp-letter { container-type: inline-size; }
+@container (min-width: 560px) {
+  p.body, .card > p, .callout p, .stack.sm.body li, .lp-fase li, .lp-kpi dd, .lp-letter p {
     text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto;
   }
 }
 /* Kartu info koperasi di bilah samping */
-.side-info { margin-top: 20px; padding: 18px; border-radius: var(--r-xl); background: var(--surface); display: flex; flex-direction: column; gap: 4px; }
-.side-info .side-logo svg { width: 34px; height: 40px; margin-bottom: 8px; }
-.side-info b { font-size: .9375rem; line-height: 1.3; }
-.side-info > span { font-size: .8125rem; color: var(--body); }
-.side-info .side-skor { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+.side-info { margin-top: var(--s5); padding: var(--s4); border-radius: var(--r-lg); background: var(--surface); display: flex; flex-direction: column; gap: var(--s1); }
+.side-info .side-logo svg { width: 34px; height: 40px; margin-bottom: var(--s2); }
+.side-info b { font-size: var(--fs-sm); line-height: 1.3; }
+.side-info > span { font-size: var(--fs-xs); color: var(--body); }
+.side-info .side-skor { margin-top: var(--s2); padding-top: var(--s2); border-top: 1px solid var(--line); }
 /* Kartu hero anggota: bidang hijau tua, angka besar */
-.card.hero-card { background: oklch(0.29 0.05 172); color: oklch(0.97 0.01 172); }
+.card.hero-card { background: var(--hero-bg); color: var(--on-hero); }
 .card.hero-card h2 { color: inherit; }
-.card.hero-card .label { color: oklch(0.85 0.03 172); }
-.card.hero-card .kv b { color: #fff; }
-.hero-num { font-size: clamp(2.25rem, 3.4vw, 3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin: 14px 0 18px; color: var(--amber); font-variant-numeric: tabular-nums; }
-.hero-note { margin-top: 16px; font-size: .875rem; color: oklch(0.85 0.03 172); }
+.card.hero-card .label { color: var(--on-hero-soft); }
+.card.hero-card .kv b { color: var(--on-strong); }
+.hero-num { font-size: var(--fs-xl); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin: var(--s4) 0 var(--s4); color: var(--amber); font-variant-numeric: tabular-nums; }
+.hero-note { margin-top: var(--s4); font-size: var(--fs-sm); color: var(--on-hero-soft); }
 /* Deret angka kunci pengurus */
-.kpi-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding: 0; margin-bottom: 16px; overflow: hidden; }
-.kpi { padding: 20px 22px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.kpi-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding: 0; margin-bottom: var(--s4); overflow: hidden; }
+.kpi { padding: var(--s5) var(--s5); display: flex; flex-direction: column; gap: var(--s1); min-width: 0; }
 .kpi + .kpi { border-left: 1px solid var(--line); }
-.kpi b { font-size: clamp(1.125rem, 1.8vw, 1.5rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; white-space: nowrap; }
+.kpi b { font-size: var(--fs-md); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; white-space: nowrap; }
 .kpi b.warn { color: var(--warn-ink); }
 /* Sebaran status wilayah */
-.dist-bar { display: flex; gap: 4px; height: 18px; border-radius: var(--r-pill); overflow: hidden; }
+.dist-bar { display: flex; gap: var(--s1); height: 18px; border-radius: var(--r-pill); overflow: hidden; }
 .dist-bar i { display: block; min-width: 8px; }
 .dist-bar .sehat { background: var(--ok-mark); } .dist-bar .waspada { background: var(--warn-mark); }
 .dist-bar .tindakan { background: var(--bad-mark); } .dist-bar .kalibrasi { background: repeating-linear-gradient(135deg, var(--cal-mark) 0 4px, var(--cal-bg) 4px 8px); }
-.dist-legend { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
-.dist-item { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
-.dist-item b { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
-.page-head { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; }
-.page-head p { color: var(--body); margin-top: 6px; max-width: 68ch; }
-.crumb { display: inline-flex; align-items: center; gap: 6px; font-size: .875rem; font-weight: 600; color: var(--brand-ink); text-decoration: none; margin-bottom: 10px; min-height: 32px; }
+.dist-legend { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s4); margin-top: var(--s4); }
+.dist-item { display: flex; flex-direction: column; gap: var(--s2); align-items: flex-start; }
+.dist-item b { font-size: var(--fs-lg); font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+.page-head { display: flex; flex-wrap: wrap; gap: var(--s3) var(--s5); align-items: flex-end; justify-content: space-between; margin-bottom: var(--s5); }
+.page-head p { color: var(--body); margin-top: var(--s2); max-width: 68ch; }
+.crumb { display: inline-flex; align-items: center; gap: var(--s2); font-size: var(--fs-sm); font-weight: 600; color: var(--brand-ink); text-decoration: none; margin-bottom: var(--s3); min-height: 32px; }
 
 .tabbar { display: none; }
 
 /* ---------- Kartu dan tata letak ---------- */
-.card { background: var(--surface); border-radius: var(--r-xl); padding: 24px; min-width: 0; }
+.card { background: var(--surface); border-radius: var(--r-lg); padding: var(--s5); min-width: 0; }
 .card.tint { background: var(--surface-2); }
 .card.pale { background: var(--brand-pale); }
 .card.flat { background: transparent; border: 1px solid var(--line); }
-.card-head { display: flex; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; }
-.stack { display: flex; flex-direction: column; gap: 16px; }
-.stack.lg { gap: 24px; }
-.stack.sm { gap: 8px; }
-.row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.card-head { display: flex; gap: var(--s3); align-items: center; justify-content: space-between; margin-bottom: var(--s4); flex-wrap: wrap; }
+.stack { display: flex; flex-direction: column; gap: var(--s4); }
+.stack.lg { gap: var(--s5); }
+.stack.sm { gap: var(--s2); }
+.row { display: flex; gap: var(--s3); align-items: center; flex-wrap: wrap; }
 .row.between { justify-content: space-between; }
 .row.top { align-items: flex-start; }
-.grid { display: grid; gap: 16px; }
+.grid { display: grid; gap: var(--s4); }
 .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .g-auto { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .span2 { grid-column: span 2; }
-hr.div { border: 0; height: 1px; background: var(--line); margin: 4px 0; }
+hr.div { border: 0; height: 1px; background: var(--line); margin: var(--s1) 0; }
 
-.big { font-size: 2.25rem; line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.mid { font-size: 1.375rem; line-height: 1.2; font-weight: 800; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
-.label { font-size: .875rem; color: var(--mute); }
-.kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px 20px; }
-.kv > div > b { display: block; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; }
-.dl { display: grid; grid-template-columns: max-content 1fr; gap: 8px 20px; margin: 0; }
-.dl dt { color: var(--mute); font-size: .9375rem; }
+.big { font-size: var(--fs-xl); line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.mid { font-size: var(--fs-md); line-height: 1.2; font-weight: 800; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.label { font-size: var(--fs-sm); color: var(--mute); }
+.kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--s3) var(--s5); }
+.kv > div > b { display: block; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: var(--s1); }
+.dl { display: grid; grid-template-columns: max-content 1fr; gap: var(--s2) var(--s5); margin: 0; }
+.dl dt { color: var(--mute); font-size: var(--fs-sm); }
 .dl dd { margin: 0; font-weight: 500; min-width: 0; overflow-wrap: anywhere; }
 
 /* ---------- Tombol ---------- */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px;
-  border-radius: var(--r-pill); border: 1px solid transparent; font-weight: 600; font-size: 1rem; line-height: 1.2;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); min-height: 48px; padding: 0 var(--s5);
+  border-radius: var(--r-pill); border: 1px solid transparent; font-weight: 600; font-size: var(--fs-base); line-height: 1.2;
   cursor: pointer; text-decoration: none; white-space: nowrap;
   transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
 }
 .btn:active { transform: scale(.98); }
+.btn:focus-visible { outline-offset: 3px; }
+.btn.dark:hover { background: var(--body); }
 .btn.primary { background: var(--brand); color: var(--on-brand); }
 .btn.primary:hover { background: var(--brand-hover); }
-.btn.secondary { background: var(--surface-2); color: var(--ink); }
-.btn.secondary:hover { background: var(--surface-3); }
-.btn.outline { background: transparent; color: var(--ink); border-color: var(--line-strong); }
-.btn.outline:hover { background: var(--surface-2); }
-.btn.danger { background: var(--bad-ink); color: #fff; }
+/* Satu gaya sekunder: garis tepi, terbaca di permukaan apa pun. .outline adalah alias lama. */
+.btn.secondary, .btn.outline { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
+.btn.secondary:hover, .btn.outline:hover { background: var(--surface-2); border-color: var(--ink); }
+.btn.danger { background: var(--bad-ink); color: var(--on-strong); }
 .btn.danger:hover { filter: brightness(1.08); }
 .btn.dark { background: var(--ink); color: var(--surface); }
-.btn.ghost { background: transparent; color: var(--brand-ink); padding: 0 12px; }
-.btn.ghost:hover { background: var(--surface-2); }
-.btn.sm { min-height: 44px; padding: 0 16px; font-size: .9375rem; }
+.btn.ghost { background: transparent; color: var(--brand-ink); padding: 0 var(--s3); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.btn.ghost:hover { background: var(--surface-2); text-decoration-thickness: 2px; }
+.btn.sm { min-height: 44px; padding: 0 var(--s4); font-size: var(--fs-sm); }
 .btn.block { width: 100%; }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; transform: none; }
 .icon-btn { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 0; background: transparent; cursor: pointer; color: var(--ink); }
 .icon-btn:hover { background: var(--surface-2); }
 
 /* ---------- Status dan lencana ---------- */
-.status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 10px; border-radius: var(--r-pill); font-size: .875rem; font-weight: 600; line-height: 1.4; white-space: nowrap; }
+.status { display: inline-flex; align-items: center; gap: var(--s2); padding: var(--s1) var(--s3) var(--s1) var(--s3); border-radius: var(--r-pill); font-size: var(--fs-sm); font-weight: 600; line-height: 1.4; white-space: nowrap; }
 .status.sehat { background: var(--ok-bg); color: var(--ok-ink); }
 .status.waspada { background: var(--warn-bg); color: var(--warn-ink); }
 .status.tindakan { background: var(--bad-bg); color: var(--bad-ink); }
 .status.kalibrasi { background: var(--cal-bg); color: var(--cal-ink); }
 .status.netral { background: var(--surface-2); color: var(--body); }
-.status.lg { font-size: 1rem; padding: 6px 14px 6px 12px; }
-.chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: var(--r-pill); background: var(--surface-2); color: var(--body); font-size: .8125rem; font-weight: 600; white-space: nowrap; }
-.chip.late { background: var(--bad-ink); color: #fff; }
+.status.lg { font-size: var(--fs-base); padding: var(--s2) var(--s4) var(--s2) var(--s3); }
+.chip { display: inline-flex; align-items: center; gap: var(--s2); padding: var(--s1) var(--s3); border-radius: var(--r-pill); background: var(--surface-2); color: var(--body); font-size: var(--fs-xs); font-weight: 600; white-space: nowrap; }
+.chip.late { background: var(--bad-ink); color: var(--on-strong); }
 .chip.amber { background: var(--amber-pale); color: var(--amber-ink); }
-.ind { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: .875rem; white-space: nowrap; }
+.ind { display: inline-flex; align-items: center; gap: var(--s2); font-weight: 600; font-size: var(--fs-sm); white-space: nowrap; }
 .ind.hijau { color: var(--ok-ink); } .ind.kuning { color: var(--warn-ink); } .ind.merah { color: var(--bad-ink); }
 
 /* ---------- Formulir ---------- */
-.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.field > label, .field > .flabel { font-weight: 600; font-size: .9375rem; }
-.field .hint { font-size: .875rem; color: var(--mute); }
-.field .err { font-size: .875rem; color: var(--bad-ink); font-weight: 500; display: flex; gap: 6px; align-items: flex-start; }
+.field { display: flex; flex-direction: column; gap: var(--s2); min-width: 0; }
+.field > label, .field > .flabel { font-weight: 600; font-size: var(--fs-sm); }
+.field .hint { font-size: var(--fs-sm); color: var(--mute); }
+.field .err { font-size: var(--fs-sm); color: var(--bad-ink); font-weight: 500; display: flex; gap: var(--s2); align-items: flex-start; }
 .input, select.input, textarea.input {
-  width: 100%; min-height: 48px; padding: 10px 14px; border-radius: var(--r-md); border: 1px solid var(--line-strong);
-  background: var(--surface); color: var(--ink); font-size: 1rem;
+  width: 100%; min-height: 48px; padding: var(--s3) var(--s4); border-radius: var(--r-sm); border: 1px solid var(--line-strong);
+  background: var(--surface); color: var(--ink); font-size: var(--fs-base);
   transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
 }
 textarea.input { min-height: 96px; resize: vertical; line-height: 1.5; }
 .input:hover { border-color: var(--ink); }
 .input:focus-visible { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in oklch, var(--focus) 30%, transparent); }
-.input[aria-invalid="true"] { border-color: var(--bad-ink); }
+.input[aria-invalid="true"] { border-color: var(--bad-ink); box-shadow: 0 0 0 1px var(--bad-ink); }
 .input::placeholder { color: var(--mute); }
 .money { position: relative; }
 .money > span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--mute); font-weight: 600; pointer-events: none; }
-.money > .input { padding-left: 44px; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 1.125rem; }
-.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 20px; }
+.money > .input { padding-left: var(--s7); font-variant-numeric: tabular-nums; font-weight: 600; font-size: var(--fs-base); }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4) var(--s5); }
 .form-grid .full { grid-column: 1 / -1; }
-.seg { display: inline-flex; padding: 4px; gap: 4px; border-radius: var(--r-pill); background: var(--surface-2); flex-wrap: wrap; }
-.seg button { min-height: 40px; padding: 0 16px; border-radius: var(--r-pill); border: 0; background: transparent; cursor: pointer; font-weight: 600; font-size: .9375rem; color: var(--body); }
-.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px oklch(0 0 0 / .12); }
-.radio-cards { display: grid; gap: 8px; }
-.radio-card { display: flex; gap: 12px; align-items: center; padding: 12px 16px; min-height: 56px; border-radius: var(--r-lg); border: 1px solid var(--line-strong); cursor: pointer; background: var(--surface); }
+.seg { display: inline-flex; padding: var(--s1); gap: var(--s1); border-radius: var(--r-pill); background: var(--surface-2); flex-wrap: wrap; }
+.seg button { min-height: 40px; padding: 0 var(--s4); border-radius: var(--r-pill); border: 0; background: transparent; cursor: pointer; font-weight: 600; font-size: var(--fs-sm); color: var(--body); }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); outline: 1px solid var(--line); }
+.radio-cards { display: grid; gap: var(--s2); }
+.radio-card { display: flex; gap: var(--s3); align-items: center; padding: var(--s3) var(--s4); min-height: 56px; border-radius: var(--r-lg); border: 1px solid var(--line-strong); cursor: pointer; background: var(--surface); }
 .radio-card:hover { background: var(--surface-2); }
 .radio-card:has(input:checked) { border-color: var(--brand); background: var(--brand-pale); box-shadow: inset 0 0 0 1px var(--brand); }
 .radio-card input { width: 20px; height: 20px; accent-color: var(--brand); flex: none; }
 
 /* ---------- Tabel dan daftar ---------- */
 .table-wrap { overflow-x: auto; border-radius: var(--r-lg); -webkit-overflow-scrolling: touch; }
-table.t { width: 100%; border-collapse: collapse; font-size: .9375rem; }
-table.t th { text-align: left; font-weight: 600; font-size: .8125rem; color: var(--mute); padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
-table.t td { padding: 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+table.t { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+table.t th { text-align: left; font-weight: 600; font-size: var(--fs-xs); color: var(--mute); padding: var(--s3) var(--s3); border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.t td { padding: var(--s3); border-bottom: 1px solid var(--line); vertical-align: middle; }
 table.t tr:last-child td { border-bottom: 0; }
 table.t td.r, table.t th.r { text-align: right; font-variant-numeric: tabular-nums; }
 table.t tbody tr.click { cursor: pointer; }
 table.t tbody tr.click:hover td { background: var(--surface-2); }
 table.t tr.flag td { background: color-mix(in oklch, var(--bad-bg) 55%, transparent); }
 .list { display: flex; flex-direction: column; }
-.list > .li { display: flex; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); min-height: 56px; }
+.list > .li { display: flex; gap: var(--s3); align-items: center; padding: var(--s4) 0; border-bottom: 1px solid var(--line); min-height: 56px; }
 .list > .li:last-child { border-bottom: 0; }
 .li .grow { flex: 1; min-width: 0; }
 .li .amt { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .amt.plus { color: var(--ok-ink); }
-.li-btn { width: 100%; text-align: left; background: transparent; border: 0; cursor: pointer; border-radius: var(--r-md); padding-left: 8px; padding-right: 8px; }
+.li-btn { width: 100%; text-align: left; background: transparent; border: 0; cursor: pointer; border-radius: var(--r-sm); padding-left: var(--s2); padding-right: var(--s2); }
 .li-btn:hover { background: var(--surface-2); }
-.tasks { display: flex; flex-direction: column; gap: 8px; }
-.task { display: flex; gap: 14px; align-items: center; padding: 14px 16px; border-radius: var(--r-lg); background: var(--surface-2); min-height: 64px; }
+.tasks { display: flex; flex-direction: column; gap: var(--s2); }
+.task { display: flex; gap: var(--s4); align-items: center; padding: var(--s4) var(--s4); border-radius: var(--r-lg); background: var(--surface-2); min-height: 64px; }
 .task .ic { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--surface); flex: none; }
 .task.done .ic { background: var(--ok-bg); color: var(--ok-ink); }
 .task.attn .ic { background: var(--warn-bg); color: var(--warn-ink); }
 .task.bad .ic { background: var(--bad-bg); color: var(--bad-ink); }
 .task .grow { flex: 1; min-width: 0; }
 .task b { display: block; font-weight: 600; }
+.card.action-card { box-shadow: inset 0 0 0 2px var(--brand); }
+.card.action-card .btn.primary { min-height: 52px; padding: 0 var(--s6); }
+a.task { transition: background var(--t-fast) var(--ease), transform var(--t-fast) var(--ease); }
+a.task:hover { background: var(--surface-3); }
+a.task:active { transform: scale(.99); }
+a.task:focus-visible { outline-offset: 2px; }
 
 /* ---------- Skor ---------- */
 .gauge { position: relative; width: 148px; height: 148px; flex: none; }
@@ -329,141 +360,184 @@ table.t tr.flag td { background: color-mix(in oklch, var(--bad-bg) 55%, transpar
 .gauge .track { stroke: var(--surface-3); }
 .gauge .val { transition: stroke-dashoffset 600ms var(--ease); }
 .gauge .lbl { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
-.gauge .lbl b { font-size: 2.5rem; font-weight: 800; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
-.gauge .lbl span { font-size: .8125rem; color: var(--mute); margin-top: 4px; }
+.gauge .lbl b { font-size: var(--fs-xl); font-weight: 800; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.gauge .lbl span { font-size: var(--fs-xs); color: var(--mute); margin-top: var(--s1); }
 .gauge.sm { width: 76px; height: 76px; }
-.gauge.sm .lbl b { font-size: 1.375rem; }
+.gauge.sm .lbl b { font-size: var(--fs-md); }
 .gauge.sm .lbl span { display: none; }
-.score-wrap { display: flex; gap: 28px; align-items: flex-start; }
-.reasons { display: flex; flex-direction: column; gap: 10px; }
+.score-wrap { display: flex; gap: var(--s6); align-items: flex-start; }
+.reasons { display: flex; flex-direction: column; gap: var(--s3); }
 .reasons li { list-style: none; }
 .reasons { padding: 0; margin: 0; }
 .ind-table td:first-child { width: 44px; }
-.ind-code { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; font-weight: 800; background: var(--surface-2); }
-.bar { height: 8px; border-radius: 4px; background: var(--surface-3); overflow: hidden; min-width: 60px; }
-.bar > i { display: block; height: 100%; border-radius: 4px; background: var(--brand); }
+.ind-code { width: 32px; height: 32px; border-radius: var(--r-sm); display: grid; place-items: center; font-weight: 800; background: var(--surface-2); }
+.bar { height: 8px; border-radius: var(--r-sm); background: var(--surface-3); overflow: hidden; min-width: 60px; }
+.bar > i { display: block; height: 100%; border-radius: var(--r-sm); background: var(--brand); }
 .bar.hijau > i { background: var(--ok-mark); } .bar.kuning > i { background: var(--warn-mark); } .bar.merah > i { background: var(--bad-mark); }
-.hist { display: flex; gap: 6px; align-items: flex-end; height: 120px; padding-top: 8px; }
-.hist .col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; height: 100%; justify-content: flex-end; }
-.hist .col i { width: 100%; max-width: 40px; border-radius: 8px 8px 4px 4px; background: var(--surface-3); display: block; }
+.hist { display: flex; gap: var(--s2); align-items: flex-end; height: 120px; padding-top: var(--s2); }
+.hist .col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: var(--s2); min-width: 0; height: 100%; justify-content: flex-end; }
+.hist .col i { width: 100%; max-width: 40px; border-radius: var(--r-sm) var(--r-sm) 0 0; background: var(--surface-3); display: block; }
 .hist .col.sehat i { background: var(--ok-mark); } .hist .col.waspada i { background: var(--warn-mark); }
 .hist .col.tindakan i { background: var(--bad-mark); } .hist .col.kalibrasi i { background: repeating-linear-gradient(135deg, var(--cal-mark) 0 4px, var(--cal-bg) 4px 8px); }
-.hist .col span { font-size: .75rem; color: var(--mute); }
-.hist .col b { font-size: .8125rem; font-variant-numeric: tabular-nums; }
+.hist .col span { font-size: var(--fs-xs); color: var(--mute); }
+.hist .col b { font-size: var(--fs-xs); font-variant-numeric: tabular-nums; }
 .spark { width: 88px; height: 28px; }
 .spark polyline { fill: none; stroke: var(--body); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .spark circle { fill: var(--ink); }
 
 /* ---------- Pemberitahuan ---------- */
-.callout { display: flex; gap: 12px; align-items: flex-start; padding: 16px 18px; border-radius: var(--r-lg); background: var(--surface-2); color: var(--ink); }
+.callout { display: flex; gap: var(--s3); align-items: flex-start; padding: var(--s4) var(--s4); border-radius: var(--r-lg); background: var(--surface-2); color: var(--ink); }
 .callout.warn { background: var(--warn-bg); color: var(--warn-ink); }
 .callout.bad { background: var(--bad-bg); color: var(--bad-ink); }
 .callout.ok { background: var(--ok-bg); color: var(--ok-ink); }
 .callout.info { background: var(--cal-bg); color: var(--cal-ink); }
 .callout .grow { flex: 1; min-width: 0; }
 .callout b { font-weight: 700; }
-.empty { text-align: center; padding: 40px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.empty { text-align: center; padding: var(--s7) var(--s5); display: flex; flex-direction: column; align-items: center; gap: var(--s3); }
 .empty .ic { width: 56px; height: 56px; border-radius: 50%; background: var(--surface-2); display: grid; place-items: center; color: var(--mute); }
 .empty p { color: var(--body); max-width: 46ch; }
 
-.hash { font-family: var(--mono); font-size: .8125rem; color: var(--body); overflow-wrap: anywhere; }
+.hash { font-family: var(--mono); font-size: var(--fs-xs); color: var(--body); overflow-wrap: anywhere; }
 .chain { display: flex; flex-direction: column; gap: 0; }
-.chain .link { display: grid; grid-template-columns: 72px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
-.chain .link.bad { background: var(--bad-bg); border-radius: var(--r-md); padding: 10px; }
+.chain .link { display: grid; grid-template-columns: 72px 1fr; gap: var(--s3); padding: var(--s3) 0; border-bottom: 1px dashed var(--line); }
+.chain .link.bad { background: var(--bad-bg); border-radius: var(--r-sm); padding: var(--s3); }
 
 /* ---------- Lembar, dialog, toast ---------- */
 dialog { border: 0; padding: 0; background: transparent; color: var(--ink); max-width: none; max-height: none; }
 dialog::backdrop { background: var(--scrim); }
 .modal-card, .sheet-card { overscroll-behavior: contain; }
 dialog.modal[open] { display: grid; place-items: center; width: 100%; height: 100%; }
-.modal-card { width: min(520px, calc(100vw - 32px)); background: var(--surface); border-radius: var(--r-xl); padding: 28px; box-shadow: var(--shadow-pop); animation: pop var(--t-med) var(--ease); max-height: calc(100vh - 32px); overflow-y: auto; }
-.modal-card h2 { margin-bottom: 10px; }
-.modal-card .actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; flex-wrap: wrap; }
+.modal-card { width: min(520px, calc(100vw - 32px)); background: var(--surface); border-radius: var(--r-lg); padding: var(--s6); box-shadow: var(--shadow-pop); animation: pop var(--t-med) var(--ease); max-height: calc(100vh - 32px); overflow-y: auto; }
+.modal-card h2 { margin-bottom: var(--s3); }
+.modal-card .actions { display: flex; gap: var(--s3); justify-content: flex-end; margin-top: var(--s5); flex-wrap: wrap; }
 dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: min(440px, 100vw); margin: 0; }
-.sheet-card { height: 100%; background: var(--surface); box-shadow: var(--shadow-pop); padding: 24px; overflow-y: auto; animation: slide var(--t-med) var(--ease); display: flex; flex-direction: column; gap: 20px; }
+.sheet-card { height: 100%; background: var(--surface); box-shadow: var(--shadow-pop); padding: var(--s5); overflow-y: auto; animation: slide var(--t-med) var(--ease); display: flex; flex-direction: column; gap: var(--s5); }
 @keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.98); } }
 @keyframes slide { from { transform: translateX(24px); opacity: 0; } }
 @keyframes fade-in { from { opacity: 0; } }
 
-.toasts { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: var(--z-toast); display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; width: min(560px, calc(100vw - 24px)); }
-.toast { pointer-events: auto; display: flex; gap: 10px; align-items: center; background: var(--ink); color: var(--surface); padding: 12px 18px; border-radius: var(--r-pill); box-shadow: var(--shadow-pop); font-weight: 500; animation: pop var(--t-med) var(--ease); max-width: 100%; }
-.toast.bad { background: var(--bad-ink); color: #fff; }
+.toasts { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: var(--z-toast); display: flex; flex-direction: column; gap: var(--s2); align-items: center; pointer-events: none; width: min(560px, calc(100vw - 24px)); }
+.toast { pointer-events: auto; display: flex; gap: var(--s3); align-items: center; background: var(--ink); color: var(--surface); padding: var(--s3) var(--s4); border-radius: var(--r-pill); box-shadow: var(--shadow-pop); font-weight: 500; animation: pop var(--t-med) var(--ease); max-width: 100%; }
+.toast.bad { background: var(--bad-ink); color: var(--on-strong); }
 
 .fab { position: fixed; right: 24px; bottom: 24px; z-index: var(--z-fab); box-shadow: var(--shadow-pop); }
 
 /* ---------- Masuk ---------- */
-.login { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
-.login-side { background: var(--brand); color: var(--on-brand); padding: 48px; display: flex; flex-direction: column; justify-content: space-between; gap: 32px; }
+.login { min-height: 100vh; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
+.login-side { background: var(--brand); color: var(--on-brand); padding: var(--s7); display: flex; flex-direction: column; justify-content: space-between; gap: var(--s6); }
 :root[data-theme="dark"] .login-side { background: var(--surface); color: var(--ink); }
-.login-side .logo-tile { width: 88px; height: 88px; border-radius: 24px; background: #fff; display: grid; place-items: center; }
+.login-side .logo-tile { width: 88px; height: 88px; border-radius: var(--r-lg); background: var(--paper); display: grid; place-items: center; }
 .login-side .logo-tile svg { width: 60px; height: 70px; }
-.login-side h1 { color: inherit; font-size: 2.5rem; margin-top: 28px; }
-.login-side p { opacity: .92; max-width: 44ch; margin-top: 12px; font-size: 1.0625rem; }
-.login-main { padding: 48px; display: flex; flex-direction: column; justify-content: center; gap: 24px; max-width: 680px; }
-.role-list { display: grid; gap: 10px; }
-.role { display: flex; gap: 16px; align-items: center; padding: 16px 18px; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line); cursor: pointer; min-height: 72px; }
+.login-side h1 { color: inherit; font-size: var(--fs-xl); margin-top: var(--s6); }
+.login-side p { opacity: .92; max-width: 44ch; margin-top: var(--s3); font-size: var(--fs-base); }
+.login-try { list-style: none; padding: 0; margin: var(--s6) 0 0; display: grid; gap: var(--s3); max-width: 44ch; }
+.login-try li { display: flex; gap: var(--s3); align-items: flex-start; padding: var(--s3) var(--s4); border-radius: var(--r-lg); background: color-mix(in oklch, var(--on-brand) 12%, transparent); }
+.login-try svg { margin-top: 2px; }
+.login-main { padding: var(--s7); display: flex; flex-direction: column; justify-content: center; gap: var(--s5); max-width: 680px; }
+.role-list { display: grid; gap: var(--s3); }
+.role { display: flex; gap: var(--s4); align-items: center; padding: var(--s4) var(--s4); border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line); cursor: pointer; min-height: 72px; }
 .role:hover { border-color: var(--line-strong); }
 .role:has(input:checked) { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); background: var(--brand-pale); }
 .role input { width: 20px; height: 20px; accent-color: var(--brand); flex: none; }
 .role .ic { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-2); display: grid; place-items: center; flex: none; }
 .role b { display: block; font-weight: 700; }
-.role span { display: block; font-size: .875rem; color: var(--body); }
+.role span { display: block; font-size: var(--fs-sm); color: var(--body); }
 
 /* ---------- Ringkasan cetak A5 ---------- */
-.a5 { width: 100%; max-width: 559px; aspect-ratio: 148 / 210; background: #fff; color: #111; border-radius: 6px; padding: 28px 30px; box-shadow: var(--shadow-pop); display: flex; flex-direction: column; gap: 14px; font-size: 13px; line-height: 1.45; margin-inline: auto; }
-.a5 h3 { color: #111; font-size: 15px; }
-.a5 .a5-head { display: flex; gap: 12px; align-items: center; border-bottom: 2px solid #1a7060; padding-bottom: 10px; }
+.a5 { width: 100%; max-width: 559px; aspect-ratio: 148 / 210; background: var(--paper); color: var(--paper-ink); border-radius: var(--r-sm); padding: var(--s6) var(--s6); box-shadow: var(--shadow-pop); display: flex; flex-direction: column; gap: var(--s4); font-size: var(--fs-xs); line-height: 1.45; margin-inline: auto; }
+.a5 h3 { color: var(--paper-ink); font-size: var(--fs-sm); }
+.a5 .a5-head { display: flex; gap: var(--s3); align-items: center; border-bottom: 2px solid var(--paper-brand); padding-bottom: var(--s3); }
 .a5 .a5-head svg { width: 30px; height: 36px; }
 .a5 table { width: 100%; border-collapse: collapse; }
-.a5 td { padding: 4px 0; border-bottom: 1px solid #ddd; }
+.a5 td { padding: var(--s1) 0; border-bottom: 1px solid var(--paper-line); }
 .a5 td.r { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
-.a5 .foot { margin-top: auto; font-size: 11px; color: #555; border-top: 1px solid #ddd; padding-top: 8px; }
+.a5 .foot { margin-top: auto; font-size: var(--fs-xs); color: var(--paper-mute); border-top: 1px solid var(--paper-line); padding-top: var(--s2); }
+
+
+/* ---------- Utilitas (pengganti gaya inline; semua nilai token) ---------- */
+.u-avatar-soft { background: var(--surface-3); color: var(--ink); }
+.u-bar-lg { height: 10px; }
+.u-bare { border: 0; padding: 0; margin: 0; }
+.u-center-mt { justify-content: center; margin-top: var(--s4); }
+.u-code { letter-spacing: .15em; }
+.u-code-input { max-width: 200px; font-size: var(--fs-md); letter-spacing: .2em; }
+.u-filter-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: var(--s3); }
+.u-gap-1-4 { gap: var(--s1) var(--s4); }
+.u-gap-2 { gap: var(--s2); }
+.u-grow { flex: 1; min-width: 0; }
+.u-h-row { min-height: 32px; }
+.u-h-touch { min-height: 44px; }
+.u-ic-sm { width: 32px; height: 32px; }
+.u-items-end { align-items: flex-end; }
+.u-items-start { align-items: start; }
+.u-list { padding-left: var(--s5); margin: 0; }
+.u-m-2-4 { margin: var(--s2) 0 var(--s4); }
+.u-m-3-0 { margin: var(--s3) 0; }
+.u-m-4-0 { margin: var(--s4) 0; }
+.u-m-5-2 { margin: var(--s5) 0 var(--s2); }
+.u-mb-1 { margin-bottom: var(--s1); }
+.u-mb-2 { margin-bottom: var(--s2); }
+.u-mb-3 { margin-bottom: var(--s3); }
+.u-mb-4 { margin-bottom: var(--s4); }
+.u-mt-1 { margin-top: var(--s1); }
+.u-mt-2 { margin-top: var(--s2); }
+.u-mt-3 { margin-top: var(--s3); }
+.u-mt-4 { margin-top: var(--s4); }
+.u-p-4 { padding: var(--s4); }
+.u-plain { color: inherit; text-decoration: none; }
+.u-start { justify-content: flex-start; }
+.u-steps { list-style: none; padding: 0; margin: 0; gap: var(--s2); }
+.u-title { font-size: var(--fs-md); }
+.u-step { min-height: 52px; padding: var(--s3) var(--s4); }
 
 /* ---------- Responsif ---------- */
 @media (max-width: 1100px) {
-  .kpi-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi-strip, .dist-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .kpi:nth-child(3) { border-left: 0; }
   .kpi:nth-child(n+3) { border-top: 1px solid var(--line); }
   .layout { grid-template-columns: 220px minmax(0, 1fr); }
-  main { padding: 28px 24px 120px; }
+  main { padding: var(--s6) var(--s5) 120px; }
   .g3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 860px) {
   .login { grid-template-columns: 1fr; }
-  .login-side { padding: 32px 24px; }
-  .login-side h1 { font-size: 2rem; margin-top: 16px; }
-  .login-main { padding: 28px 20px 48px; }
+  .login-side { padding: var(--s5); gap: var(--s3); }
+  .login-side h1 { font-size: var(--fs-lg); margin-top: var(--s3); }
+  .login-side .logo-tile { width: 56px; height: 56px; }
+  .login-side .logo-tile svg { width: 38px; height: 44px; }
+  .login-try, .login-side > p.small { display: none; }
+  .login-main { padding: var(--s6) var(--s5) var(--s7); }
 }
 @media (max-width: 767px) {
   .layout { grid-template-columns: 1fr; }
   .sidenav { display: none; }
-  main { padding: 20px 16px 140px; }
-  .topbar { padding: 8px 12px; gap: 8px; }
+  main { padding: var(--s5) var(--s4) 140px; }
+  .topbar { padding: var(--s2) var(--s3); gap: var(--s2); }
   .brand svg { width: 32px; height: 38px; }
   .brand span { max-width: 38vw; }
   .user .who { display: none; }
-  .user { padding: 4px; }
-  .conn { padding: 0 12px; }
+  .user { padding: var(--s1); }
+  .conn { padding: 0 var(--s3); }
   .conn .txt { display: none; }
-  .banner { padding: 6px 16px; font-size: .8125rem; }
-  h1 { font-size: 1.625rem; }
-  .big { font-size: 1.875rem; }
-  .card { padding: 20px; border-radius: 20px; }
+  .banner { padding: var(--s2) var(--s4); font-size: var(--fs-xs); }
+  h1 { font-size: var(--fs-lg); }
+  .big { font-size: var(--fs-lg); }
+  .card { padding: var(--s5); border-radius: var(--r-lg); }
   .g2, .g3 { grid-template-columns: 1fr; }
   .kpi-strip, .dist-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .card.kpi-strip { padding: 0; }
-  .kpi { padding: 16px 14px; }
+  .kpi { padding: var(--s4) var(--s4); }
   .kpi:nth-child(3) { border-left: 0; }
   .kpi:nth-child(n+3) { border-top: 1px solid var(--line); }
   .span2 { grid-column: auto; }
   .form-grid { grid-template-columns: 1fr; }
-  .score-wrap { flex-direction: column; gap: 16px; }
+  .score-wrap { flex-direction: column; gap: var(--s4); }
   .gauge { width: 128px; height: 128px; }
   .tabbar {
     display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-nav);
     background: var(--surface); border-top: 1px solid var(--line); padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
   }
-  .tabbar a, .tabbar button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 56px; border: 0; background: transparent; color: var(--mute); text-decoration: none; font-size: .75rem; font-weight: 600; border-radius: var(--r-md); cursor: pointer; padding: 0 2px; text-align: center; line-height: 1.2; }
+  .tabbar a, .tabbar button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s1); min-height: 56px; border: 0; background: transparent; color: var(--mute); text-decoration: none; font-size: var(--fs-xs); font-weight: 600; border-radius: var(--r-sm); cursor: pointer; padding: 0 var(--s1); text-align: center; line-height: 1.2; }
   .tabbar a[aria-current="page"] { color: var(--brand-ink); }
   .tabbar a[aria-current="page"] .pill { background: var(--brand-pale); }
   .tabbar .pill { width: 52px; height: 30px; border-radius: var(--r-pill); display: grid; place-items: center; }
@@ -472,14 +546,29 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
   .fab { width: 52px; height: 52px; padding: 0; }
   .toasts { bottom: calc(150px + env(safe-area-inset-bottom)); }
   .hide-m { display: none !important; }
-  .dl { grid-template-columns: 1fr; gap: 2px; }
-  .dl dd { margin-bottom: 10px; }
-  .page-head { margin-bottom: 18px; }
+  .dl { grid-template-columns: 1fr; gap: var(--s1); }
+  .dl dd { margin-bottom: var(--s3); }
+  .page-head { margin-bottom: var(--s4); }
+  .btn { white-space: normal; text-align: center; }
   table.t.stackable thead { display: none; }
-  table.t.stackable tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 12px 4px; border-bottom: 1px solid var(--line); }
+  table.t.stackable tr { display: grid; grid-template-columns: 1fr auto; gap: var(--s1) var(--s3); padding: var(--s3) var(--s1); border-bottom: 1px solid var(--line); }
   table.t.stackable td { border: 0; padding: 0; }
   table.t.stackable td.r { text-align: right; }
   table.t.stackable td[data-hide-m] { display: none; }
+  table.t.stackable.ledger tr { grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; }
+  table.t.stackable.periode-t tr { grid-template-columns: minmax(0, 1fr) auto; }
+  table.t.stackable.periode-t td:nth-child(3) { grid-column: 1; }
+  .ind-table .hide-m, .jurnal .hide-m { display: none; }
+  .ind-table td, .ind-table th { padding: var(--s3) var(--s2); }
+  .ind-table td .xs { display: none; } /* rumus lengkap ada di halaman Cara skor dihitung */
+  .ind-table { table-layout: fixed; }
+  .ind-table th:first-child, .ind-table td:first-child { width: 40px; }
+  .ind-table th:nth-child(3) { width: 64px; }
+  .ind-table th:nth-child(4) { width: 88px; }
+  .ind-table tfoot { display: none; } /* skor akhir sudah tampil besar di atas tabel */
+  .jurnal td, .jurnal th { padding: var(--s2) var(--s1); font-size: var(--fs-xs); }
+  .jurnal td.r, .jurnal th.r { white-space: nowrap; }
+  .banner .long { display: none; }
 }
 @media (min-width: 768px) { .show-m { display: none !important; } }
 
@@ -489,7 +578,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
 
 @media print {
   .topbar, .banner, .sidenav, .tabbar, .fab, .no-print { display: none !important; }
-  body { background: #fff; }
+  body { background: var(--paper); }
   main { padding: 0; }
   .a5 { box-shadow: none; }
 }
@@ -517,79 +606,79 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
 .lp h2 { font-size: var(--lp-statement); line-height: 1.12; font-weight: 800; letter-spacing: -0.02em; }
 .lp p { max-width: 62ch; }
 .lp figure { margin: 0; }
-.lp figcaption { font-size: .9375rem; color: var(--body); margin-top: 12px; max-width: 52ch; }
+.lp figcaption { font-size: var(--fs-sm); color: var(--body); margin-top: var(--s3); max-width: 52ch; }
 .lp img { display: block; width: 100%; height: auto; }
 
 /* ---------- Potongan antarmuka: konvensi produk berlaku di dalamnya ---------- */
-.lp [data-ui] { font-size: .9375rem; line-height: 1.45; color: var(--ink); }
-.lp-frag { background: var(--surface); border-radius: var(--r-xl); padding: 22px; width: min(480px, 100%); }
-.lp-frag-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
-.lp-frag-head b { display: block; font-weight: 700; font-size: 1rem; }
-.lp-frag-head span { display: block; font-size: .8125rem; color: var(--mute); }
-.lp-frag-head .conn { min-height: 32px; padding: 0 12px; font-size: .8125rem; cursor: default; }
+.lp [data-ui] { font-size: var(--fs-sm); line-height: 1.45; color: var(--ink); }
+.lp-frag { background: var(--surface); border-radius: var(--r-lg); padding: var(--s5); width: min(480px, 100%); }
+.lp-frag-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s3); margin-bottom: var(--s4); }
+.lp-frag-head b { display: block; font-weight: 700; font-size: var(--fs-base); }
+.lp-frag-head span { display: block; font-size: var(--fs-xs); color: var(--mute); }
+.lp-frag-head .conn { min-height: 32px; padding: 0 var(--s3); font-size: var(--fs-xs); cursor: default; }
 .lp-frag-head .conn .count { display: inline; }
-.lp-frag-score { display: flex; gap: 16px; align-items: center; padding: 12px; border-radius: var(--r-lg); background: var(--surface-2); animation: lp-fade 240ms var(--ease); }
-.lp-frag-score.sm { margin-top: 12px; }
+.lp-frag-score { display: flex; gap: var(--s4); align-items: center; padding: var(--s3); border-radius: var(--r-lg); background: var(--surface-2); animation: lp-fade 240ms var(--ease); }
+.lp-frag-score.sm { margin-top: var(--s3); }
 .lp-frag-score .gauge.sm { width: 72px; height: 72px; }
-.lp-why { font-size: .875rem; color: var(--body); }
-.lp-ind { list-style: none; margin: 12px 0 0; padding: 0; }
-.lp-ind li { display: grid; grid-template-columns: 28px 1fr auto 86px; gap: 10px; align-items: center; min-height: 36px; border-bottom: 1px solid var(--line); } /* taste-skill-ignore: di dalam potongan data-ui */
+.lp-why { font-size: var(--fs-sm); color: var(--body); }
+.lp-ind { list-style: none; margin: var(--s3) 0 0; padding: 0; }
+.lp-ind li { display: grid; grid-template-columns: 28px 1fr auto 86px; gap: var(--s3); align-items: center; min-height: 36px; border-bottom: 1px solid var(--line); } /* taste-skill-ignore: di dalam potongan data-ui */
 .lp-ind li:last-child { border-bottom: 0; }
-.lp-code { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; font-weight: 800; font-size: .8125rem; background: var(--surface-2); }
-.lp-iname { font-size: .875rem; min-width: 0; }
-.lp-ival { font-weight: 600; font-size: .875rem; text-align: right; }
-.lp-ind .ind { font-size: .8125rem; }
-.lp-checks { border: 0; margin: 14px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); display: grid; gap: 8px; } /* taste-skill-ignore: di dalam potongan data-ui */
-.lp-checks legend { font-weight: 700; font-size: .875rem; padding: 0; margin-bottom: 8px; float: left; width: 100%; }
-.lp-check { display: flex; gap: 12px; align-items: center; min-height: 52px; padding: 8px 12px; border-radius: var(--r-md); border: 1px solid var(--line-strong); cursor: pointer; transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease); } /* taste-skill-ignore: di dalam potongan data-ui */
+.lp-code { width: 26px; height: 26px; border-radius: var(--r-sm); display: grid; place-items: center; font-weight: 800; font-size: var(--fs-xs); background: var(--surface-2); }
+.lp-iname { font-size: var(--fs-sm); min-width: 0; }
+.lp-ival { font-weight: 600; font-size: var(--fs-sm); text-align: right; }
+.lp-ind .ind { font-size: var(--fs-xs); }
+.lp-checks { border: 0; margin: var(--s4) 0 0; padding: var(--s4) 0 0; border-top: 1px solid var(--line); display: grid; gap: var(--s2); } /* taste-skill-ignore: di dalam potongan data-ui */
+.lp-checks legend { font-weight: 700; font-size: var(--fs-sm); padding: 0; margin-bottom: var(--s2); float: left; width: 100%; }
+.lp-check { display: flex; gap: var(--s3); align-items: center; min-height: 52px; padding: var(--s2) var(--s3); border-radius: var(--r-sm); border: 1px solid var(--line-strong); cursor: pointer; transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease); } /* taste-skill-ignore: di dalam potongan data-ui */
 .lp-check:hover { background: var(--surface-2); }
 .lp-check:has(input:checked) { border-color: var(--brand); background: var(--brand-pale); }
 .lp-check input { width: 20px; height: 20px; accent-color: var(--brand); flex: none; }
-.lp-check b { display: block; font-size: .875rem; }
-.lp-check span span { display: block; font-size: .8125rem; color: var(--body); }
-.lp-readout { margin-top: 12px; font-size: .8125rem; color: var(--mute); }
-.lp-row { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); min-height: 52px; } /* taste-skill-ignore: di dalam potongan data-ui */
+.lp-check b { display: block; font-size: var(--fs-sm); }
+.lp-check span span { display: block; font-size: var(--fs-xs); color: var(--body); }
+.lp-readout { margin-top: var(--s3); font-size: var(--fs-xs); color: var(--mute); }
+.lp-row { display: flex; gap: var(--s3); align-items: center; padding: var(--s3) 0; border-bottom: 1px solid var(--line); min-height: 52px; } /* taste-skill-ignore: di dalam potongan data-ui */
 .lp-row .grow { flex: 1; min-width: 0; }
-.lp-row b { display: block; font-size: .875rem; font-weight: 600; }
-.lp-row .grow > span { display: block; font-size: .8125rem; color: var(--mute); overflow-wrap: anywhere; }
+.lp-row b { display: block; font-size: var(--fs-sm); font-weight: 600; }
+.lp-row .grow > span { display: block; font-size: var(--fs-xs); color: var(--mute); overflow-wrap: anywhere; }
 .lp-row.note { border-bottom: 0; align-items: flex-start; }
 .lp-amt { font-weight: 700; white-space: nowrap; }
-.lp-eid { font-weight: 700; font-size: .8125rem; color: var(--body); }
-.lp-note, .lp-ticket { font-size: .875rem; color: var(--body); margin: 12px 0; }
+.lp-eid { font-weight: 700; font-size: var(--fs-xs); color: var(--body); }
+.lp-note, .lp-ticket { font-size: var(--fs-sm); color: var(--body); margin: var(--s3) 0; }
 .lp-state { display: none; }
 .lp .hash { font-family: var(--font); font-variant-numeric: tabular-nums; }
-.lp-state .dl { font-size: .875rem; }
+.lp-state .dl { font-size: var(--fs-sm); }
 
 /* ---------- Hero ---------- */
 .lp-hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 100svh; }
-.lp-hero-text { background: var(--lp-deep); color: var(--lp-on-deep); padding: 40px var(--lp-m); display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
-.lp-mark { display: inline-flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; min-height: 44px; }
-.lp-mark svg { width: 36px; height: 42px; background: #fff; border-radius: 10px; padding: 4px 5px; box-sizing: content-box; }
+.lp-hero-text { background: var(--lp-deep); color: var(--lp-on-deep); padding: var(--s7) var(--lp-m); display: flex; flex-direction: column; justify-content: space-between; gap: var(--s7); }
+.lp-mark { display: inline-flex; align-items: center; gap: var(--s3); color: inherit; text-decoration: none; min-height: 44px; }
+.lp-mark svg { width: 36px; height: 42px; background: var(--paper); border-radius: var(--r-sm); padding: var(--s1) var(--s1); box-sizing: content-box; }
 .lp-mark b { font-weight: 800; letter-spacing: .01em; }
 .lp-hero h1 { color: inherit; font-size: var(--lp-display); line-height: 1.02; letter-spacing: -0.035em; font-weight: 800; }
 .lp-line { display: block; overflow: hidden; padding-bottom: .06em; }
 .lp-line > span { display: block; animation: lp-rise 900ms cubic-bezier(.16, 1, .3, 1) both; }
 .lp-line + .lp-line > span { animation-delay: 110ms; }
-.lp-lead { font-size: 1.0625rem; line-height: 1.55; color: var(--lp-on-deep-soft); max-width: 46ch; margin: 32px 0 28px; animation: lp-fade-up 600ms 520ms var(--ease) both; }
+.lp-lead { font-size: var(--fs-base); line-height: 1.55; color: var(--lp-on-deep-soft); max-width: 46ch; margin: var(--s6) 0 var(--s6); animation: lp-fade-up 600ms 520ms var(--ease) both; }
 .lp-hero-copy .row { animation: lp-fade-up 600ms 600ms var(--ease) both; }
-.lp-btn { background: var(--amber); color: oklch(0.22 0.03 70); }
-.lp-btn:hover { background: oklch(0.85 0.14 82); }
-.lp-ghost { background: transparent; color: var(--lp-on-deep); border-color: oklch(0.7 0.03 172); }
+.lp-btn { background: var(--amber); color: var(--amber-ink); }
+.lp-btn:hover { background: var(--amber-pale); }
+.lp-ghost { background: transparent; color: var(--lp-on-deep); border-color: var(--lp-on-deep-soft); }
 .lp-ghost:hover { background: var(--lp-deep-2); }
 .lp-hero :focus-visible, .lp-hitung :focus-visible, .lp-cta-text :focus-visible { outline-color: var(--amber); }
-.lp-hero-stage { background: var(--lp-deep-2); position: relative; display: grid; place-items: center; padding: 88px var(--lp-m) 48px; }
-.lp-top-link { position: absolute; top: 40px; right: var(--lp-m); color: var(--lp-on-deep); font-weight: 600; font-size: .9375rem; min-height: 44px; display: inline-flex; align-items: center; }
+.lp-hero-stage { background: var(--lp-deep-2); position: relative; display: grid; place-items: center; padding: 88px var(--lp-m) var(--s7); }
+.lp-top-link { position: absolute; top: 40px; right: var(--lp-m); color: var(--lp-on-deep); font-weight: 600; font-size: var(--fs-sm); min-height: 44px; display: inline-flex; align-items: center; }
 .lp-hero-stage .lp-frag { animation: lp-fade-up 700ms 300ms var(--ease) both; }
 
 /* ---------- Foto hero dan pita angka ---------- */
-.lp-hero-fig { flex: 1; min-height: 180px; max-height: 42vh; display: flex; flex-direction: column; gap: 10px; margin: 0; }
-.lp-hero-fig img { flex: 1; min-height: 0; object-fit: cover; border-radius: var(--r-xl); }
-.lp-hero-fig figcaption { color: var(--lp-on-deep-soft); font-size: .875rem; margin: 0; }
-.lp-hero-text { gap: 32px !important; }
-.lp-data { background: var(--brand-pale); padding: 56px var(--lp-m) !important; }
-.lp-data dl { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+.lp-hero-fig { flex: 1; min-height: 180px; max-height: 42vh; display: flex; flex-direction: column; gap: var(--s3); margin: 0; }
+.lp-hero-fig img { flex: 1; min-height: 0; object-fit: cover; border-radius: var(--r-lg); }
+.lp-hero-fig figcaption { color: var(--lp-on-deep-soft); font-size: var(--fs-sm); margin: 0; }
+.lp-hero-text { gap: var(--s6) !important; }
+.lp-data { background: var(--brand-pale); padding: var(--s7) var(--lp-m) !important; }
+.lp-data dl { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s6); }
 .lp-data dt { font-size: clamp(2.25rem, 3.6vw, 3.25rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1; color: var(--brand-ink); }
-.lp-data dd { margin: 12px 0 0; color: var(--ink); max-width: 30ch; }
+.lp-data dd { margin: var(--s3) 0 0; color: var(--ink); max-width: 30ch; }
 .lp-data cite { font-style: normal; color: var(--body); }
 .lp-wordmark { margin: 96px 0 0; padding: 0 var(--lp-m); font-size: clamp(3.5rem, 14.4vw, 13rem); line-height: .82; font-weight: 800; letter-spacing: -0.05em; color: var(--brand); max-width: none !important; white-space: nowrap; overflow: hidden; }
 
@@ -597,109 +686,109 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
 .lp-main { padding: 0; min-width: 0; }
 .lp-main > section { padding: 0 var(--lp-m); }
 .lp-main > section + section { margin-top: var(--lp-gap); }
-.lp-intro { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: center; }
-.lp-intro-text { grid-column: 1 / span 5; display: flex; flex-direction: column; gap: 18px; }
-.lp-intro-text h2 { margin-bottom: 6px; }
+.lp-intro { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s6); align-items: center; }
+.lp-intro-text { grid-column: 1 / span 5; display: flex; flex-direction: column; gap: var(--s4); }
+.lp-intro-text h2 { margin-bottom: var(--s2); }
 .lp-intro-text p { color: var(--ink); }
-.lp-intro-text p.first { font-weight: 600; font-size: 1.0625rem; }
+.lp-intro-text p.first { font-weight: 600; font-size: var(--fs-base); }
 .lp-intro-text p.small { color: var(--body); }
 .lp-intro-fig { grid-column: 7 / span 6; }
-.lp-intro-fig img, .lp-pilot-fig img { aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-xl); }
+.lp-intro-fig img, .lp-pilot-fig img { aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-lg); }
 .lp-intro-fig img { animation: lp-drift 22s ease-in-out infinite alternate; transform-origin: 60% 40%; }
-.lp-intro-fig { overflow: hidden; border-radius: var(--r-xl); }
+.lp-intro-fig { overflow: hidden; border-radius: var(--r-lg); }
 
-.lp-alur { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: start; }
+.lp-alur { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s6); align-items: start; }
 .lp-alur-text { grid-column: 1 / span 5; }
-.lp-step { min-height: 50vh; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+.lp-step { min-height: 50vh; display: flex; flex-direction: column; justify-content: center; gap: var(--s4); }
 .lp-step:last-child { min-height: 40vh; }
 .lp-step-t { font-size: var(--lp-statement); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; color: var(--mute); transition: color var(--t-med) var(--ease); max-width: 20ch !important; }
 .lp-step.on .lp-step-t, .lp-step:first-of-type .lp-step-t { color: var(--ink); }
 .lp-alur-text:has(.lp-step.on) .lp-step:not(.on) .lp-step-t { color: var(--mute); }
 .lp-step-s { color: var(--ink); max-width: 44ch !important; }
-.lp-step-img { aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--r-lg); max-width: 420px; margin-top: 8px; }
-.lp-alur-stage { grid-column: 7 / span 6; position: sticky; top: 12vh; min-height: 76vh; background: var(--surface-2); border-radius: var(--r-xl); display: grid; place-items: center; padding: 40px; margin-top: 72px; }
+.lp-step-img { aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--r-lg); max-width: 420px; margin-top: var(--s2); }
+.lp-alur-stage { grid-column: 7 / span 6; position: sticky; top: 12vh; min-height: 76vh; background: var(--surface-2); border-radius: var(--r-lg); display: grid; place-items: center; padding: var(--s7); margin-top: var(--s8); }
 .lp-alur-stage .lp-frag { width: min(520px, 100%); }
 #lp-alur-frag[data-active="0"] [data-state="0"], #lp-alur-frag[data-active="1"] [data-state="1"], #lp-alur-frag[data-active="2"] [data-state="2"] { display: block; animation: lp-fade 240ms var(--ease); }
 
-.lp-show { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: center; }
-.lp-show-index { grid-column: 1 / span 5; display: flex; flex-direction: column; gap: 24px; }
+.lp-show { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s6); align-items: center; }
+.lp-show-index { grid-column: 1 / span 5; display: flex; flex-direction: column; gap: var(--s5); }
 .lp-names { display: flex; flex-direction: column; align-items: flex-start; }
-.lp-names button { border: 0; background: none; padding: 4px 0; cursor: pointer; text-align: left; font-size: var(--lp-display); line-height: 1.1; font-weight: 800; letter-spacing: -0.025em; color: var(--mute); transition: color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease); }
+.lp-names button { border: 0; background: none; padding: var(--s1) 0; cursor: pointer; text-align: left; font-size: var(--lp-display); line-height: 1.1; font-weight: 800; letter-spacing: -0.025em; color: var(--mute); transition: color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease); }
 .lp-names button:hover { color: var(--body); transform: translateX(4px); }
 .lp-names button[aria-selected="true"] { color: var(--ink); }
-.lp-show-stage { grid-column: 7 / span 6; background: var(--surface-2); border-radius: var(--r-xl); max-height: 720px; overflow: hidden; padding: 56px 0 0 64px; }
-.lp .lp-sheet[data-ui] { color: #161a19; }
-.lp-sheet { width: 560px; max-width: none; background: #fff; color: #161a19; border-radius: 6px 6px 0 0; padding: 32px 34px 40px; display: flex; flex-direction: column; gap: 16px; font-size: .875rem; transition: opacity 160ms var(--ease); }
+.lp-show-stage { grid-column: 7 / span 6; background: var(--surface-2); border-radius: var(--r-lg); max-height: 720px; overflow: hidden; padding: var(--s7) 0 0 var(--s8); }
+.lp .lp-sheet[data-ui] { color: var(--paper-ink); }
+.lp-sheet { width: 560px; max-width: none; background: var(--paper); color: var(--paper-ink); border-radius: var(--r-sm) var(--r-sm) 0 0; padding: var(--s6) 34px var(--s7); display: flex; flex-direction: column; gap: var(--s4); font-size: var(--fs-sm); transition: opacity 160ms var(--ease); }
 .lp-sheet.swap { opacity: 0; }
-.lp-sheet-head { display: flex; gap: 12px; align-items: center; padding-bottom: 12px; border-bottom: 2px solid #1a7060; }
+.lp-sheet-head { display: flex; gap: var(--s3); align-items: center; padding-bottom: var(--s3); border-bottom: 2px solid var(--paper-brand); }
 .lp-sheet-head svg { width: 30px; height: 36px; flex: none; }
-.lp-sheet-head b { display: block; font-size: 1rem; color: #161a19; }
-.lp-sheet-head span { display: block; color: #4b5552; font-size: .8125rem; }
+.lp-sheet-head b { display: block; font-size: var(--fs-base); color: var(--paper-ink); }
+.lp-sheet-head span { display: block; color: var(--paper-mute); font-size: var(--fs-xs); }
 .lp-sheet table { width: 100%; border-collapse: collapse; }
-.lp-sheet td, .lp-sheet th { padding: 7px 0; border-bottom: 1px solid #dfe5e2; text-align: left; vertical-align: top; }
-.lp-sheet th { font-size: .8125rem; color: #4b5552; font-weight: 600; }
-.lp-sheet .r { text-align: right; padding-left: 12px; white-space: nowrap; }
+.lp-sheet td, .lp-sheet th { padding: var(--s2) 0; border-bottom: 1px solid var(--paper-line); text-align: left; vertical-align: top; }
+.lp-sheet th { font-size: var(--fs-xs); color: var(--paper-mute); font-weight: 600; }
+.lp-sheet .r { text-align: right; padding-left: var(--s3); white-space: nowrap; }
 .lp-sheet tr.tot td { font-weight: 700; }
-.lp-sheet ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.lp-sheet ol { margin: 0; padding-left: var(--s5); display: grid; gap: var(--s2); }
 .lp-sheet p { max-width: none; }
-.lp-sheet .hash { color: #4b5552; }
-.lp-sheet-foot { color: #4b5552; font-size: .8125rem; margin-top: 8px; }
+.lp-sheet .hash { color: var(--paper-mute); }
+.lp-sheet-foot { color: var(--paper-mute); font-size: var(--fs-xs); margin-top: var(--s2); }
 
-.lp-hitung { background: var(--lp-deep); color: var(--lp-on-deep); min-height: 88svh; padding-top: 80px !important; padding-bottom: 72px !important; display: flex; flex-direction: column; justify-content: space-between; gap: 64px; }
+.lp-hitung { background: var(--lp-deep); color: var(--lp-on-deep); min-height: 88svh; padding-top: var(--s8) !important; padding-bottom: var(--s8) !important; display: flex; flex-direction: column; justify-content: space-between; gap: var(--s8); }
 .lp-hitung h2 { color: inherit; }
-.lp-slider { width: min(420px, 100%); margin-top: 28px; background: var(--surface); color: var(--ink); border-radius: var(--r-lg); padding: 16px 18px; }
-.lp-slider label { font-weight: 600; font-size: .875rem; display: block; margin-bottom: 6px; }
+.lp-slider { width: min(420px, 100%); margin-top: var(--s6); background: var(--surface); color: var(--ink); border-radius: var(--r-lg); padding: var(--s4) var(--s4); }
+.lp-slider label { font-weight: 600; font-size: var(--fs-sm); display: block; margin-bottom: var(--s2); }
 .lp-slider input[type="range"] { flex: 1; min-height: 44px; accent-color: var(--brand); }
-.lp-slider output { font-weight: 800; font-size: 1.25rem; min-width: 3ch; text-align: right; }
-.lp-hitung-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
+.lp-slider output { font-weight: 800; font-size: var(--fs-md); min-width: 3ch; text-align: right; }
+.lp-hitung-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--s6); flex-wrap: wrap; }
 .lp-figure { font-size: clamp(7rem, 17vw, 16rem); line-height: .82; font-weight: 800; letter-spacing: -0.045em; color: var(--amber); max-width: none !important; }
 .lp-figure .unit { font-size: .22em; letter-spacing: -0.01em; margin-left: .2em; color: var(--lp-on-deep); }
-.lp-formula { font-size: 1.0625rem; color: var(--lp-on-deep-soft); max-width: 34ch !important; padding-bottom: 12px; }
+.lp-formula { font-size: var(--fs-base); color: var(--lp-on-deep-soft); max-width: 34ch !important; padding-bottom: var(--s3); }
 
-.lp-pilot { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: start; }
-.lp-pilot-text { grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 28px; }
+.lp-pilot { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s6); align-items: start; }
+.lp-pilot-text { grid-column: 1 / span 6; display: flex; flex-direction: column; gap: var(--s6); }
 .lp-pilot-fig { grid-column: 8 / span 5; position: sticky; top: 12vh; }
-.lp-fase { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.lp-fase { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s4); }
 .lp-fase li { max-width: 60ch; }
-.lp-kpi { margin: 0; display: grid; gap: 8px; }
-.lp-kpi > div { display: grid; grid-template-columns: 64px 1fr; gap: 16px; align-items: baseline; padding: 16px 18px; border-radius: var(--r-lg); background: var(--surface); }
-.lp-kpi dt { font-weight: 800; font-size: 1.375rem; color: var(--brand-ink); }
+.lp-kpi { margin: 0; display: grid; gap: var(--s2); }
+.lp-kpi > div { display: grid; grid-template-columns: 64px 1fr; gap: var(--s4); align-items: baseline; padding: var(--s4) var(--s4); border-radius: var(--r-lg); background: var(--surface); }
+.lp-kpi dt { font-weight: 800; font-size: var(--fs-md); color: var(--brand-ink); }
 .lp-kpi dd { margin: 0; }
 
-.lp-surat { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: center; }
+.lp-surat { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s6); align-items: center; }
 .lp-surat-fig { grid-column: 1 / span 6; }
-.lp-surat-fig img { aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r-xl); }
-.lp-letter { grid-column: 8 / span 5; display: flex; flex-direction: column; gap: 18px; max-width: 520px; }
-.lp-letter h2 { margin-bottom: 4px; }
+.lp-surat-fig img { aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r-lg); }
+.lp-letter { grid-column: 8 / span 5; display: flex; flex-direction: column; gap: var(--s4); max-width: 520px; }
+.lp-letter h2 { margin-bottom: var(--s1); }
 .lp-letter .avatar { width: 44px; height: 44px; background: var(--brand); color: var(--on-brand); }
-.lp-letter p { font-size: 1.0625rem; line-height: 1.55; }
-.lp-sign { font-size: 1.625rem !important; font-weight: 700; font-style: italic; margin-top: 8px; }
+.lp-letter p { font-size: var(--fs-base); line-height: 1.55; }
+.lp-sign { font-size: var(--fs-lg) !important; font-weight: 700; font-style: italic; margin-top: var(--s2); }
 
-.lp-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-.lp-tile { aspect-ratio: 3 / 2; background: var(--surface-2); border-radius: var(--r-xl); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; }
+.lp-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s2); }
+.lp-tile { aspect-ratio: 3 / 2; background: var(--surface-2); border-radius: var(--r-lg); padding: var(--s5); display: flex; flex-direction: column; justify-content: space-between; gap: var(--s2); }
 .lp-tile b { font-size: clamp(1.5rem, 2.2vw, 2rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; }
 .lp-tile span { color: var(--body); font-weight: 500; }
 .lp-tile.lead { grid-column: span 2; aspect-ratio: auto; background: var(--brand); color: var(--on-brand); }
 .lp-tile.lead h2 { color: inherit; }
 
-.lp-cta { background: var(--brand); color: var(--on-brand); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: end; padding-top: 120px !important; padding-bottom: 120px !important; }
-.lp-cta-text { grid-column: 1 / span 5; align-self: end; display: flex; flex-direction: column; gap: 18px; }
+.lp-cta { background: var(--brand); color: var(--on-brand); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s6); align-items: end; padding-top: 120px !important; padding-bottom: 120px !important; }
+.lp-cta-text { grid-column: 1 / span 5; align-self: end; display: flex; flex-direction: column; gap: var(--s4); }
 .lp-cta-text h2 { color: inherit; font-size: clamp(3.25rem, 6.4vw, 6rem); line-height: .94; letter-spacing: -0.04em; }
-.lp-cta-text p { font-size: 1.0625rem; max-width: 40ch; }
-.lp-dialog { grid-column: 7 / span 5; background: var(--surface); color: var(--ink); border-radius: var(--r-xl); padding: 28px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--shadow-pop); width: min(460px, 100%); justify-self: start; } /* taste-skill-ignore: di dalam potongan data-ui */
-.lp-dialog h3 { font-size: 1.25rem; font-weight: 700; }
+.lp-cta-text p { font-size: var(--fs-base); max-width: 40ch; }
+.lp-dialog { grid-column: 7 / span 5; background: var(--surface); color: var(--ink); border-radius: var(--r-lg); padding: var(--s6); display: flex; flex-direction: column; gap: var(--s4); box-shadow: var(--shadow-pop); width: min(460px, 100%); justify-self: start; } /* taste-skill-ignore: di dalam potongan data-ui */
+.lp-dialog h3 { font-size: var(--fs-md); font-weight: 700; }
 .lp-seg { display: flex; flex-wrap: wrap; border-radius: var(--r-lg); }
 .lp-seg label { flex: 1 1 auto; }
 .lp-seg input { position: absolute; opacity: 0; pointer-events: none; }
-.lp-seg span { display: grid; place-items: center; min-height: 44px; padding: 0 12px; border-radius: var(--r-pill); font-weight: 600; font-size: .875rem; color: var(--body); cursor: pointer; transition: background var(--t-fast) var(--ease); }
+.lp-seg span { display: grid; place-items: center; min-height: 44px; padding: 0 var(--s3); border-radius: var(--r-pill); font-weight: 600; font-size: var(--fs-sm); color: var(--body); cursor: pointer; transition: background var(--t-fast) var(--ease); }
 .lp-seg label:hover span { background: var(--surface-3); }
-.lp-seg input:checked + span { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px oklch(0 0 0 / .14); } /* taste-skill-ignore: di dalam potongan data-ui */
+.lp-seg input:checked + span { background: var(--surface); color: var(--ink); outline: 1px solid var(--line); }
 .lp-seg input:focus-visible + span { outline: 3px solid var(--focus); outline-offset: 1px; }
 .lp-dialog [hidden] { display: none; }
 
-.lp-credit { padding: 48px var(--lp-m) 0; font-size: .875rem; color: var(--body); max-width: 110ch; }
-.lp-foot { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px 24px; align-items: baseline; padding: 24px var(--lp-m) 30px; font-size: .9375rem; color: var(--body); }
-.lp-foot nav { display: flex; gap: 24px; }
+.lp-credit { padding: var(--s7) var(--lp-m) 0; font-size: var(--fs-sm); color: var(--body); max-width: 110ch; }
+.lp-foot { display: grid; grid-template-columns: 1fr auto 1fr; gap: var(--s4) var(--s5); align-items: baseline; padding: var(--s5) var(--lp-m) var(--s6); font-size: var(--fs-sm); color: var(--body); }
+.lp-foot nav { display: flex; gap: var(--s5); }
 .lp-foot a { color: var(--ink); font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
 .lp-foot > span:last-child { text-align: right; }
 
@@ -725,57 +814,57 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
 }
 @media (max-width: 860px) {
   .lp-hero { grid-template-columns: 1fr; min-height: 0; }
-  .lp-hero-stage { padding: 32px 16px 40px; }
-  .lp-top-link { position: static; justify-self: end; margin-bottom: 12px; }
-  .lp-hero-text { padding: 88px 20px 40px; gap: 0; }
+  .lp-hero-stage { padding: var(--s6) var(--s4) var(--s7); }
+  .lp-top-link { position: static; justify-self: end; margin-bottom: var(--s3); }
+  .lp-hero-text { padding: 88px var(--s5) var(--s7); gap: 0; }
   .lp-mark { position: absolute; top: 20px; left: 20px; }
   .lp-hero { position: relative; }
   .lp-mark b { color: var(--lp-on-deep); }
   .lp-hero h1 { font-size: clamp(2rem, 8.4vw, 2.75rem); }
-  .lp-lead { margin: 20px 0 24px; font-size: 1rem; }
-  .lp-intro, .lp-alur, .lp-show, .lp-pilot, .lp-surat, .lp-cta { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .lp-lead { margin: var(--s5) 0 var(--s5); font-size: var(--fs-base); }
+  .lp-intro, .lp-alur, .lp-show, .lp-pilot, .lp-surat, .lp-cta { grid-template-columns: minmax(0, 1fr); gap: var(--s6); }
   .lp-main > section > * { min-width: 0; }
-  .lp-row { flex-wrap: wrap; row-gap: 6px; }
+  .lp-row { flex-wrap: wrap; row-gap: var(--s2); }
   .lp-row .grow { flex: 1 1 11rem; }
   .lp-intro-text, .lp-intro-fig, .lp-alur-text, .lp-alur-stage, .lp-show-index, .lp-show-stage, .lp-pilot-text, .lp-pilot-fig, .lp-surat-fig, .lp-letter, .lp-cta-text, .lp-dialog { grid-column: 1 / -1; }
-  .lp-alur-stage { position: static; min-height: 0; padding: 16px; margin-top: 0; }
-  .lp-alur-stage .lp-frag { padding: 16px; }
+  .lp-alur-stage { position: static; min-height: 0; padding: var(--s4); margin-top: 0; }
+  .lp-alur-stage .lp-frag { padding: var(--s4); }
   #lp-alur-frag .lp-state { display: block; animation: none; }
-  #lp-alur-frag .lp-state + .lp-state { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); } /* taste-skill-ignore: di dalam potongan data-ui */
-  .lp-step, .lp-step:last-child { min-height: 0; padding: 20px 0; }
+  #lp-alur-frag .lp-state + .lp-state { margin-top: var(--s5); padding-top: var(--s4); border-top: 1px solid var(--line); } /* taste-skill-ignore: di dalam potongan data-ui */
+  .lp-step, .lp-step:last-child { min-height: 0; padding: var(--s5) 0; }
   .lp-step-t, .lp-alur-text:has(.lp-step.on) .lp-step:not(.on) .lp-step-t { color: var(--ink); }
-  .lp-step-t { font-size: 1.625rem; }
-  .lp-names { flex-direction: row; flex-wrap: wrap; gap: 4px 20px; }
-  .lp-names button { font-size: 1.625rem; white-space: nowrap; min-height: 44px; }
-  .lp-show-stage { max-height: 70svh; padding: 16px 0 0 16px; }
-  .lp-show-stage { padding: 16px 16px 0; }
-  .lp-sheet { width: 100%; padding: 20px; }
-  .lp-hitung { min-height: 84svh; padding-top: 56px !important; }
+  .lp-step-t { font-size: var(--fs-lg); }
+  .lp-names { flex-direction: row; flex-wrap: wrap; gap: var(--s1) var(--s5); }
+  .lp-names button { font-size: var(--fs-lg); white-space: nowrap; min-height: 44px; }
+  .lp-show-stage { max-height: 70svh; padding: var(--s4) 0 0 var(--s4); }
+  .lp-show-stage { padding: var(--s4) var(--s4) 0; }
+  .lp-sheet { width: 100%; padding: var(--s5); }
+  .lp-hitung { min-height: 84svh; padding-top: var(--s7) !important; }
 
   .lp-slider { width: 100%; }
   .lp-figure { font-size: 30vw; }
-  .lp-figure .unit { display: block; font-size: 1.25rem; margin: 10px 0 0; }
+  .lp-figure .unit { display: block; font-size: var(--fs-md); margin: var(--s3) 0 0; }
   .lp-surat-fig img { aspect-ratio: 4 / 3; }
   .lp-pilot-fig { position: static; }
-  .lp-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
-  .lp-tile { padding: 16px; }
-  .lp-tile b { font-size: 1.25rem; }
+  .lp-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); }
+  .lp-tile { padding: var(--s4); }
+  .lp-tile b { font-size: var(--fs-md); }
   .lp-tile.lead { min-height: 120px; }
-  .lp-cta { padding-top: 72px !important; padding-bottom: 72px !important; }
+  .lp-cta { padding-top: var(--s8) !important; padding-bottom: var(--s8) !important; }
   .lp-cta-text { align-self: start; }
   .lp-cta-text h2 { font-size: 13vw; }
-  .lp-dialog { padding: 20px; }
+  .lp-dialog { padding: var(--s5); }
   .lp-dialog .btn { min-height: 52px; }
-  .lp-foot { grid-template-columns: 1fr; padding-top: 16px; gap: 8px; }
-  .lp-data dl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px 20px; }
-  .lp-data { padding: 40px 20px !important; }
+  .lp-foot { grid-template-columns: 1fr; padding-top: var(--s4); gap: var(--s2); }
+  .lp-data dl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s7) var(--s5); }
+  .lp-data { padding: var(--s7) var(--s5) !important; }
   .lp-hero-fig { max-height: 34svh; min-height: 160px; }
-  .lp-wordmark { margin-top: 64px; padding: 0 20px; }
+  .lp-wordmark { margin-top: var(--s8); padding: 0 var(--s5); }
   .lp-foot > span:last-child { text-align: left; }
 }
 @media (max-width: 420px) {
   .lp-ind li { grid-template-columns: 26px 1fr auto; }
-  .lp-ind li .ind { grid-column: 2 / -1; padding-bottom: 6px; }
+  .lp-ind li .ind { grid-column: 2 / -1; padding-bottom: var(--s2); }
 }
 
 </style>
@@ -2280,7 +2369,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       icon(s.online ? 'wifi' : 'wifiOff') + '<span class="txt">' + (s.online ? 'Daring' : 'Luring') + '</span>' + (q ? '<span class="count">' + q + '</span>' : '') + '</button>' +
       '<button class="user" data-act="menu-user" aria-haspopup="dialog"><span class="avatar">' + App.inisial(u.nama) + '</span><span class="who"><b>' + esc(u.nama) + '</b><span>' + esc(P.nama === 'Anggota' ? 'Anggota' : u.jabatan) + '</span></span></button>' +
       '</header>' +
-      '<div class="banner" role="note"><span><b>Prototipe.</b> Semua data di layar ini simulasi dan bukan data koperasi nyata.</span><span>Tanggal simulasi: <b>' + App.tgl(s.tanggalSimulasi) + '</b></span></div>' +
+      '<div class="banner" role="note"><span><b>Prototipe.</b> <span class="long">Semua data di layar ini simulasi dan bukan data koperasi nyata.</span><span class="short">Data simulasi.</span></span><span><span class="long">Tanggal simulasi: </span><b>' + App.tgl(s.tanggalSimulasi) + '</b></span></div>' +
       '<div class="layout"><nav class="sidenav" aria-label="Navigasi utama">' + navLinks + '<div class="sep" role="presentation"></div>' + shared + sideInfo(P) + '</nav>' +
       '<main id="konten"><div class="page">' + html + '</div></main></div>' +
       '<nav class="tabbar" aria-label="Navigasi utama">' + tabs + '</nav>' +
@@ -2354,8 +2443,8 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     var maxTab = P.nav.length > 5 ? 4 : P.nav.length;
     var sisa = P.nav.slice(maxTab).concat([['cara-skor', 'Cara skor dihitung', 'calc'], ['tentang', 'Tentang prototipe', 'info']]);
     App.sheet('Menu', '<nav class="stack sm" aria-label="Menu lainnya">' + sisa.map(function (n) {
-      return '<a class="btn outline block" style="justify-content:flex-start" href="#/' + P.kode + '/' + n[0] + '">' + icon(n[2]) + esc(n[1]) + '</a>';
-    }).join('') + '<button class="btn secondary block" style="justify-content:flex-start" data-act="menu-user">' + icon('sun') + 'Tema dan akun</button></nav>');
+      return '<a class="u-start btn outline block" href="#/' + P.kode + '/' + n[0] + '">' + icon(n[2]) + esc(n[1]) + '</a>';
+    }).join('') + '<button class="u-start btn secondary block" data-act="menu-user">' + icon('sun') + 'Tema dan akun</button></nav>');
   };
   if (window.matchMedia) {
     try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { App.applyTheme(); }); } catch (e) { /* peramban lama */ }
@@ -2383,10 +2472,11 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       }).join('');
       return '<div class="login">' +
         '<section class="login-side"><div><div class="logo-tile">' + App.LOGO + '</div>' +
-        '<h1 translate="no">TERANG-KOP</h1><p>Pembukuan koperasi desa yang bisa dilihat pemiliknya, dengan peringatan dini sebelum masalah membesar.</p></div>' +
+        '<h1 translate="no">TERANG-KOP</h1><p>Pembukuan koperasi desa yang bisa dilihat pemiliknya, dengan peringatan dini sebelum masalah membesar.</p>' +
+        '<ul class="login-try"><li>' + icon('wallet') + '<span>Sebagai anggota: lihat saldo, pinjaman, dan skor koperasi.</span></li><li>' + icon('wifiOff') + '<span>Sebagai pengurus: catat angsuran tanpa sinyal, lalu tutup buku.</span></li><li>' + icon('refresh') + '<span>Sebagai dinas: hitung ulang skor 30 koperasi dan cek hasilnya sama.</span></li></ul></div>' +
         '<p class="small">' + esc(s.koperasi.nama) + ' · ' + esc(s.koperasi.kabupaten) + '<br>Prototipe dengan data simulasi. Tanggal simulasi ' + App.tglPanjang(s.tanggalSimulasi) + '.</p></section>' +
-        '<section class="login-main"><div><a class="crumb" href="#/">' + icon('chevL', 'sm') + 'Halaman depan</a><h2 style="font-size:1.5rem">Masuk</h2><p class="body" style="margin-top:6px">Pilih peran untuk melihat sistem dari sudut pandangnya. Prototipe ini tidak memakai otentikasi sungguhan; di produk sesungguhnya anggota masuk dengan nomor anggota dan PIN enam digit, peran lain dengan nomor ponsel dan kata sandi.</p></div>' +
-        '<form class="stack lg" data-form="masuk"><fieldset class="role-list" style="border:0;padding:0;margin:0"><legend class="sr-only">Peran</legend>' + peran + '</fieldset>' +
+        '<section class="login-main"><div><a class="crumb" href="#/">' + icon('chevL', 'sm') + 'Halaman depan</a><h2 class="u-title">Masuk</h2><p class="u-mt-2 body">Pilih peran untuk melihat sistem dari sudut pandangnya. Di prototipe ini tidak ada kata sandi.</p><p class="small mute u-mt-1">Di produk sesungguhnya anggota masuk dengan nomor anggota dan PIN enam digit; peran lain dengan nomor ponsel dan kata sandi.</p></div>' +
+        '<form class="stack lg" data-form="masuk"><fieldset class="u-bare role-list"><legend class="sr-only">Peran</legend>' + peran + '</fieldset>' +
         '<div class="field" id="pilih-anggota"><label for="f-anggota">Masuk sebagai anggota</label><select class="input" id="f-anggota" name="anggota">' + opsiAnggota + '</select>' +
         '<span class="hint">Anggota hanya melihat data dirinya dan angka agregat koperasi.</span></div>' +
         '<button class="btn primary" type="submit">Masuk</button></form></section></div>';
@@ -2417,7 +2507,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
   App.ui.ringkasSkor = function (sk, judul, aksi) {
     var st = App.STATUS[sk.status];
     return '<div class="card"><div class="card-head"><h2>' + esc(judul) + '</h2>' + (aksi || '') + '</div><div class="score-wrap">' + App.gauge(sk.nilai, sk.status) +
-      '<div class="stack sm" style="flex:1;min-width:0">' + App.statusBadge(sk.status, true) + '<p>' + esc(st.pesan) + '</p>' +
+      '<div class="u-grow stack sm">' + App.statusBadge(sk.status, true) + '<p>' + esc(st.pesan) + '</p>' +
       (sk.status === 'Dikalibrasi' ? '<p class="small mute">Bila tidak dalam masa kalibrasi, status akan menjadi ' + esc(sk.statusTanpaKalibrasi) + '.</p>' : '') +
       App.ui.alasanSkor(sk) + '</div></div></div>';
   };
@@ -2429,13 +2519,13 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
   App.ui.batas = batas;
   App.ui.tabelIndikator = function (sk, ambang) {
     var isi = (ambang || TK.ambangAktif(App.state)).isi;
-    return '<div class="table-wrap"><table class="t ind-table"><caption class="sr-only">Tujuh indikator skor</caption><thead><tr><th scope="col"><span class="sr-only">Kode</span></th><th scope="col">Indikator</th><th scope="col" class="r">Nilai</th><th scope="col">Warna</th><th scope="col" class="hide-m">Ambang hijau</th><th scope="col" class="r">Bobot</th><th scope="col" class="r">Sumbangan</th></tr></thead><tbody>' +
+    return '<div class="table-wrap"><table class="t ind-table"><caption class="sr-only">Tujuh indikator skor</caption><thead><tr><th scope="col"><span class="sr-only">Kode</span></th><th scope="col">Indikator</th><th scope="col" class="r">Nilai</th><th scope="col">Warna</th><th scope="col" class="hide-m">Ambang hijau</th><th scope="col" class="r hide-m">Bobot</th><th scope="col" class="r hide-m">Sumbangan</th></tr></thead><tbody>' +
       sk.indikator.map(function (i) {
         return '<tr><td><span class="ind-code" aria-hidden="true">' + i.kode + '</span></td><td><b>' + esc(i.nama) + '</b><div class="xs mute">' + esc(i.rumus) + '</div></td>' +
           '<td class="r strong">' + esc(TK.fmtNilaiInd(i)) + '</td><td>' + App.indBadge(i.warna) + '</td><td class="hide-m small">' + batas(isi[i.kode], 'hijau') + '</td>' +
-          '<td class="r">' + i.bobot + '</td><td class="r"><b>' + (Math.round(i.kontribusi * 10) / 10).toString().replace('.', ',') + '</b><span class="mute"> / ' + i.bobot + '</span></td></tr>';
+          '<td class="r hide-m">' + i.bobot + '</td><td class="r hide-m"><b>' + (Math.round(i.kontribusi * 10) / 10).toString().replace('.', ',') + '</b><span class="mute"> / ' + i.bobot + '</span></td></tr>';
       }).join('') + '</tbody><tfoot><tr><td></td><td colspan="5"><b>Skor akhir</b> <span class="small mute">jumlah (bobot × skor indikator) ÷ 100, dibulatkan</span></td><td class="r"><b>' + sk.nilai + '</b></td></tr></tfoot></table></div>' +
-      (sk.aturan.length ? '<div class="stack sm" style="margin-top:12px">' + sk.aturan.map(function (a) { return App.callout('info', 'info', '<p>' + esc(a) + '</p>'); }).join('') + '</div>' : '');
+      (sk.aturan.length ? '<div class="u-mt-3 stack sm">' + sk.aturan.map(function (a) { return App.callout('info', 'info', '<p>' + esc(a) + '</p>'); }).join('') + '</div>' : '');
   };
   App.ui.histori = function (items) {
     if (!items.length) return '';
@@ -2457,11 +2547,11 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     var lrT = TK.labaRugi(s.entri, tahun, sampai);
     var row = function (l, v, b) { return '<tr><td>' + l + '</td><td class="r' + (b ? ' strong' : '') + '">' + rp(v) + '</td></tr>'; };
     var row2 = function (l, v1, v2, b) { return '<tr' + (b ? ' class="strong"' : '') + '><td>' + l + '</td><td class="r">' + rp(v1) + '</td><td class="r">' + rp(v2) + '</td></tr>'; };
-    return '<div class="grid g2"><div class="card flat"><h3 style="margin-bottom:8px">Neraca per ' + tgl(sampai) + '</h3><div class="table-wrap"><table class="t"><tbody>' +
+    return '<div class="grid g2"><div class="card flat"><h3 class="u-mb-2">Neraca per ' + tgl(sampai) + '</h3><div class="table-wrap"><table class="t"><tbody>' +
       row('Kas', nr.kas) + row('Bank', nr.bank) + row('Piutang pinjaman anggota', nr.piutang) + row('Penyisihan pinjaman bermasalah', nr.penyisihan) + row('<b>Jumlah aset</b>', nr.aset, 1) +
       row('Simpanan sukarela', nr.sukarela) + row('Utang bank', nr.utangBank) + row('Simpanan pokok', nr.pokok) + row('Simpanan wajib', nr.wajib) +
       row('Cadangan', nr.cadangan) + row('SHU tahun berjalan', nr.shu) + row('<b>Jumlah kewajiban dan ekuitas</b>', nr.kewajiban + nr.ekuitas, 1) +
-      '</tbody></table></div></div><div class="card flat"><h3 style="margin-bottom:8px">Laba rugi</h3><div class="table-wrap"><table class="t"><thead><tr><th></th><th class="r">' + TK.namaBulan(pid) + '</th><th class="r">Tahun berjalan</th></tr></thead><tbody>' +
+      '</tbody></table></div></div><div class="card flat"><h3 class="u-mb-2">Laba rugi</h3><div class="table-wrap"><table class="t"><thead><tr><th></th><th class="r">' + TK.namaBulan(pid) + '</th><th class="r">Tahun berjalan</th></tr></thead><tbody>' +
       row2('Penjualan gerai', lrB.penjualan, lrT.penjualan) + row2('Jasa pinjaman', lrB.jasa, lrT.jasa) + row2('Jumlah pendapatan', lrB.pendapatan, lrT.pendapatan, 1) +
       row2('Beban pokok penjualan', lrB.hpp, lrT.hpp) + row2('Beban operasional', lrB.operasional, lrT.operasional) + row2('Beban penyisihan', lrB.penyisihan, lrT.penyisihan) +
       row2('Beban bunga bank', lrB.bunga, lrT.bunga) + row2('Jumlah beban', lrB.beban, lrT.beban, 1) + row2('SHU', lrB.shu, lrT.shu, 1) +
@@ -2473,7 +2563,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     if (!r) return '';
     if (r.ok) return App.callout('ok', 'checkCircle', '<p><b>Rantai utuh.</b> ' + r.diperiksa + ' entri diperiksa ulang dari entri pertama; setiap hash cocok. Hash ujung <span class="hash">' + App.pendek(r.ujung, 16) + '</span>.</p>');
     return App.callout('bad', 'octagon', '<p><b>Entri ' + esc(r.pertama) + ' adalah yang pertama tidak cocok.</b> ' + esc(r.alasan) + '. Entri sesudahnya ikut tidak dapat dipercaya sampai rantai dipulihkan.</p>' +
-      '<p class="small" style="margin-top:6px"><a href="' + App.href('buku', r.pertama) + '">Buka entri ' + esc(r.pertama) + '</a></p>');
+      '<p class="u-mt-2 small"><a href="' + App.href('buku', r.pertama) + '">Buka entri ' + esc(r.pertama) + '</a></p>');
   };
   App.acts.keutuhan = function () {
     App._keutuhan = TK.periksaKeutuhan(App.state.entri);
@@ -2510,14 +2600,14 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       var peran = App.session.peran;
       return App.pageHead('Buku besar', 'Buku besar hanya-tambah: entri tidak dapat diubah atau dihapus. Koreksi memakai entri pembalik T13 yang wajib beralasan.',
         '<button class="btn outline" data-act="keutuhan">' + icon('link') + 'Periksa keutuhan</button>' + (peran === 'PNG' ? '<a class="btn primary" href="' + App.href('catat') + '">' + icon('plus') + 'Catat transaksi</a>' : '')) +
-        '<div id="hasil-keutuhan" class="stack" style="margin-bottom:16px">' + App.ui.hasilKeutuhan(App._keutuhan) + '</div>' +
-        '<div class="card"><form class="form-grid" data-form="filter-buku" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:12px">' +
+        '<div id="hasil-keutuhan" class="u-mb-4 stack">' + App.ui.hasilKeutuhan(App._keutuhan) + '</div>' +
+        '<div class="card"><form class="u-filter-grid form-grid" data-form="filter-buku">' +
         '<div class="field"><label for="fb-p">Periode</label><select class="input" id="fb-p" name="p" data-change="filter-buku"><option value="">Semua periode</option>' + periodeOpts + '</select></div>' +
         '<div class="field"><label for="fb-j">Jenis</label><select class="input" id="fb-j" name="j" data-change="filter-buku"><option value="">Semua jenis</option>' + jenisOpts + '</select></div>' +
         '<div class="field"><label for="fb-c">Cari</label><input class="input" id="fb-c" name="c" type="search" value="' + esc(q.c || '') + '" placeholder="Contoh: E0269, angsuran, Siti…" autocomplete="off" spellcheck="false"></div></form>' +
-        '<p class="small mute" style="margin-bottom:8px" aria-live="polite">' + list.length + ' entri' + (list.length > batas ? ', menampilkan ' + batas + ' terbaru' : '') + '. Total di buku besar: ' + s.entri.length + '.</p>' +
-        (list.length ? '<div class="table-wrap"><table class="t stackable"><thead><tr><th scope="col">ID</th><th scope="col">Tanggal</th><th scope="col">Uraian</th><th scope="col" class="r">Nominal</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-          (list.length > batas ? '<div class="row" style="justify-content:center;margin-top:16px"><button class="btn secondary" data-act="buku-lagi">Tampilkan 40 lagi</button></div>' : '')
+        '<p class="u-mb-2 small mute" aria-live="polite">' + list.length + ' entri' + (list.length > batas ? ', menampilkan ' + batas + ' terbaru' : '') + '. Total di buku besar: ' + s.entri.length + '.</p>' +
+        (list.length ? '<div class="table-wrap"><table class="t stackable ledger"><thead><tr><th scope="col">ID</th><th scope="col">Tanggal</th><th scope="col">Uraian</th><th scope="col" class="r">Nominal</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+          (list.length > batas ? '<div class="u-center-mt row"><button class="btn secondary" data-act="buku-lagi">Tampilkan 40 lagi</button></div>' : '')
           : App.empty('book', 'Tidak ada entri yang cocok', 'Ubah saringan periode, jenis, atau kata pencarian.', '<button class="btn secondary" data-act="buku-reset">Hapus saringan</button>')) + '</div>';
     },
     detail: function (id) {
@@ -2527,7 +2617,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       var keut = App._keutuhan && !App._keutuhan.ok && App._keutuhan.pertama === e.id;
       var recomputed = TK.hashEntri(e, e.prev_hash);
       var bisaKoreksi = App.session.peran === 'PNG' && e.jenis !== 'T13' && !pembalik;
-      var baris = e.baris.map(function (b) { return '<tr><td class="mono">' + b.akun + '</td><td>' + esc(TK.AKUN[b.akun].nama) + '</td><td class="r">' + (b.debit ? rp(b.debit) : '') + '</td><td class="r">' + (b.kredit ? rp(b.kredit) : '') + '</td></tr>'; }).join('');
+      var baris = e.baris.map(function (b) { return '<tr><td class="mono hide-m">' + b.akun + '</td><td>' + esc(TK.AKUN[b.akun].nama) + '</td><td class="r">' + (b.debit ? rp(b.debit) : '') + '</td><td class="r">' + (b.kredit ? rp(b.kredit) : '') + '</td></tr>'; }).join('');
       var idx = s.entri.indexOf(e);
       var prev = idx > 0 ? s.entri[idx - 1] : null, next = s.entri[idx + 1];
       return App.pageHead('Entri ' + e.id, esc(e.uraian), null, [App.href('buku'), 'Buku besar']) +
@@ -2538,15 +2628,15 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
         (e.pinjaman_id ? '<dt>Pinjaman</dt><dd>' + e.pinjaman_id + '</dd>' : '') +
         (e.entri_asal_id ? '<dt>Membalik</dt><dd><a href="' + App.href('buku', e.entri_asal_id) + '">' + e.entri_asal_id + '</a></dd><dt>Alasan</dt><dd>' + esc(e.alasan) + '</dd>' : '') +
         '<dt>Nomor urut</dt><dd class="num">' + e.seq + '</dd><dt>ID klien</dt><dd class="hash">' + esc(e.cid) + '</dd></dl></div>' +
-        '<div class="card"><h3 style="margin-bottom:8px">Jurnal</h3><div class="table-wrap"><table class="t"><thead><tr><th>Akun</th><th>Nama akun</th><th class="r">Debit</th><th class="r">Kredit</th></tr></thead><tbody>' + baris + '</tbody></table></div></div></div>' +
-        '<div class="card"><h3 style="margin-bottom:12px">Rantai hash SHA-256</h3><div class="chain">' +
+        '<div class="card"><h3 class="u-mb-2">Jurnal</h3><div class="table-wrap"><table class="t jurnal"><thead><tr><th class="hide-m">Akun</th><th>Nama akun</th><th class="r">Debit</th><th class="r">Kredit</th></tr></thead><tbody>' + baris + '</tbody></table></div></div></div>' +
+        '<div class="card"><h3 class="u-mb-3">Rantai hash SHA-256</h3><div class="chain">' +
         (prev ? '<div class="link"><span class="small mute">Sebelum</span><span><a href="' + App.href('buku', prev.id) + '" class="mono">' + prev.id + '</a> <span class="hash">' + App.pendek(prev.hash, 16) + '</span></span></div>' : '<div class="link"><span class="small mute">Sebelum</span><span class="small">Entri pertama, mengait ke hash awal nol.</span></div>') +
         '<div class="link' + (keut ? ' bad' : '') + '"><span class="small strong">Entri ini</span><span class="stack sm"><span class="small mute">Hash sebelumnya</span><span class="hash">' + esc(e.prev_hash) + '</span><span class="small mute">Hash entri</span><span class="hash">' + esc(e.hash) + '</span></span></div>' +
         (next ? '<div class="link"><span class="small mute">Sesudah</span><span><a href="' + App.href('buku', next.id) + '" class="mono">' + next.id + '</a> mengait ke hash entri ini</span></div>' : '') +
-        '</div><p class="small mute" style="margin-top:12px">Hash setiap entri dihitung dari isi entri dan hash entri sebelumnya. Perubahan diam-diam terdeteksi, tetapi ini penanda keutuhan, bukan blockchain.</p></div>' +
-        (bisaKoreksi ? '<div class="card"><h3>Koreksi entri</h3><p class="body" style="margin:6px 0 16px">Entri tidak dapat diubah. Untuk memperbaiki, catat entri pembalik T13 di periode berjalan; jurnalnya kebalikan dari entri ini. Setelah itu, catat transaksi yang benar sebagai entri baru.</p>' +
-          '<form class="stack" data-form="koreksi" data-id="' + e.id + '"><div class="field"><label for="k-alasan">Alasan koreksi</label><textarea class="input" id="k-alasan" name="alasan" required minlength="5" placeholder="Contoh: nominal salah ketik, seharusnya Rp25.000…"></textarea></div>' +
-          '<div><button class="btn outline" type="submit">' + icon('undo') + 'Catat entri pembalik untuk ' + e.id + '</button></div></form></div>' : '') +
+        '</div><p class="u-mt-3 small mute">Hash setiap entri dihitung dari isi entri dan hash entri sebelumnya. Perubahan diam-diam terdeteksi, tetapi ini penanda keutuhan, bukan blockchain.</p></div>' +
+        (bisaKoreksi ? '<div class="card"><h3>Koreksi entri</h3><p class="u-m-2-4 body">Entri tidak dapat diubah. Untuk memperbaiki, catat entri pembalik T13 di periode berjalan; jurnalnya kebalikan dari entri ini. Setelah itu, catat transaksi yang benar sebagai entri baru.</p>' +
+          '<form class="stack" data-form="koreksi" data-id="' + e.id + '" novalidate><div class="field"><label for="k-alasan">Alasan koreksi</label><textarea class="input" id="k-alasan" name="alasan" required minlength="5" aria-describedby="k-alasan-h" placeholder="Contoh: nominal salah ketik, seharusnya Rp25.000…"></textarea><span class="hint" id="k-alasan-h">Minimal lima huruf. Alasan ikut tercatat di buku besar.</span><span class="err" id="k-alasan-err" role="alert"></span></div>' +
+          '<div><button class="btn primary" type="submit">' + icon('undo') + 'Catat entri pembalik untuk ' + e.id + '</button></div></form></div>' : '') +
         '</div>';
     }
   };
@@ -2562,9 +2652,17 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     location.hash = App.href('buku') + '?' + Object.keys(q).map(function (k) { return k + '=' + encodeURIComponent(q[k]); }).join('&');
   };
   App.acts['buku-reset'] = function () { location.hash = App.href('buku'); };
+  /* Galat formulir tampil di bawah kolomnya, bukan hanya di toast. */
+  App.ui.galatKolom = function (el, errId, pesan) {
+    var err = document.getElementById(errId);
+    if (err) err.innerHTML = pesan ? icon('alert', 'sm') + '<span>' + esc(pesan) + '</span>' : '';
+    if (pesan) { el.setAttribute('aria-invalid', 'true'); el.setAttribute('aria-errormessage', errId); el.focus(); }
+    else el.removeAttribute('aria-invalid');
+    return !pesan;
+  };
   App.forms.koreksi = function (f) {
     var id = f.getAttribute('data-id'), alasan = f.alasan.value.trim();
-    if (alasan.length < 5) { App.toast('Tulis alasan koreksi, minimal lima huruf.', 'bad'); f.alasan.focus(); return; }
+    if (!App.ui.galatKolom(f.alasan, 'k-alasan-err', alasan.length < 5 ? 'Alasan masih terlalu singkat. Tulis minimal lima huruf, misalnya "nominal salah ketik".' : '')) return;
     var pb = TK.periodeBerjalan(App.state);
     App.confirm({ judul: 'Catat entri pembalik untuk ' + id + '?', tombol: 'Catat entri pembalik',
       isi: '<p>Sistem mencatat entri T13 bertanggal ' + tgl(App.today()) + ' dengan jurnal kebalikan dari ' + esc(id) + '. Entri asal tetap ada di buku besar dan tidak dapat dibalik dua kali.</p><p class="small">Alasan: ' + esc(alasan) + '</p>' }).then(function (ok) {
@@ -2608,13 +2706,13 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     var langkah = (t.jenis === 'Pendampingan' ? ['Terbuka', 'Diproses', 'Selesai'] : t.jenis === 'Pengingat' ? ['Terbuka', 'Selesai'] : ALUR).map(function (st) {
       var i = ALUR.indexOf(st);
       var cls = i < iStatus ? 'done' : i === iStatus ? 'attn' : '';
-      return '<div class="task ' + cls + '" style="min-height:52px;padding:10px 14px"><span class="ic" style="width:32px;height:32px">' + icon(i < iStatus ? 'check' : i === iStatus ? 'clock' : 'more', 'sm') + '</span><div class="grow"><b>' + st + '</b></div></div>';
+      return '<div class="u-step task ' + cls + '"><span class="u-ic-sm ic">' + icon(i < iStatus ? 'check' : i === iStatus ? 'clock' : 'more', 'sm') + '</span><div class="grow"><b>' + st + '</b></div></div>';
     }).join('');
     var aksi = '';
     var milikSukamaju = t.koperasi_id === s.koperasi.id;
     if (t.jenis === 'Tindak lanjut' && peran === 'PNG' && milikSukamaju) {
       if (t.status === 'Terbuka') aksi = '<button class="btn primary" data-act="tiket-status" data-id="' + t.id + '" data-ke="Diproses">Mulai proses tindak lanjut</button>';
-      if (t.status === 'Diproses') aksi = '<form class="stack" data-form="tiket-penjelasan" data-id="' + t.id + '"><div class="field"><label for="tp">Penjelasan tertulis kepada anggota</label><textarea class="input" id="tp" name="penjelasan" required minlength="20" placeholder="Apa yang terjadi, apa yang sudah dan akan dilakukan pengurus, dan kapan anggota bisa melihat hasilnya…">' + esc(t.penjelasan) + '</textarea><span class="hint">Wajib. Penjelasan ini tampil di beranda setiap anggota.</span></div><div class="row"><button class="btn primary" type="submit">' + icon('send') + 'Kirim untuk verifikasi pengawas</button></div></form>';
+      if (t.status === 'Diproses') aksi = '<form class="stack" data-form="tiket-penjelasan" data-id="' + t.id + '" novalidate><div class="field"><label for="tp">Penjelasan tertulis kepada anggota</label><textarea class="input" id="tp" name="penjelasan" required minlength="20" aria-describedby="tp-h" placeholder="Apa yang terjadi, apa yang sudah dan akan dilakukan pengurus, dan kapan anggota bisa melihat hasilnya…">' + esc(t.penjelasan) + '</textarea><span class="hint" id="tp-h">Wajib, minimal 20 huruf. Penjelasan ini tampil di beranda setiap anggota.</span><span class="err" id="tp-err" role="alert"></span></div><div class="row"><button class="btn primary" type="submit">' + icon('send') + 'Kirim untuk verifikasi pengawas</button></div></form>';
     }
     if (t.jenis === 'Tindak lanjut' && peran === 'PGW' && milikSukamaju && t.status === 'Menunggu verifikasi') {
       aksi = '<div class="row"><button class="btn primary" data-act="tiket-verifikasi" data-id="' + t.id + '">' + icon('checkCircle') + 'Verifikasi dan selesaikan</button><button class="btn outline" data-act="tiket-kembalikan" data-id="' + t.id + '">Kembalikan ke pengurus</button></div>';
@@ -2628,17 +2726,17 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     }
     var bolehCatat = t.status !== 'Selesai' && (peran === 'KJD' || peran === 'DIN' || (milikSukamaju && (peran === 'PNG' || peran === 'PGW')));
     return App.pageHead(t.id + ' · ' + t.jenis, esc(k ? k.nama : t.koperasi_id) + ' · periode ' + TK.namaPeriode(t.periode_id), null, [App.href(layar), judulKembali]) +
-      '<div class="grid g3" style="align-items:start"><div class="stack lg span2">' +
+      '<div class="u-items-start grid g3"><div class="stack lg span2">' +
       (App.terlambat(t) ? App.callout('bad', 'clock', '<p><b>Terlambat.</b> Tenggat ' + App.tglPanjang(t.tenggat) + ' sudah lewat. Tiket tetap harus ditutup; dinas melihat tanda ini di dasbor wilayah.</p>') : '') +
-      '<div class="card"><p>' + esc(t.ringkasan) + '</p><hr class="div" style="margin:16px 0"><dl class="dl"><dt>Status</dt><dd>' + App.ui.chipTiket(t) + '</dd><dt>Dibuat</dt><dd>' + App.tglPanjang(t.dibuat) + '</dd><dt>Tenggat</dt><dd>' + App.tglPanjang(t.tenggat) +
+      '<div class="card"><p>' + esc(t.ringkasan) + '</p><hr class="u-m-4-0 div"><dl class="dl"><dt>Status</dt><dd>' + App.ui.chipTiket(t) + '</dd><dt>Dibuat</dt><dd>' + App.tglPanjang(t.dibuat) + '</dd><dt>Tenggat</dt><dd>' + App.tglPanjang(t.tenggat) +
       (t.jenis === 'Pendampingan' ? ' <span class="small mute">(kontak pertama, 7 hari kerja)</span>' : t.jenis === 'Pengingat' ? ' <span class="small mute">(laporan bulanan terbit paling lambat tanggal 10)</span>' : ' <span class="small mute">(14 hari kalender sejak tutup buku)</span>') + '</dd>' +
       '<dt>Penerima</dt><dd>' + esc(t.pemilik_nama) + '</dd><dt>Salinan</dt><dd>' + esc((t.salinan || []).join(', ')) + '</dd></dl></div>' +
-      (t.penjelasan ? '<div class="card tint"><h3 style="margin-bottom:6px">Penjelasan kepada anggota</h3><p>' + esc(t.penjelasan) + '</p></div>' : '') +
+      (t.penjelasan ? '<div class="card tint"><h3 class="u-mb-2">Penjelasan kepada anggota</h3><p>' + esc(t.penjelasan) + '</p></div>' : '') +
       (aksi ? '<div class="card">' + aksi + '</div>' : '') +
-      '<div class="card"><h3 style="margin-bottom:8px">Catatan</h3>' + (t.catatan.length ? '<div class="list">' + t.catatan.map(function (c) {
-        return '<div class="li"><span class="avatar" style="background:var(--surface-3);color:var(--ink)">' + App.inisial(c.oleh) + '</span><div class="grow"><b class="small">' + esc(c.oleh) + '</b> <span class="xs mute">' + tgl(c.tanggal) + '</span><p>' + esc(c.teks) + '</p></div></div>';
+      '<div class="card"><h3 class="u-mb-2">Catatan</h3>' + (t.catatan.length ? '<div class="list">' + t.catatan.map(function (c) {
+        return '<div class="li"><span class="u-avatar-soft avatar">' + App.inisial(c.oleh) + '</span><div class="grow"><b class="small">' + esc(c.oleh) + '</b> <span class="xs mute">' + tgl(c.tanggal) + '</span><p>' + esc(c.teks) + '</p></div></div>';
       }).join('') + '</div>' : '<p class="body">Belum ada catatan.</p>') +
-      (bolehCatat ? '<form class="stack" data-form="tiket-catatan" data-id="' + t.id + '" style="margin-top:12px"><div class="field"><label for="tc">Tambah catatan</label><textarea class="input" id="tc" name="teks" required placeholder="Contoh: kunjungan ke gerai, pengurus menyusun jadwal penagihan…"></textarea></div><div><button class="btn secondary" type="submit">Simpan catatan</button></div></form>' : '') +
+      (bolehCatat ? '<form class="u-mt-3 stack" data-form="tiket-catatan" data-id="' + t.id + '" novalidate><div class="field"><label for="tc">Tambah catatan</label><textarea class="input" id="tc" name="teks" required placeholder="Contoh: kunjungan ke gerai, pengurus menyusun jadwal penagihan…"></textarea><span class="err" id="tc-err" role="alert"></span></div><div><button class="btn primary" type="submit">Simpan catatan</button></div></form>' : '') +
       '</div></div><div class="card tint stack sm"><h3>Alur tiket</h3>' + langkah + '<p class="small mute">Penanda Terlambat berlaku di atas status bila tenggat lewat.</p></div></div>';
   };
   function cariTiket(id) { return App.state.tiket.filter(function (x) { return x.id === id; })[0]; }
@@ -2646,7 +2744,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
   App.acts['tiket-status'] = function (el) { var t = cariTiket(el.getAttribute('data-id')); t.status = el.getAttribute('data-ke'); catatTiket(t, 'Status diubah menjadi ' + t.status + '.'); App.save(); App.toast(t.id + ' sekarang ' + t.status + '.'); App.render(); };
   App.forms['tiket-penjelasan'] = function (f) {
     var t = cariTiket(f.getAttribute('data-id')), v = f.penjelasan.value.trim();
-    if (v.length < 20) { App.toast('Penjelasan terlalu singkat. Tulis minimal 20 huruf agar anggota memahami langkah pengurus.', 'bad'); f.penjelasan.focus(); return; }
+    if (!App.ui.galatKolom(f.penjelasan, 'tp-err', v.length < 20 ? 'Penjelasan masih ' + v.length + ' huruf. Tulis minimal 20 huruf: apa yang terjadi dan apa yang dilakukan pengurus.' : '')) return;
     App.confirm({ judul: 'Kirim ' + t.id + ' untuk verifikasi?', tombol: 'Kirim untuk verifikasi', isi: '<p>Penjelasan langsung tampil di beranda anggota. Pengawas lalu memverifikasi sebelum tiket selesai.</p>' }).then(function (ok) {
       if (!ok) return;
       t.penjelasan = v; t.status = 'Menunggu verifikasi'; catatTiket(t, 'Penjelasan tertulis dibagikan kepada anggota; menunggu verifikasi pengawas.');
@@ -2667,7 +2765,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       if (!ok) return; t.status = 'Selesai'; t.selesai_pada = App.today(); catatTiket(t, 'Pendampingan selesai.'); App.save(); App.render();
     });
   };
-  App.forms['tiket-catatan'] = function (f) { var t = cariTiket(f.getAttribute('data-id')), v = f.teks.value.trim(); if (!v) { f.teks.focus(); return; } catatTiket(t, v); App.save(); App.toast('Catatan tersimpan.'); App.render(); };
+  App.forms['tiket-catatan'] = function (f) { var t = cariTiket(f.getAttribute('data-id')), v = f.teks.value.trim(); if (!App.ui.galatKolom(f.teks, 'tc-err', v ? '' : 'Catatan masih kosong. Tulis apa yang dilakukan atau disepakati.')) return; catatTiket(t, v); App.save(); App.toast('Catatan tersimpan.'); App.render(); };
 
   /* ================= Detail koperasi (KJD dan DIN) ================= */
   App.ui.detailKoperasi = function (id, layar, judulKembali) {
@@ -2688,14 +2786,14 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       peran === 'DIN' ? '<button class="btn primary" data-act="hitung-ulang" data-id="' + k.id + '">' + icon('refresh') + 'Hitung ulang</button>' : '', [App.href(layar), judulKembali]) +
       '<div class="stack lg">' + huHtml +
       App.ui.ringkasSkor(sk, 'Skor ' + TK.namaPeriode(akhir.periode)) +
-      '<div class="grid g2"><div class="card"><h2 style="margin-bottom:12px">Riwayat skor</h2>' + App.ui.histori(k.bulan) + '</div>' +
-      '<div class="card"><h2 style="margin-bottom:12px">Kepatuhan dan RAT</h2><dl class="dl"><dt>Laporan tepat waktu</dt><dd>' + kepatuhan + ' dari ' + k.bulan.length + ' bulan terbit paling lambat tanggal 10</dd>' +
+      '<div class="grid g2"><div class="card"><h2 class="u-mb-3">Riwayat skor</h2>' + App.ui.histori(k.bulan) + '</div>' +
+      '<div class="card"><h2 class="u-mb-3">Kepatuhan dan RAT</h2><dl class="dl"><dt>Laporan tepat waktu</dt><dd>' + kepatuhan + ' dari ' + k.bulan.length + ' bulan terbit paling lambat tanggal 10</dd>' +
       '<dt>RAT</dt><dd>' + (k.rat.tanggal ? App.tglPanjang(k.rat.tanggal) + ' · ' + esc(k.rat.status) + (k.rat.paket_h ? ' (paket H-' + k.rat.paket_h + ')' : '') : 'Belum dijadwalkan') + '</dd>' +
       '<dt>Anggota buka ringkasan</dt><dd>' + k.bukaKuartal + ' dari ' + k.anggota + ' dalam 90 hari terakhir</dd></dl>' +
-      (!k.sintetis && peran === 'DIN' ? '<div class="row" style="margin-top:16px"><button class="btn outline sm" data-act="keutuhan">' + icon('link') + 'Periksa keutuhan buku besar</button></div><div id="hasil-keutuhan" style="margin-top:12px">' + App.ui.hasilKeutuhan(App._keutuhan) + '</div>' : '') +
+      (!k.sintetis && peran === 'DIN' ? '<div class="u-mt-4 row"><button class="btn outline sm" data-act="keutuhan">' + icon('link') + 'Periksa keutuhan buku besar</button></div><div id="hasil-keutuhan" class="u-mt-3">' + App.ui.hasilKeutuhan(App._keutuhan) + '</div>' : '') +
       '</div></div>' +
-      '<div class="card"><h2 style="margin-bottom:12px">Rincian indikator</h2>' + App.ui.tabelIndikator(sk) + '</div>' +
-      '<div class="card"><h2 style="margin-bottom:12px">Tiket</h2>' + App.ui.daftarTiket(tiket, layar === 'wilayah' ? 'tiketdin' : 'tiket', App.empty('ticket', 'Belum ada tiket', 'Koperasi ini belum pernah memicu tiket Pendampingan atau Tindak lanjut.')) + '</div>' +
+      '<div class="card"><h2 class="u-mb-3">Rincian indikator</h2>' + App.ui.tabelIndikator(sk) + '</div>' +
+      '<div class="card"><h2 class="u-mb-3">Tiket</h2>' + App.ui.daftarTiket(tiket, layar === 'wilayah' ? 'tiketdin' : 'tiket', App.empty('ticket', 'Belum ada tiket', 'Koperasi ini belum pernah memicu tiket Pendampingan atau Tindak lanjut.')) + '</div>' +
       '</div>';
   };
   App.acts['hitung-ulang'] = function (el) {
@@ -2719,7 +2817,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
         return '<tr><td><span class="ind-code">' + k + '</span></td><td><b>' + esc(d.nama) + '</b><div class="xs mute">' + esc(d.rumus) + '</div></td><td class="small">' + batas(d, 'hijau') + '</td><td class="small">' + batas(d, 'kuning') + '</td><td class="small">' + batas(d, 'merah') + '</td><td class="r">' + d.bobot + '</td></tr>';
       }).join('');
       return App.pageHead('Cara skor dihitung', 'Skor kesehatan adalah peringatan dini, bukan penilaian hukum. Sistem tidak pernah menyatakan koperasi bangkrut atau melanggar hukum.') +
-        '<div class="stack lg"><div class="card"><h2 style="margin-bottom:8px">Dari buku besar ke status</h2><ol class="stack sm body" style="padding-left:20px;margin:0">' +
+        '<div class="stack lg"><div class="card"><h2 class="u-mb-2">Dari buku besar ke status</h2><ol class="u-list stack sm body">' +
         '<li>Saat tutup buku, sistem membaca buku besar sampai akhir bulan dan menghitung tujuh indikator adaptasi kerangka PEARLS (Evans &amp; Branch, 2002).</li>' +
         '<li>Setiap indikator diberi warna: hijau bernilai 100, kuning 60, merah 20.</li>' +
         '<li>Skor akhir = jumlah (bobot × nilai warna) ÷ 100, dibulatkan. Skor 80 ke atas Sehat, 55 sampai 79 Waspada, di bawah 55 Perlu tindakan.</li>' +
@@ -2727,8 +2825,8 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
         '<li>Bila penyebut nol dan pembilang nol, indikator hijau dengan keterangan tidak ada data. Bila penyebut nol dan pembilang positif, merah.</li></ol></div>' +
         '<div class="card"><div class="card-head"><h2>Ambang ' + esc(amb.versi) + '</h2><span class="small mute">Disetujui ' + esc(amb.disetujui_oleh) + ', ' + tgl(amb.tanggal) + '</span></div>' +
         '<div class="table-wrap"><table class="t"><thead><tr><th></th><th>Indikator dan rumus</th><th>Hijau</th><th>Kuning</th><th>Merah</th><th class="r">Bobot</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-        '<p class="small mute" style="margin-top:12px">Seluruh ambang adalah ambang awal simulasi yang disetujui dinas, bukan angka resmi PEARLS atau pemerintah. Skor menyimpan versi ambang yang dipakai, sehingga dinas dapat menghitung ulang dengan aturan yang sama.</p></div>' +
-        '<div class="card tint"><h2 style="margin-bottom:8px">Setelah status keluar</h2><ul class="stack sm body" style="padding-left:20px;margin:0"><li><b>Waspada</b> membuat tiket Pendampingan untuk pendamping KJDP; kontak pertama dalam 7 hari kerja.</li><li><b>Perlu tindakan</b> membuat tiket Tindak lanjut untuk pengurus dengan tenggat 14 hari. Pengurus wajib menulis penjelasan kepada anggota, lalu pengawas memverifikasi.</li><li>Tiket yang lewat tenggat bertanda <b>Terlambat</b> dan tampil merah di dasbor dinas.</li></ul></div></div>';
+        '<p class="u-mt-3 small mute">Seluruh ambang adalah ambang awal simulasi yang disetujui dinas, bukan angka resmi PEARLS atau pemerintah. Skor menyimpan versi ambang yang dipakai, sehingga dinas dapat menghitung ulang dengan aturan yang sama.</p></div>' +
+        '<div class="card tint"><h2 class="u-mb-2">Setelah status keluar</h2><ul class="u-list stack sm body"><li><b>Waspada</b> membuat tiket Pendampingan untuk pendamping KJDP; kontak pertama dalam 7 hari kerja.</li><li><b>Perlu tindakan</b> membuat tiket Tindak lanjut untuk pengurus dengan tenggat 14 hari. Pengurus wajib menulis penjelasan kepada anggota, lalu pengawas memverifikasi.</li><li>Tiket yang lewat tenggat bertanda <b>Terlambat</b> dan tampil merah di dasbor dinas.</li></ul></div></div>';
     }
   };
 
@@ -2738,16 +2836,16 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     render: function () {
       var dua = function (a, b) { return '<tr><td>' + a + '</td><td>' + b + '</td></tr>'; };
       return App.pageHead('Tentang prototipe', 'Prototipe ini membuktikan bahwa aturan sistem dapat dijalankan dari data buku besar, bukan bahwa sistem sudah bekerja di lapangan.') +
-        '<div class="stack lg"><div class="grid g2"><div class="card"><h2 style="margin-bottom:8px">Yang disimulasikan</h2><ul class="stack sm body" style="padding-left:20px;margin:0"><li>Jurnal ganda T01 sampai T13, koreksi dengan entri pembalik, rantai hash SHA-256</li><li>Antrean luring dan sinkron idempoten</li><li>Skor PEARLS adaptasi dari buku besar, dengan mesin yang sama untuk semua peran</li><li>e-RAT: paket terkunci hash, daftar hadir, suara, berita acara</li><li>Tiket, eskalasi, dasbor dinas dengan 30 koperasi, papan KPI</li></ul></div>' +
-        '<div class="card"><h2 style="margin-bottom:8px">Yang tidak disimulasikan</h2><ul class="stack sm body" style="padding-left:20px;margin:0"><li>Otentikasi sungguhan (peran dipilih di layar masuk)</li><li>Sinkronisasi ke server; data hanya di penyimpanan peramban ini</li><li>Notifikasi</li><li>Integrasi Simkopdes dan bank</li><li>Data pribadi nyata</li></ul></div></div>' +
-        '<div class="card"><h2 style="margin-bottom:8px">Skenario demonstrasi</h2><p class="body" style="margin-bottom:12px">Jalankan dari tombol Panel demo di pojok kanan bawah.</p><div class="table-wrap"><table class="t"><thead><tr><th>Skenario</th><th>Langkah</th></tr></thead><tbody>' +
+        '<div class="stack lg"><div class="grid g2"><div class="card"><h2 class="u-mb-2">Yang disimulasikan</h2><ul class="u-list stack sm body"><li>Jurnal ganda T01 sampai T13, koreksi dengan entri pembalik, rantai hash SHA-256</li><li>Antrean luring dan sinkron idempoten</li><li>Skor PEARLS adaptasi dari buku besar, dengan mesin yang sama untuk semua peran</li><li>e-RAT: paket terkunci hash, daftar hadir, suara, berita acara</li><li>Tiket, eskalasi, dasbor dinas dengan 30 koperasi, papan KPI</li></ul></div>' +
+        '<div class="card"><h2 class="u-mb-2">Yang tidak disimulasikan</h2><ul class="u-list stack sm body"><li>Otentikasi sungguhan (peran dipilih di layar masuk)</li><li>Sinkronisasi ke server; data hanya di penyimpanan peramban ini</li><li>Notifikasi</li><li>Integrasi Simkopdes dan bank</li><li>Data pribadi nyata</li></ul></div></div>' +
+        '<div class="card"><h2 class="u-mb-2">Skenario demonstrasi</h2><p class="u-mb-3 body">Jalankan dari tombol Panel demo di pojok kanan bawah.</p><div class="table-wrap"><table class="t"><thead><tr><th>Skenario</th><th>Langkah</th></tr></thead><tbody>' +
         dua('<b>1. Pemulihan</b>', 'Anggota melihat status Waspada September (likuiditas dan kualitas aset kuning). Pengurus beralih luring, mencatat angsuran PJ-04 dan PJ-06 yang menunggak, lalu sinkron. Pratinjau Oktober berubah dari Perlu tindakan menjadi Sehat. Tutup buku, pengawas mengesahkan.') +
         dua('<b>2. RAT</b>', 'Pengurus menerbitkan paket (terkunci hash). Anggota membaca paket. Pengurus memulai RAT; anggota memasukkan kode hadir (kode salah ditolak) dan memberi tiga suara. Pengurus menutup RAT; berita acara terbentuk.') +
         dua('<b>3. Dinas</b>', 'Dinas membuka 30 koperasi, papan KPI, lalu menekan Hitung ulang pada Sukamaju. Hasilnya sama dengan semua periode tersimpan.') +
         dua('<b>4. Perlu tindakan</b>', 'Pengurus mencatat penarikan sukarela Rp1,5 juta dan beban Rp12 juta lalu tutup buku. Status Perlu tindakan, tiket Tindak lanjut bertenggat 14 hari, ringkasannya tampil di beranda anggota.') +
         dua('<b>5. Keutuhan</b>', 'Panel demo mengubah satu entri tanpa menghitung ulang hash. Periksa keutuhan menunjuk entri itu sebagai yang pertama tidak cocok; tombol pulihkan mengembalikan rantai.') +
         '</tbody></table></div></div>' +
-        '<div class="card tint"><h2 style="margin-bottom:8px">Batas klaim keamanan</h2><p class="body">Rantai hash membuat perubahan diam-diam terdeteksi, tetapi tidak mencegah pihak yang menguasai server menulis ulang seluruh rantai. Karena itu pengawas dan dinas dapat menjalankan pemeriksaan keutuhan sendiri, dan paket RAT dikunci dengan hash. Ini penanda keutuhan, bukan blockchain dan bukan jaminan keamanan mutlak.</p></div>' +
+        '<div class="card tint"><h2 class="u-mb-2">Batas klaim keamanan</h2><p class="body">Rantai hash membuat perubahan diam-diam terdeteksi, tetapi tidak mencegah pihak yang menguasai server menulis ulang seluruh rantai. Karena itu pengawas dan dinas dapat menjalankan pemeriksaan keutuhan sendiri, dan paket RAT dikunci dengan hash. Ini penanda keutuhan, bukan blockchain dan bukan jaminan keamanan mutlak.</p></div>' +
         '<p><a class="btn outline" href="#/depan">' + icon('home') + 'Buka halaman depan publik</a></p>' +
         '<p class="small mute">Kerangka acuan: Evans, E., &amp; Branch, B. (2002). Technical guide: PEARLS performance monitoring system. World Council of Credit Unions. Pelindungan data pribadi mengacu UU Nomor 27 Tahun 2022. Seluruh ambang dan bobot adalah ambang awal simulasi.</p></div>';
     }
@@ -2818,7 +2916,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
         '<p class="hero-note">Nomor anggota ' + a.no + ' · ' + esc(s.koperasi.nama) + '</p></section>' +
         '<section class="card stack sm" aria-labelledby="h-pinj"><h2 id="h-pinj">Pinjaman Anda</h2>' + pinjHtml + '</section></div>' +
         (sk ? App.ui.ringkasSkor(sk, 'Kesehatan koperasi, ' + TK.namaPeriode(pt.id), '<a class="btn outline sm" href="' + App.href('koperasi') + '">Lihat rincian skor</a>') : '') +
-        (shu ? '<section class="card" aria-labelledby="h-shu"><h2 id="h-shu">Perkiraan SHU Anda</h2><p class="mid" style="margin:10px 0">' + rp(shu.nilai) + '</p>' +
+        (shu ? '<section class="card" aria-labelledby="h-shu"><h2 id="h-shu">Perkiraan SHU Anda</h2><p class="u-m-3-0 mid">' + rp(shu.nilai) + '</p>' +
           '<p class="small body">Perkiraan bagian anggota 70% dari SHU ' + rp(shu.surplus) + ' per ' + tgl(shu.sampai) + ', dibagi menurut simpanan pokok dan wajib. Angka final ditetapkan RAT.</p></section>' : '') +
         '<div class="row"><a class="btn outline" href="' + App.href('cetak') + '">' + icon('print') + 'Lihat ringkasan cetak</a><a class="btn outline" href="' + App.href('riwayat') + '">' + icon('list') + 'Lihat riwayat transaksi</a></div>' +
         '</div>';
@@ -2868,12 +2966,12 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
         (antre.length ? App.callout('warn', 'clock', '<p>' + antre.length + ' transaksi atas nama Anda dicatat pengurus saat luring dan masih menunggu sinkron.</p>') : '') +
         (rows ? '<div class="list">' + rows + '</div>' : App.empty('list', 'Belum ada transaksi', 'Transaksi muncul di sini setelah pengurus mencatat setoran atau angsuran atas nama Anda.')) + '</section>' +
         (jadwal ? '<section class="stack"><h2>Jadwal angsuran</h2>' + jadwal + '</section>' : '') +
-        '<section class="card" aria-labelledby="h-pdp"><h2 id="h-pdp">Data pribadi Anda</h2><p class="body" style="margin:6px 0 16px">Koperasi hanya menyimpan data minimal: nama, nomor anggota, dan nomor ponsel bila Anda memberikannya. Nomor KTP tidak disimpan.</p>' +
+        '<section class="card" aria-labelledby="h-pdp"><h2 id="h-pdp">Data pribadi Anda</h2><p class="u-m-2-4 body">Koperasi hanya menyimpan data minimal: nama, nomor anggota, dan nomor ponsel bila Anda memberikannya. Nomor KTP tidak disimpan.</p>' +
         '<dl class="dl"><dt>Nama</dt><dd>' + esc(a.nama) + '</dd><dt>Nomor anggota</dt><dd>' + a.no + '</dd><dt>Nomor ponsel</dt><dd>Tidak diberikan</dd><dt>Persetujuan</dt><dd>' +
         (a.persetujuan_pdp ? 'Diberikan ' + App.tglPanjang(a.persetujuan_pdp) + ' sesuai UU Nomor 27 Tahun 2022' : '<span class="ind merah">' + icon('x', 'sm') + 'Dicabut</span>') + '</dd></dl>' +
-        '<div class="row" style="margin-top:16px"><button class="btn outline sm" data-act="pdp-unduh">' + icon('download') + 'Unduh salinan data saya</button>' +
+        '<div class="u-mt-4 row"><button class="btn outline sm" data-act="pdp-unduh">' + icon('download') + 'Unduh salinan data saya</button>' +
         (a.persetujuan_pdp ? '<button class="btn ghost sm" data-act="pdp-cabut">Cabut persetujuan</button>' : '<button class="btn ghost sm" data-act="pdp-beri">Berikan persetujuan lagi</button>') + '</div>' +
-        '<h3 style="margin:24px 0 6px">Siapa yang membuka data Anda</h3><p class="small mute" style="margin-bottom:8px">Setiap akses oleh peran selain anggota tercatat di log audit.</p>' +
+        '<h3 class="u-m-5-2">Siapa yang membuka data Anda</h3><p class="u-mb-2 small mute">Setiap akses oleh peran selain anggota tercatat di log audit.</p>' +
         (audit.length ? '<div class="list">' + audit.map(function (x) { return '<div class="li"><span class="ic">' + icon('eye', 'sm') + '</span><div class="grow"><b class="small">' + esc(x.nama) + '</b><div class="small mute">' + esc(x.aksi) + ' · ' + tgl(x.tanggal) + '</div></div></div>'; }).join('') + '</div>' : '<p class="body">Belum ada akses tercatat.</p>') +
         '</section></div>';
     }
@@ -2906,7 +3004,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       return App.pageHead('Laporan dan skor koperasi', esc(s.koperasi.nama) + '. Laporan ' + TK.namaPeriode(pt.id) + ' disahkan pengawas pada ' + App.tglPanjang(pt.disahkan_pada) + '.') +
         '<div class="stack lg">' + App.ui.ringkasSkor(sk, 'Skor ' + TK.namaPeriode(pt.id)) +
         '<section class="card"><div class="card-head"><h2>Rincian tujuh indikator</h2><a class="btn ghost sm" href="' + App.href('cara-skor') + '">' + icon('calc') + 'Cara skor dihitung</a></div>' + App.ui.tabelIndikator(sk) + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:4px">Riwayat skor</h2><p class="small mute" style="margin-bottom:8px">Bulan bergaris adalah masa kalibrasi.</p>' + App.ui.histori(hist) + '</section>' +
+        '<section class="card"><h2 class="u-mb-1">Riwayat skor</h2><p class="u-mb-2 small mute">Bulan bergaris adalah masa kalibrasi.</p>' + App.ui.histori(hist) + '</section>' +
         '<section class="stack"><h2>Laporan keuangan ' + TK.namaPeriode(pt.id) + '</h2>' + App.ui.laporan(pt.id) + '</section>' +
         '<p class="small mute">Skor adalah peringatan dini agar pengurus, pengawas, anggota, dan dinas bertindak lebih awal. Skor bukan penilaian hukum.</p></div>';
     }
@@ -2919,21 +3017,30 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       var s = App.state, rat = s.rat, a = aku();
       var hMin = TK.tgl.diffDays(rat.tanggal, App.today());
       var head = App.pageHead('Rapat Anggota Tahunan', 'RAT ' + App.tglPanjang(rat.tanggal) + '. e-RAT melengkapi rapat tatap muka dan tidak menggantikannya.');
-      var status = '<div class="card"><div class="row between"><div><span class="label">Status</span><p class="mid" style="margin-top:4px">' + esc(rat.status) + '</p></div>' +
+      var status = '<div class="card"><div class="row between"><div><span class="label">Status</span><p class="u-mt-1 mid">' + esc(rat.status) + '</p></div>' +
         '<div class="row">' + (rat.status === 'Dijadwalkan' ? App.chip(hMin > 0 ? hMin + ' hari lagi' : 'Hari ini', 'amber', 'calendar') : '') + '</div></div>' +
-        (rat.status === 'Dijadwalkan' ? '<p class="body" style="margin-top:12px">Paket laporan akan dibagikan paling lambat ' + App.tglPanjang(TK.tgl.addDays(rat.tanggal, -7)) + ' (H-7). Setelah terbit, paket dikunci dan tidak dapat diubah.</p>' : '') + '</div>';
-      if (!rat.paket) return head + '<div class="stack lg">' + status + '</div>';
+        (rat.status === 'Dijadwalkan' ? '<p class="u-mt-3 body">Paket laporan akan dibagikan paling lambat ' + App.tglPanjang(TK.tgl.addDays(rat.tanggal, -7)) + ' (H-7). Setelah terbit, paket dikunci dan tidak dapat diubah.</p>' : '') + '</div>';
+      if (!rat.paket) {
+        var tahap = [['Dijadwalkan', 'Tanggal dan agenda sudah ditetapkan.'], ['Paket terbit', 'Laporan dibagikan paling lambat ' + App.tglPanjang(TK.tgl.addDays(rat.tanggal, -7)) + '.'], ['Berlangsung', 'Hari RAT: isi daftar hadir dengan kode, lalu beri suara.'], ['Selesai', 'Berita acara terbentuk dari daftar hadir dan hasil suara.']];
+        return head + '<div class="stack lg">' + status +
+          '<div class="grid g2"><section class="card" aria-labelledby="h-agenda"><h2 id="h-agenda" class="u-mb-3">Agenda yang akan diputuskan</h2><ol class="u-list stack sm body">' +
+          rat.agenda.map(function (ag) { return '<li>' + esc(ag.judul) + '</li>'; }).join('') + '</ol></section>' +
+          '<section class="card" aria-labelledby="h-tahap"><h2 id="h-tahap" class="u-mb-3">Tahapan RAT</h2><div class="tasks">' +
+          tahap.map(function (t, i) { return '<div class="task' + (i === 0 ? ' attn' : '') + '"><span class="ic">' + icon(i === 0 ? 'clock' : 'more') + '</span><span class="grow"><b>' + t[0] + '</b><span class="small body">' + esc(t[1]) + '</span></span></div>'; }).join('') +
+          '</div></section></div>' +
+          '<p class="small body">Sambil menunggu paket, Anda bisa membaca laporan bulanan dan skor koperasi di halaman <a href="' + App.href('koperasi') + '">Koperasi</a>.</p></div>';
+      }
       var dibaca = rat.dibaca[a.id];
       var paket = '<section class="card"><div class="card-head"><h2>Paket laporan RAT</h2>' + (dibaca ? App.chip('Dibaca ' + tgl(dibaca), '', 'check') : App.chip('Belum dibaca', 'amber')) + '</div>' +
         '<p class="body">Terbit ' + App.tglPanjang(rat.paket.terbit_pada) + ' (H-' + rat.paket.h_minus + '), dikunci sehingga isinya tidak bisa diubah lagi. Sidik jari digital: <span class="hash">' + App.pendek(rat.paket.hash, 12) + '</span>.</p>' +
-        '<div class="row" style="margin-top:16px"><button class="btn ' + (dibaca ? 'outline' : 'primary') + '" data-act="baca-paket">' + icon('book') + (dibaca ? 'Baca lagi paket RAT' : 'Baca paket RAT') + '</button></div></section>';
+        '<div class="u-mt-4 row"><button class="btn ' + (dibaca ? 'outline' : 'primary') + '" data-act="baca-paket">' + icon('book') + (dibaca ? 'Baca lagi paket RAT' : 'Baca paket RAT') + '</button></div></section>';
       var hadir = rat.kehadiran.some(function (k) { return k.anggota_id === a.id; });
       var kuo = TK.kuorumRAT(s);
       var hari = '';
       if (rat.status === 'Berlangsung') {
         hari = '<section class="card stack"><h2>Hari RAT</h2>' +
           (hadir ? App.callout('ok', 'checkCircle', '<p>Kehadiran Anda tercatat.</p>') :
-            '<form class="stack" data-form="hadir" novalidate><div class="field"><label for="kode">Kode hadir</label><input class="input mono" id="kode" name="kode" inputmode="numeric" maxlength="4" autocomplete="off" spellcheck="false" placeholder="Contoh: 1234…" style="max-width:200px;font-size:1.25rem;letter-spacing:.2em" aria-describedby="kode-h"><span class="hint" id="kode-h">Kode empat angka ditampilkan pengurus di tempat rapat.</span><span class="err" id="kode-err" role="alert"></span></div><div><button class="btn primary" type="submit">Catat kehadiran saya</button></div></form>') +
+            '<form class="stack" data-form="hadir" novalidate><div class="field"><label for="kode">Kode hadir</label><input class="u-code-input input mono" id="kode" name="kode" inputmode="numeric" maxlength="4" autocomplete="off" spellcheck="false" placeholder="Contoh: 1234…" aria-describedby="kode-h"><span class="hint" id="kode-h">Kode empat angka ditampilkan pengurus di tempat rapat.</span><span class="err" id="kode-err" role="alert"></span></div><div><button class="btn primary" type="submit">Catat kehadiran saya</button></div></form>') +
           '<p class="small body">Hadir ' + kuo.hadir + ' dari ' + kuo.anggota + ' anggota. Kuorum ' + (kuo.tercapai ? 'tercapai.' : 'belum tercapai; perlu ' + kuo.perlu + ' anggota.') + '</p>' +
           (hadir ? '<div class="stack">' + rat.agenda.map(function (ag, i) {
             var su = rat.suara.filter(function (x) { return x.agenda_id === ag.id && x.anggota_id === a.id; })[0];
@@ -2954,7 +3061,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       '<table class="t"><tbody><tr><td>Jumlah aset</td><td class="r strong">' + rp(nr.aset) + '</td></tr><tr><td>Simpanan anggota (pokok, wajib, sukarela)</td><td class="r">' + rp(nr.pokok + nr.wajib + nr.sukarela) + '</td></tr>' +
       '<tr><td>Utang bank</td><td class="r">' + rp(nr.utangBank) + '</td></tr><tr><td>Pendapatan tahun berjalan</td><td class="r">' + rp(lr.pendapatan) + '</td></tr><tr><td>Beban tahun berjalan</td><td class="r">' + rp(lr.beban) + '</td></tr>' +
       '<tr><td><b>SHU tahun berjalan</b></td><td class="r strong">' + rp(lr.shu) + '</td></tr><tr><td>Usulan bagian anggota (70%)</td><td class="r">' + rp(Math.round(lr.shu * 0.7)) + '</td></tr><tr><td>Usulan cadangan (30%)</td><td class="r">' + rp(lr.shu - Math.round(lr.shu * 0.7)) + '</td></tr></tbody></table>' +
-      '<h3>Agenda</h3><ol class="body" style="margin:0;padding-left:20px">' + p.agenda.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol>' +
+      '<h3>Agenda</h3><ol class="u-list body">' + p.agenda.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol>' +
       '<p class="small mute">Sidik jari digital paket <span class="hash">' + esc(rat.paket.hash) + '</span>. ' + (TK.periksaPaket(rat) ? 'Isinya cocok dengan sidik jari, jadi paket tidak berubah sejak terbit.' : 'Isinya tidak cocok dengan sidik jari. Laporkan kepada pengawas.') + '</p>';
   };
   App.acts['baca-paket'] = function () {
@@ -2983,9 +3090,9 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     return '<section class="card"><div class="card-head"><h2>Berita acara RAT</h2>' + App.chip('Terbentuk otomatis', '', 'check') + '</div>' +
       '<dl class="dl"><dt>Tanggal RAT</dt><dd>' + App.tglPanjang(ba.tanggal_rat) + '</dd><dt>Dibuat</dt><dd>' + App.tglPanjang(ba.dibuat_pada) + '</dd><dt>Kehadiran</dt><dd>' + ba.kuorum.hadir + ' dari ' + ba.kuorum.anggota + ' anggota; kuorum ' + (ba.kuorum.tercapai ? 'tercapai' : 'tidak tercapai') + '</dd>' +
       '<dt>Sidik jari paket</dt><dd class="hash">' + App.pendek(ba.paket_hash, 16) + '</dd></dl>' +
-      '<div class="table-wrap" style="margin-top:16px"><table class="t"><thead><tr><th>Agenda</th><th class="r">Setuju</th><th class="r">Tidak</th><th class="r">Abstain</th><th>Hasil</th></tr></thead><tbody>' +
+      '<div class="u-mt-4 table-wrap"><table class="t"><thead><tr><th>Agenda</th><th class="r">Setuju</th><th class="r">Tidak</th><th class="r">Abstain</th><th>Hasil</th></tr></thead><tbody>' +
       ba.rekap.map(function (x) { return '<tr><td>' + esc(x.judul) + '</td><td class="r">' + x.rekap.Setuju + '</td><td class="r">' + x.rekap['Tidak setuju'] + '</td><td class="r">' + x.rekap.Abstain + '</td><td>' + (x.hasil === 'Diterima' ? '<span class="ind hijau">' + icon('check', 'sm') + 'Diterima</span>' : '<span class="ind merah">' + icon('x', 'sm') + esc(x.hasil) + '</span>') + '</td></tr>'; }).join('') +
-      '</tbody></table></div><p class="small mute" style="margin-top:12px">Sidik jari digital berita acara <span class="hash">' + App.pendek(ba.hash, 16) + '</span></p></section>';
+      '</tbody></table></div><p class="u-mt-3 small mute">Sidik jari digital berita acara <span class="hash">' + App.pendek(ba.hash, 16) + '</span></p></section>';
   };
 
   /* ---------- Ringkasan cetak A5 ---------- */
@@ -3067,11 +3174,11 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       if (pb) tasks.push(['', 'lock', 'Tutup buku ' + TK.namaPeriode(pb.id), 'Setelah semua transaksi bulan ini tercatat.', App.href('tutup')]);
       var taskHtml = tasks.map(function (t) {
         var inner = '<span class="ic">' + icon(t[1]) + '</span><span class="grow"><b>' + esc(t[2]) + '</b><span class="small body">' + esc(t[3]) + '</span></span>' + (t[4] ? icon('chevR') : '');
-        return t[4] ? '<a class="task ' + t[0] + '" href="' + t[4] + '" style="text-decoration:none;color:inherit">' + inner + '</a>' : '<div class="task ' + t[0] + '">' + inner + '</div>';
+        return t[4] ? '<a class="u-plain task ' + t[0] + '" href="' + t[4] + '">' + inner + '</a>' : '<div class="task ' + t[0] + '">' + inner + '</div>';
       }).join('');
       return App.pageHead('Halo, ' + App.namaDepan(u.nama), 'Tugas bulan ini untuk ' + esc(s.koperasi.nama) + '.', '<a class="btn primary" href="' + App.href('catat') + '">' + icon('plus') + 'Catat transaksi</a>') +
         stripPengurus() +
-        '<div class="grid g3" style="align-items:start"><section class="card span2" aria-labelledby="h-tugas"><h2 id="h-tugas" style="margin-bottom:12px">Tugas</h2><div class="tasks">' + taskHtml + '</div></section>' +
+        '<div class="u-items-start grid g3"><section class="card span2" aria-labelledby="h-tugas"><h2 id="h-tugas" class="u-mb-3">Tugas</h2><div class="tasks">' + taskHtml + '</div></section>' +
         '<div class="stack">' +
         (skT ? '<section class="card stack sm"><h2>Skor ' + TK.namaPeriode(pt.id) + '</h2><div class="row">' + App.gauge(skT.nilai, skT.status, true) + App.statusBadge(skT.status) + '</div><p class="small body">Laporan terakhir yang terbit ke anggota.</p></section>' : '') +
         (pv ? '<section class="card stack sm"><h2>Pratinjau ' + TK.namaPeriode(pb.id) + '</h2><div class="row">' + App.gauge(pv.skor.nilai, pv.skor.status, true) + App.statusBadge(pv.skor.status) + '</div>' +
@@ -3114,11 +3221,11 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     var baris = v.baris && v.baris.length && v.baris.every(function (b) { return !isNaN(b.debit) && !isNaN(b.kredit); }) ? v.baris : null;
     if (!baris || (!(draft.nominal > 0) && !((draft.pokok || 0) + (draft.jasa || 0) > 0))) return '<p class="body">Isi nominal untuk melihat jurnal.</p>';
     var d = 0, k = 0;
-    var rows = baris.map(function (b) { d += b.debit || 0; k += b.kredit || 0; return '<tr><td class="mono">' + b.akun + '</td><td>' + esc(TK.AKUN[b.akun].nama) + '</td><td class="r">' + (b.debit ? rp(b.debit) : '') + '</td><td class="r">' + (b.kredit ? rp(b.kredit) : '') + '</td></tr>'; }).join('');
-    return '<div class="table-wrap"><table class="t"><thead><tr><th>Akun</th><th>Nama</th><th class="r">Debit</th><th class="r">Kredit</th></tr></thead><tbody>' + rows +
-      '<tr><td></td><td class="strong">Jumlah</td><td class="r strong">' + rp(d) + '</td><td class="r strong">' + rp(k) + '</td></tr></tbody></table></div>' +
-      '<p class="ind ' + (d === k ? 'hijau' : 'merah') + '" style="margin-top:8px">' + icon(d === k ? 'checkCircle' : 'alert', 'sm') + (d === k ? 'Debit sama dengan kredit' : 'Debit dan kredit tidak seimbang') + '</p>' +
-      (v.ok ? '' : '<p class="small mute" style="margin-top:4px">' + esc(v.galat[0].pesan) + '</p>');
+    var rows = baris.map(function (b) { d += b.debit || 0; k += b.kredit || 0; return '<tr><td class="mono hide-m">' + b.akun + '</td><td>' + esc(TK.AKUN[b.akun].nama) + '</td><td class="r">' + (b.debit ? rp(b.debit) : '') + '</td><td class="r">' + (b.kredit ? rp(b.kredit) : '') + '</td></tr>'; }).join('');
+    return '<div class="table-wrap"><table class="t jurnal"><thead><tr><th class="hide-m">Akun</th><th>Nama</th><th class="r">Debit</th><th class="r">Kredit</th></tr></thead><tbody>' + rows +
+      '<tr><td class="hide-m"></td><td class="strong">Jumlah</td><td class="r strong">' + rp(d) + '</td><td class="r strong">' + rp(k) + '</td></tr></tbody></table></div>' +
+      '<p class="u-mt-2 ind ' + (d === k ? 'hijau' : 'merah') + '">' + icon(d === k ? 'checkCircle' : 'alert', 'sm') + (d === k ? 'Debit sama dengan kredit' : 'Debit dan kredit tidak seimbang') + '</p>' +
+      (v.ok ? '' : '<p class="u-mt-1 small mute">' + esc(v.galat[0].pesan) + '</p>');
   }
   function fieldErr(galat, nama) {
     var g = (galat || []).filter(function (x) { return x.field === nama; })[0];
@@ -3144,7 +3251,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
           (d.anggota_id ? (pjs.length ? '<option value="">Pilih pinjaman</option>' + pjs.map(function (st) { return '<option value="' + st.p.id + '"' + (st.p.id === d.pinjaman_id ? ' selected' : '') + '>' + st.p.id + ' · sisa ' + rp(st.sisa) + ' · ' + st.status + '</option>'; }).join('') : '<option value="">Anggota ini tidak punya pinjaman berjalan</option>') : '<option value="">Pilih anggota dulu</option>') +
           '</select>' + fieldErr(g, 'pinjaman_id');
         var stp = pjs.filter(function (x) { return x.p.id === d.pinjaman_id; })[0];
-        if (stp) f += '<div class="row" style="margin-top:4px">' + App.ui.badgePinjaman(stp) + (stp.tunggakan.length ? '<button type="button" class="btn ghost sm" data-act="isi-tunggakan">Isi ' + stp.tunggakan.length + ' angsuran tertunggak</button>' : '') + (stp.berikut ? '<button type="button" class="btn ghost sm" data-act="isi-satu">Isi satu angsuran (' + rp(stp.berikut.total) + ')</button>' : '') + '</div>';
+        if (stp) f += '<div class="u-mt-1 row">' + App.ui.badgePinjaman(stp) + (stp.tunggakan.length ? '<button type="button" class="btn ghost sm" data-act="isi-tunggakan">Isi ' + stp.tunggakan.length + ' angsuran tertunggak</button>' : '') + (stp.berikut ? '<button type="button" class="btn ghost sm" data-act="isi-satu">Isi satu angsuran (' + rp(stp.berikut.total) + ')</button>' : '') + '</div>';
         f += '</div>';
       }
       if (d.jenis === 'T06' || d.jenis === 'T11') {
@@ -3163,22 +3270,22 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       var antrean = q.length ? '<div class="list">' + q.map(function (it, i) {
         var dr = it.draft, n = dr.nominal || ((dr.pokok || 0) + (dr.jasa || 0));
         return '<div class="li"><div class="grow"><b>' + esc(dr.uraian || TK.JENIS[dr.jenis].nama) + '</b><div class="small mute">' + dr.jenis + ' · ' + tgl(dr.tanggal) + (dr.anggota_id ? ' · ' + esc(App.namaAnggota(dr.anggota_id)) : '') + ' · ' + rp(n) + '</div>' +
-          (it.status === 'Perlu ditinjau' ? '<div class="err" style="margin-top:4px">' + icon('alert', 'sm') + '<span>' + esc((it.galat || [{ pesan: '' }])[0].pesan) + '</span></div>' : '') + '</div>' +
-          '<div class="stack sm" style="align-items:flex-end">' + App.chip(it.status, it.status === 'Perlu ditinjau' ? 'late' : 'amber', it.status === 'Perlu ditinjau' ? 'alert' : 'clock') +
+          (it.status === 'Perlu ditinjau' ? '<div class="u-mt-1 err">' + icon('alert', 'sm') + '<span>' + esc((it.galat || [{ pesan: '' }])[0].pesan) + '</span></div>' : '') + '</div>' +
+          '<div class="u-items-end stack sm">' + App.chip(it.status, it.status === 'Perlu ditinjau' ? 'late' : 'amber', it.status === 'Perlu ditinjau' ? 'alert' : 'clock') +
           (it.status === 'Perlu ditinjau' ? '<div class="row"><button class="btn ghost sm" data-act="antre-perbaiki" data-i="' + i + '">Perbaiki</button><button class="btn ghost sm" data-act="antre-buang" data-i="' + i + '">Buang</button></div>' : '') + '</div></div>';
       }).join('') + '</div>' : '<p class="body">Antrean kosong. Saat luring, transaksi yang Anda simpan muncul di sini bertanda Menunggu sinkron.</p>';
       var menunggu = q.filter(function (x) { return x.status === 'Menunggu sinkron'; }).length;
       var terakhir = s.entri.slice(-3).reverse();
       return App.pageHead('Catat transaksi', 'Satu transaksi per simpan. Jurnal dibentuk otomatis dari jenis transaksi.') +
-        (!s.online ? '<div style="margin-bottom:16px">' + App.callout('warn', 'wifiOff', '<p><b>Anda sedang luring.</b> Transaksi disimpan di antrean perangkat dengan ID klien unik dan dikirim saat daring. Aturan saldo diperiksa ulang saat sinkron.</p>') + '</div>' : '') +
-        '<div class="grid g3" style="align-items:start"><form class="card span2 stack lg" data-form="catat" data-input="catat" novalidate>' +
+        (!s.online ? '<div class="u-mb-4">' + App.callout('warn', 'wifiOff', '<p><b>Anda sedang luring.</b> Transaksi disimpan di antrean perangkat dengan ID klien unik dan dikirim saat daring. Aturan saldo diperiksa ulang saat sinkron.</p>') + '</div>' : '') +
+        '<div class="u-items-start grid g3"><form class="card span2 stack lg" data-form="catat" data-input="catat" novalidate>' +
         (App._catatPerbaiki ? App.callout('info', 'edit', '<p>Memperbaiki entri dari antrean. Simpan untuk mengirim ulang.</p>') : '') +
         '<div class="form-grid">' + f + '</div>' +
-        '<div class="card tint" style="padding:18px"><h3 style="margin-bottom:8px">Pratinjau jurnal</h3><div id="jurnal-preview" aria-live="polite">' + pratinjauJurnal(bacaDraftDari(d)) + '</div></div>' +
+        '<div class="u-p-4 card tint"><h3 class="u-mb-2">Pratinjau jurnal</h3><div id="jurnal-preview" aria-live="polite">' + pratinjauJurnal(bacaDraftDari(d)) + '</div></div>' +
         '<div class="row"><button class="btn primary" type="submit">' + icon(s.online ? 'check' : 'clock') + (s.online ? 'Simpan transaksi' : 'Simpan ke antrean') + '</button><button class="btn outline" type="button" data-act="catat-reset">Kosongkan</button></div></form>' +
         '<div class="stack"><section class="card"><div class="card-head"><h2>Antrean luring</h2>' + (q.length ? App.chip(q.length + ' entri', 'amber') : '') + '</div>' + antrean +
-        (menunggu ? '<button class="btn ' + (s.online ? 'primary' : 'secondary') + ' block" style="margin-top:12px" data-act="sinkron"' + (s.online ? '' : ' disabled aria-disabled="true"') + '>' + icon('refresh') + (s.online ? 'Sinkronkan sekarang' : 'Menunggu sinyal') + '</button>' : '') + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:8px">Tercatat terakhir</h2><div class="list">' + terakhir.map(function (e) { return '<a class="li" href="' + App.href('buku', e.id) + '" style="color:inherit;text-decoration:none"><div class="grow"><b class="small">' + esc(e.uraian) + '</b><div class="xs mute">' + e.id + ' · ' + tgl(e.tanggal) + '</div></div><span class="amt small">' + rp(App.ui.nominalEntri(e)) + '</span></a>'; }).join('') + '</div></section></div></div>';
+        (menunggu ? '<button class="u-mt-3 btn ' + (s.online ? 'primary' : 'secondary') + ' block" data-act="sinkron"' + (s.online ? '' : ' disabled aria-disabled="true"') + '>' + icon('refresh') + (s.online ? 'Sinkronkan sekarang' : 'Menunggu sinyal') + '</button>' : '') + '</section>' +
+        '<section class="card"><h2 class="u-mb-2">Tercatat terakhir</h2><div class="list">' + terakhir.map(function (e) { return '<a class="u-plain li" href="' + App.href('buku', e.id) + '"><div class="grow"><b class="small">' + esc(e.uraian) + '</b><div class="xs mute">' + e.id + ' · ' + tgl(e.tanggal) + '</div></div><span class="amt small">' + rp(App.ui.nominalEntri(e)) + '</span></a>'; }).join('') + '</div></section></div></div>';
     }
   };
   function bacaDraftDari(d) {
@@ -3292,7 +3399,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
           }).join('') + '</tbody></table></div>';
       }
       return App.pageHead('Anggota dan pinjaman', 'Membuka rincian anggota tercatat di log audit yang bisa dilihat anggota tersebut.', '<a class="btn primary" href="' + App.href('catat') + '?j=T05">' + icon('plus') + 'Cairkan pinjaman</a>') +
-        '<div class="card"><div style="margin-bottom:12px">' + seg + '</div>' + isi + '</div>';
+        '<div class="card"><div class="u-mb-3">' + seg + '</div>' + isi + '</div>';
     }
   };
   App.acts['buka-anggota'] = function (el, e) { if (e.target.closest('a')) return; App.go('anggota', el.getAttribute('data-id')); };
@@ -3304,16 +3411,16 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     var pj = semuaPinjaman().filter(function (x) { return x.p.anggota_id === id; });
     var ent = s.entri.filter(function (e) { return e.anggota_id === id; }).slice(-10).reverse();
     return App.pageHead(a.nama, a.no + (a.jabatan ? ' · ' + a.jabatan : '') + ' · bergabung ' + App.tglPanjang(a.bergabung), '<a class="btn outline" href="' + App.href('anggota', id) + '?cetak=1" data-act="cetak-anggota" data-id="' + id + '">' + icon('print') + 'Ringkasan cetak</a>', [App.href('anggota'), 'Anggota dan pinjaman']) +
-      '<div class="stack lg"><div class="grid g2"><div class="card"><h2>Simpanan</h2><p class="big" style="margin:8px 0 14px">' + rp(sal.total) + '</p><div class="kv"><div><span class="label">Pokok</span><b>' + rp(sal.pokok) + '</b></div><div><span class="label">Wajib</span><b>' + rp(sal.wajib) + '</b></div><div><span class="label">Sukarela</span><b>' + rp(sal.sukarela) + '</b></div></div></div>' +
+      '<div class="stack lg"><div class="grid g2"><div class="card"><h2>Simpanan</h2><p class="u-m-2-4 big">' + rp(sal.total) + '</p><div class="kv"><div><span class="label">Pokok</span><b>' + rp(sal.pokok) + '</b></div><div><span class="label">Wajib</span><b>' + rp(sal.wajib) + '</b></div><div><span class="label">Sukarela</span><b>' + rp(sal.sukarela) + '</b></div></div></div>' +
       '<div class="card stack sm"><h2>Pinjaman</h2>' + (pj.length ? pj.map(function (st) { return '<div class="row between"><span><b class="mono">' + st.p.id + '</b> sisa ' + rp(st.sisa) + '</span>' + App.ui.badgePinjaman(st) + '</div>'; }).join('') : '<p class="body">Tidak ada pinjaman.</p>') + '</div></div>' +
-      '<div class="card"><h2 style="margin-bottom:8px">Transaksi terakhir</h2><div class="list">' + ent.map(function (e) { return '<a class="li" style="color:inherit;text-decoration:none" href="' + App.href('buku', e.id) + '"><div class="grow"><b>' + esc(e.uraian) + '</b><div class="small mute">' + e.id + ' · ' + tgl(e.tanggal) + '</div></div><span class="amt">' + rp(App.ui.nominalEntri(e)) + '</span></a>'; }).join('') + '</div></div></div>';
+      '<div class="card"><h2 class="u-mb-2">Transaksi terakhir</h2><div class="list">' + ent.map(function (e) { return '<a class="u-plain li" href="' + App.href('buku', e.id) + '"><div class="grow"><b>' + esc(e.uraian) + '</b><div class="small mute">' + e.id + ' · ' + tgl(e.tanggal) + '</div></div><span class="amt">' + rp(App.ui.nominalEntri(e)) + '</span></a>'; }).join('') + '</div></div></div>';
   }
   App.acts['cetak-anggota'] = function (el) { App.modal('Ringkasan cetak A5', App.ui.lembarA5(el.getAttribute('data-id')), '<button class="btn primary" data-act="cetak">' + icon('print') + 'Cetak ringkasan</button>'); };
 
   /* ================= Tutup buku ================= */
   App.ui.tabelPeriode = function () {
     var s = App.state;
-    return '<div class="table-wrap"><table class="t stackable"><thead><tr><th>Periode</th><th>Status</th><th class="r">Skor</th><th>Ditutup</th><th>Terbit</th></tr></thead><tbody>' +
+    return '<div class="table-wrap"><table class="t stackable periode-t"><thead><tr><th>Periode</th><th>Status</th><th class="r">Skor</th><th>Ditutup</th><th>Terbit</th></tr></thead><tbody>' +
       s.periode.slice().reverse().map(function (p) {
         var rec = s.skor.filter(function (x) { return x.periode_id === p.id; })[0];
         var telat = p.terbit_pada && !App.tepatWaktu({ periode: p.id, terbit_pada: p.terbit_pada });
@@ -3330,7 +3437,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       var top = '';
       if (hasil) {
         top = '<div class="stack">' + App.callout('ok', 'checkCircle', '<p><b>Buku ' + TK.namaPeriode(hasil.periode) + ' ditutup.</b> Skor ' + hasil.nilai + ', ' + esc(hasil.status) + '. Laporan menunggu pengesahan pengawas sebelum terbit ke anggota.</p>' +
-          (hasil.tiket.length ? '<p style="margin-top:6px">Tiket dibuat: ' + hasil.tiket.map(function (t) { return '<b>' + t.id + '</b> ' + esc(t.jenis) + ', tenggat ' + tgl(t.tenggat); }).join('; ') + '.</p>' : '')) + '</div>';
+          (hasil.tiket.length ? '<p class="u-mt-2">Tiket dibuat: ' + hasil.tiket.map(function (t) { return '<b>' + t.id + '</b> ' + esc(t.jenis) + ', tenggat ' + tgl(t.tenggat); }).join('; ') + '.</p>' : '')) + '</div>';
       }
       if (!pb) return App.pageHead('Tutup buku') + top + App.empty('lock', 'Tidak ada periode terbuka', 'Semua periode sudah ditutup.');
       var pv = TK.pratinjauSkor(s, pb.id, App.today());
@@ -3343,12 +3450,12 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       ];
       return App.pageHead('Tutup buku ' + TK.namaPeriode(pb.id), 'Setelah ditutup, skor dihitung dari buku besar dan dikunci. Entri baru bertanggal ' + TK.namaBulan(pb.id) + ' tidak dapat ditambah.') +
         '<div class="stack lg">' + top +
+        '<div class="card action-card"><div class="card-head"><h2>Siap menutup buku ' + TK.namaBulan(pb.id) + '?</h2>' + App.statusBadge(pv.skor.status) + '</div><p class="body u-mb-3">Skor saat ini ' + pv.skor.nilai + '. Setelah ditutup, skor dan sidik jari buku besar dikunci.</p><div class="tasks">' + cek.map(function (c) { return '<div class="task ' + (c[0] ? 'done' : 'attn') + '"><span class="ic">' + icon(c[0] ? 'check' : 'alert') + '</span><span class="grow">' + esc(c[1]) + '</span></div>'; }).join('') + '</div>' +
+        '<button class="u-mt-4 btn primary" data-act="tutup-buku" data-p="' + pb.id + '"' + (q.length ? ' disabled aria-disabled="true" aria-describedby="tutup-alasan"' : '') + '>' + icon('lock') + 'Tutup buku ' + TK.namaBulan(pb.id) + '</button>' +
+        (q.length ? '<p class="u-mt-2 small err" id="tutup-alasan">' + icon('alert', 'sm') + '<span>Sinkronkan atau tinjau dulu ' + q.length + ' entri di antrean luring.</span></p>' : '') + '<p class="u-mt-2 xs mute">Di produk sesungguhnya tombol aktif mulai hari kerja pertama bulan berikutnya. Prototipe mengizinkan tutup buku kapan saja untuk demonstrasi.</p></div>' +
         App.ui.ringkasSkor(pv.skor, 'Pratinjau skor ' + TK.namaPeriode(pb.id), App.chip('Belum terkunci', 'amber')) +
-        '<div class="card"><h2 style="margin-bottom:12px">Pemeriksaan</h2><div class="tasks">' + cek.map(function (c) { return '<div class="task ' + (c[0] ? 'done' : 'attn') + '"><span class="ic">' + icon(c[0] ? 'check' : 'alert') + '</span><span class="grow">' + esc(c[1]) + '</span></div>'; }).join('') + '</div>' +
-        '<button class="btn primary" style="margin-top:16px" data-act="tutup-buku" data-p="' + pb.id + '"' + (q.length ? ' disabled aria-disabled="true"' : '') + '>' + icon('lock') + 'Tutup buku ' + TK.namaBulan(pb.id) + '</button>' +
-        '<p class="xs mute" style="margin-top:8px">Di produk sesungguhnya tombol aktif mulai hari kerja pertama bulan berikutnya. Prototipe mengizinkan tutup buku kapan saja untuk demonstrasi.</p></div>' +
-        '<div class="card"><h2 style="margin-bottom:12px">Rincian indikator</h2>' + App.ui.tabelIndikator(pv.skor) + '</div>' +
-        '<div class="card"><h2 style="margin-bottom:12px">Riwayat periode</h2>' + App.ui.tabelPeriode() + '</div></div>';
+        '<div class="card"><h2 class="u-mb-3">Rincian indikator</h2>' + App.ui.tabelIndikator(pv.skor) + '</div>' +
+        '<div class="card"><h2 class="u-mb-3">Riwayat periode</h2>' + App.ui.tabelPeriode() + '</div></div>';
     }
   };
   App.acts['tutup-buku'] = function (el) {
@@ -3373,11 +3480,11 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     var hMin = TK.tgl.diffDays(rat.tanggal, App.today());
     var batasPaket = TK.tgl.addDays(rat.tanggal, -7);
     var tahap = ['Dijadwalkan', 'Paket terbit', 'Berlangsung', 'Selesai'], iT = tahap.indexOf(rat.status);
-    var stepper = '<ol class="row" style="list-style:none;padding:0;margin:0;gap:8px">' + tahap.map(function (t, i) {
+    var stepper = '<ol class="u-steps row">' + tahap.map(function (t, i) {
       return '<li class="chip' + (i === iT ? ' amber' : '') + '">' + icon(i < iT ? 'check' : i === iT ? 'clock' : 'more', 'sm') + t + '</li>';
     }).join('') + '</ol>';
     var blok = [];
-    blok.push('<div class="card stack"><div class="row between"><div><span class="label">RAT ' + App.tglPanjang(rat.tanggal) + '</span><p class="mid" style="margin-top:4px">' + esc(rat.status) + '</p></div>' + (rat.status === 'Dijadwalkan' ? App.chip(hMin + ' hari lagi', 'amber', 'calendar') : '') + '</div>' + stepper +
+    blok.push('<div class="card stack"><div class="row between"><div><span class="label">RAT ' + App.tglPanjang(rat.tanggal) + '</span><p class="u-mt-1 mid">' + esc(rat.status) + '</p></div>' + (rat.status === 'Dijadwalkan' ? App.chip(hMin + ' hari lagi', 'amber', 'calendar') : '') + '</div>' + stepper +
       '<p class="small body">Kuorum: ' + esc(rat.kuorum_aturan) + ' (' + TK.kuorumRAT(s).perlu + ' dari ' + s.anggota.length + '). Dapat diubah sesuai anggaran dasar.</p></div>');
     if (rat.status === 'Dijadwalkan') {
       var lewat = App.today() > batasPaket;
@@ -3391,8 +3498,8 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       blok.push('<div class="card stack"><div class="card-head"><h2>Paket terkunci</h2>' + App.chip('H-' + rat.paket.h_minus, rat.paket.h_minus >= 7 ? '' : 'late') + '</div>' +
         '<p class="body">Terbit ' + App.tglPanjang(rat.paket.terbit_pada) + '. Hash <span class="hash">' + App.pendek(rat.paket.hash, 16) + '</span>. ' + (TK.periksaPaket(rat) ? '<span class="ind hijau">' + icon('check', 'sm') + 'Isi cocok dengan hash</span>' : '<span class="ind merah">' + icon('alert', 'sm') + 'Isi tidak cocok</span>') + '</p>' +
         '<div class="row"><button class="btn outline sm" data-act="lihat-paket">' + icon('book') + 'Lihat isi paket</button></div>' +
-        '<h3>Pelacakan baca: ' + sudah.length + ' dari ' + s.anggota.length + ' anggota</h3><div class="bar" style="height:10px"><i style="width:' + Math.round(sudah.length / s.anggota.length * 100) + '%"></i></div>' +
-        '<div class="grid g2" style="gap:4px 16px">' + baca.map(function (x) { return '<div class="row between small" style="min-height:32px"><span>' + esc(x.a.nama) + '</span>' + (x.t ? '<span class="ind hijau">' + icon('check', 'sm') + tgl(x.t) + '</span>' : '<span class="mute">Belum</span>') + '</div>'; }).join('') + '</div></div>');
+        '<h3>Pelacakan baca: ' + sudah.length + ' dari ' + s.anggota.length + ' anggota</h3><div class="u-bar-lg bar"><i style="width:' + Math.round(sudah.length / s.anggota.length * 100) + '%"></i></div>' +
+        '<div class="u-gap-1-4 grid g2">' + baca.map(function (x) { return '<div class="u-h-row row between small"><span>' + esc(x.a.nama) + '</span>' + (x.t ? '<span class="ind hijau">' + icon('check', 'sm') + tgl(x.t) + '</span>' : '<span class="mute">Belum</span>') + '</div>'; }).join('') + '</div></div>');
     }
     if (rat.status === 'Paket terbit' && kelola) {
       blok.push('<div class="card stack"><h2>Hari RAT</h2><p class="body">Memulai RAT membuka daftar hadir dan menampilkan kode hadir untuk anggota. Di produk sesungguhnya tombol aktif pada tanggal RAT.</p><div><button class="btn primary" data-act="mulai-rat">' + icon('play') + 'Mulai RAT</button></div></div>');
@@ -3400,17 +3507,17 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
     if (rat.status === 'Berlangsung' || rat.status === 'Selesai') {
       var kuo = TK.kuorumRAT(s);
       var hadirIds = rat.kehadiran.map(function (k) { return k.anggota_id; });
-      blok.push('<div class="card stack">' + (rat.status === 'Berlangsung' ? '<div class="row between"><h2>Daftar hadir</h2><div class="stack sm" style="align-items:flex-end"><span class="label">Kode hadir</span><span class="big mono" style="letter-spacing:.15em">' + esc(rat.kode_hadir) + '</span></div></div>' : '<h2>Daftar hadir</h2>') +
+      blok.push('<div class="card stack">' + (rat.status === 'Berlangsung' ? '<div class="row between"><h2>Daftar hadir</h2><div class="u-items-end stack sm"><span class="label">Kode hadir</span><span class="u-code big mono">' + esc(rat.kode_hadir) + '</span></div></div>' : '<h2>Daftar hadir</h2>') +
         '<p>' + (kuo.tercapai ? '<span class="ind hijau">' + icon('checkCircle', 'sm') + 'Kuorum tercapai</span>' : '<span class="ind kuning">' + icon('alert', 'sm') + 'Kuorum belum tercapai</span>') + ' · hadir ' + kuo.hadir + ' dari ' + kuo.anggota + ', perlu ' + kuo.perlu + '.</p>' +
-        '<div class="grid g2" style="gap:4px 16px">' + s.anggota.map(function (a) {
+        '<div class="u-gap-1-4 grid g2">' + s.anggota.map(function (a) {
           var h = hadirIds.indexOf(a.id) >= 0;
-          return '<div class="row between small" style="min-height:44px"><span>' + esc(a.nama) + '</span>' + (h ? '<span class="ind hijau">' + icon('check', 'sm') + 'Hadir</span>' : (kelola && rat.status === 'Berlangsung' ? '<button class="btn ghost sm" data-act="tandai-hadir" data-id="' + a.id + '">Tandai hadir</button>' : '<span class="mute">Tidak hadir</span>')) + '</div>';
+          return '<div class="u-h-touch row between small"><span>' + esc(a.nama) + '</span>' + (h ? '<span class="ind hijau">' + icon('check', 'sm') + 'Hadir</span>' : (kelola && rat.status === 'Berlangsung' ? '<button class="btn ghost sm" data-act="tandai-hadir" data-id="' + a.id + '">Tandai hadir</button>' : '<span class="mute">Tidak hadir</span>')) + '</div>';
         }).join('') + '</div></div>');
       var rek = TK.rekapSuara(s);
-      blok.push('<div class="card"><h2 style="margin-bottom:12px">Hasil suara</h2><div class="table-wrap"><table class="t"><thead><tr><th>Agenda</th><th class="r">Setuju</th><th class="r">Tidak</th><th class="r">Abstain</th><th class="r">Jumlah</th></tr></thead><tbody>' +
+      blok.push('<div class="card"><h2 class="u-mb-3">Hasil suara</h2><div class="table-wrap"><table class="t"><thead><tr><th>Agenda</th><th class="r">Setuju</th><th class="r">Tidak</th><th class="r">Abstain</th><th class="r">Jumlah</th></tr></thead><tbody>' +
         rek.map(function (x) { return '<tr><td>' + esc(x.judul) + '</td><td class="r">' + x.rekap.Setuju + '</td><td class="r">' + x.rekap['Tidak setuju'] + '</td><td class="r">' + x.rekap.Abstain + '</td><td class="r strong">' + x.total + '</td></tr>'; }).join('') +
-        '</tbody></table></div><p class="small mute" style="margin-top:8px">Satu anggota satu suara per agenda; suara tidak dapat diubah. Hanya anggota hadir yang dapat memberi suara.</p>' +
-        (kelola && rat.status === 'Berlangsung' ? '<div style="margin-top:16px"><button class="btn primary" data-act="tutup-rat">' + icon('lock') + 'Tutup RAT dan buat berita acara</button></div>' : '') + '</div>');
+        '</tbody></table></div><p class="u-mt-2 small mute">Satu anggota satu suara per agenda; suara tidak dapat diubah. Hanya anggota hadir yang dapat memberi suara.</p>' +
+        (kelola && rat.status === 'Berlangsung' ? '<div class="u-mt-4"><button class="btn primary" data-act="tutup-rat">' + icon('lock') + 'Tutup RAT dan buat berita acara</button></div>' : '') + '</div>');
     }
     if (rat.berita_acara) blok.push(App.ui.beritaAcara(rat.berita_acara));
     return App.pageHead('Rapat Anggota Tahunan', 'Paket terbit paling lambat H-7 lalu dikunci dengan hash. e-RAT melengkapi rapat tatap muka dan tidak menggantikannya.') + '<div class="stack lg">' + blok.join('') + '</div>';
@@ -3447,8 +3554,8 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       var list = App.tiketKop(App.state.koperasi.id).slice().reverse();
       var buka = list.filter(function (t) { return t.status !== 'Selesai'; }), tutup = list.filter(function (t) { return t.status === 'Selesai'; });
       return App.pageHead('Tindak lanjut', 'Status Perlu tindakan membuat tiket untuk pengurus dengan tenggat 14 hari. Penjelasan tertulis kepada anggota wajib, lalu pengawas memverifikasi. Laporan yang belum terbit menjelang tanggal 10 membuat tiket Pengingat.') +
-        '<div class="stack lg"><section class="card"><h2 style="margin-bottom:12px">Terbuka</h2>' + App.ui.daftarTiket(buka, 'tiket', App.empty('flag', 'Tidak ada tiket terbuka', 'Tiket Tindak lanjut muncul di sini bila tutup buku menghasilkan status Perlu tindakan.')) + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:12px">Selesai</h2>' + App.ui.daftarTiket(tutup, 'tiket') + '</section></div>';
+        '<div class="stack lg"><section class="card"><h2 class="u-mb-3">Terbuka</h2>' + App.ui.daftarTiket(buka, 'tiket', App.empty('flag', 'Tidak ada tiket terbuka', 'Tiket Tindak lanjut muncul di sini bila tutup buku menghasilkan status Perlu tindakan.')) + '</section>' +
+        '<section class="card"><h2 class="u-mb-3">Selesai</h2>' + App.ui.daftarTiket(tutup, 'tiket') + '</section></div>';
     }
   };
 
@@ -3462,12 +3569,12 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
         var pb = TK.periodeBerjalan(s);
         return App.pageHead('Tinjau laporan', 'Pengawas mengesahkan laporan sebelum terbit ke anggota. Pengurus tidak dapat mengesahkan laporannya sendiri.', '<button class="btn outline" data-act="keutuhan">' + icon('link') + 'Periksa keutuhan</button>') +
           '<div class="stack lg"><div id="hasil-keutuhan">' + App.ui.hasilKeutuhan(App._keutuhan) + '</div><div class="card">' + App.empty('fileCheck', 'Tidak ada laporan menunggu pengesahan', 'Laporan berikutnya muncul di sini setelah pengurus menutup buku ' + (pb ? TK.namaPeriode(pb.id) : '') + '.') + '</div>' +
-          '<div class="card"><h2 style="margin-bottom:12px">Riwayat periode</h2>' + App.ui.tabelPeriode() + '</div></div>';
+          '<div class="card"><h2 class="u-mb-3">Riwayat periode</h2>' + App.ui.tabelPeriode() + '</div></div>';
       }
       var p = tunggu[0], sk = App.skorDetail(p.id);
       return App.pageHead('Tinjau laporan ' + TK.namaPeriode(p.id), 'Ditutup pengurus ' + App.tglPanjang(p.ditutup_pada) + '. Periksa angka dan keutuhan buku besar sebelum mengesahkan.', '<button class="btn outline" data-act="keutuhan">' + icon('link') + 'Periksa keutuhan</button><button class="btn primary" data-act="sahkan" data-p="' + p.id + '">' + icon('checkCircle') + 'Sahkan laporan ' + TK.namaBulan(p.id) + '</button>') +
         '<div class="stack lg"><div id="hasil-keutuhan">' + App.ui.hasilKeutuhan(App._keutuhan) + '</div>' + App.ui.ringkasSkor(sk, 'Skor ' + TK.namaPeriode(p.id)) +
-        App.ui.laporan(p.id) + '<div class="card"><h2 style="margin-bottom:12px">Rincian indikator</h2>' + App.ui.tabelIndikator(sk) + '</div>' +
+        App.ui.laporan(p.id) + '<div class="card"><h2 class="u-mb-3">Rincian indikator</h2>' + App.ui.tabelIndikator(sk) + '</div>' +
         '<p class="small mute">Hash ujung buku besar saat tutup buku: <span class="hash">' + App.pendek(sk.rekam.ujung_hash, 16) + '</span></p></div>';
     }
   };
@@ -3487,8 +3594,8 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       var list = App.tiketKop(App.state.koperasi.id).filter(function (t) { return t.jenis === 'Tindak lanjut'; }).slice().reverse();
       var tunggu = list.filter(function (t) { return t.status === 'Menunggu verifikasi'; }), lain = list.filter(function (t) { return t.status !== 'Menunggu verifikasi'; });
       return App.pageHead('Verifikasi tindak lanjut', 'Pastikan penjelasan tertulis sudah dibagikan kepada anggota dan tindakannya benar dilakukan.') +
-        '<div class="stack lg"><section class="card"><h2 style="margin-bottom:12px">Menunggu verifikasi</h2>' + App.ui.daftarTiket(tunggu, 'verifikasi', App.empty('checkCircle', 'Tidak ada yang menunggu verifikasi', 'Tiket muncul di sini setelah pengurus mengirim penjelasan tertulis.')) + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:12px">Semua tindak lanjut</h2>' + App.ui.daftarTiket(lain, 'verifikasi') + '</section></div>';
+        '<div class="stack lg"><section class="card"><h2 class="u-mb-3">Menunggu verifikasi</h2>' + App.ui.daftarTiket(tunggu, 'verifikasi', App.empty('checkCircle', 'Tidak ada yang menunggu verifikasi', 'Tiket muncul di sini setelah pengurus mengirim penjelasan tertulis.')) + '</section>' +
+        '<section class="card"><h2 class="u-mb-3">Semua tindak lanjut</h2>' + App.ui.daftarTiket(lain, 'verifikasi') + '</section></div>';
     }
   };
 })();
@@ -3538,8 +3645,8 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       var utama = rows.filter(function (x) { return x.k.pendamping_utama === SAYA(); }), cad = rows.filter(function (x) { return x.k.pendamping_utama !== SAYA(); });
       var perhatian = rows.filter(function (x) { return x.akhir.status === 'Waspada' || x.akhir.status === 'Perlu tindakan'; }).length;
       return App.pageHead('Koperasi asuhan', 'Anda pendamping utama untuk ' + utama.length + ' koperasi dan cadangan untuk ' + cad.length + '. ' + perhatian + ' koperasi berstatus Waspada atau Perlu tindakan.') +
-        '<div class="stack lg"><section class="card"><h2 style="margin-bottom:12px">Pendamping utama</h2>' + tabelKop(utama, 'asuhan') + '</section>' +
-        (cad.length ? '<section class="card"><h2 style="margin-bottom:4px">Pendamping cadangan</h2><p class="small mute" style="margin-bottom:12px">Anda menerima salinan tiket koperasi ini. Koordinator KJDP dapat menugaskan Anda sebagai utama.</p>' + tabelKop(cad, 'asuhan') + '</section>' : '') + '</div>';
+        '<div class="stack lg"><section class="card"><h2 class="u-mb-3">Pendamping utama</h2>' + tabelKop(utama, 'asuhan') + '</section>' +
+        (cad.length ? '<section class="card"><h2 class="u-mb-1">Pendamping cadangan</h2><p class="u-mb-3 small mute">Anda menerima salinan tiket koperasi ini. Koordinator KJDP dapat menugaskan Anda sebagai utama.</p>' + tabelKop(cad, 'asuhan') + '</section>' : '') + '</div>';
     }
   };
   App.views['kjd/tiket'] = {
@@ -3552,9 +3659,9 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       var salinan = list.filter(function (t) { return t.pemilik_nama !== nama && t.status !== 'Selesai'; });
       var selesai = list.filter(function (t) { return t.status === 'Selesai'; });
       return App.pageHead('Tiket', 'Status Waspada membuat tiket Pendampingan untuk Anda; kontak pertama dengan pengurus dalam 7 hari kerja.') +
-        '<div class="stack lg"><section class="card"><h2 style="margin-bottom:12px">Tugas Anda</h2>' + App.ui.daftarTiket(milik, 'tiket', App.empty('ticket', 'Tidak ada tiket untuk Anda', 'Tiket Pendampingan dibuat otomatis saat koperasi asuhan berstatus Waspada.')) + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:12px">Salinan</h2>' + App.ui.daftarTiket(salinan, 'tiket', App.empty('ticket', 'Tidak ada salinan', 'Salinan tiket Tindak lanjut koperasi asuhan muncul di sini.')) + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:12px">Selesai</h2>' + App.ui.daftarTiket(selesai, 'tiket') + '</section></div>';
+        '<div class="stack lg"><section class="card"><h2 class="u-mb-3">Tugas Anda</h2>' + App.ui.daftarTiket(milik, 'tiket', App.empty('ticket', 'Tidak ada tiket untuk Anda', 'Tiket Pendampingan dibuat otomatis saat koperasi asuhan berstatus Waspada.')) + '</section>' +
+        '<section class="card"><h2 class="u-mb-3">Salinan</h2>' + App.ui.daftarTiket(salinan, 'tiket', App.empty('ticket', 'Tidak ada salinan', 'Salinan tiket Tindak lanjut koperasi asuhan muncul di sini.')) + '</section>' +
+        '<section class="card"><h2 class="u-mb-3">Selesai</h2>' + App.ui.daftarTiket(selesai, 'tiket') + '</section></div>';
     }
   };
 
@@ -3585,7 +3692,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       return App.pageHead('Wilayah ' + App.state.koperasi.kabupaten.replace('Kabupaten ', 'Kab. '), semua.length + ' koperasi. Status terakhir dari laporan bulanan; baris merah punya tiket yang lewat tenggat.',
         '<a class="btn outline" href="' + App.href('ekspor') + '">' + icon('download') + 'Ekspor data</a>') +
         '<div class="stack lg">' + sebaran(hitung, semua.length) + (telat ? App.callout('bad', 'clock', '<p><b>' + telat + ' tiket terlambat</b> di wilayah. Tiket tetap harus ditutup oleh penerimanya.</p>') : '') +
-        '<section class="card"><div style="margin-bottom:12px">' + seg + '</div><p class="small mute" style="margin-bottom:8px" aria-live="polite">Menampilkan ' + rows.length + ' koperasi.</p>' +
+        '<section class="card"><div class="u-mb-3">' + seg + '</div><p class="u-mb-2 small mute" aria-live="polite">Menampilkan ' + rows.length + ' koperasi.</p>' +
         (rows.length ? tabelKop(rows, 'wilayah') : App.empty('map', 'Tidak ada koperasi berstatus ' + esc(f), 'Pilih status lain untuk melihat daftar.', '<a class="btn secondary" href="' + App.href('wilayah') + '">Tampilkan semua</a>')) + '</section></div>';
     }
   };
@@ -3669,7 +3776,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       var kartu = function (kode, judul, nilaiHtml, persen, targetTxt, catatan, ok) {
         return '<section class="card stack sm" aria-labelledby="h-' + kode + '"><div class="row between"><span class="chip">' + kode + '</span>' + (ok === null ? App.chip('Belum dapat diukur', '', 'clock') : ok ? '<span class="status sehat">' + icon('checkCircle', 'sm') + 'Mencapai target</span>' : '<span class="status waspada">' + icon('alert', 'sm') + 'Di bawah target</span>') + '</div>' +
           '<h2 id="h-' + kode + '">' + judul + '</h2><p class="big">' + nilaiHtml + '</p>' +
-          (persen !== null ? '<div class="bar" style="height:10px" role="img" aria-label="' + Math.round(persen * 100) + ' persen dari target"><i style="width:' + Math.min(100, Math.round(persen * 100)) + '%"></i></div>' : '') +
+          (persen !== null ? '<div class="u-bar-lg bar" role="img" aria-label="' + Math.round(persen * 100) + ' persen dari target"><i style="width:' + Math.min(100, Math.round(persen * 100)) + '%"></i></div>' : '') +
           '<p class="small body"><b>Target:</b> ' + targetTxt + '</p><p class="small mute">' + catatan + '</p></section>';
       };
       return App.pageHead('Papan KPI pilot', 'Lima indikator keberhasilan yang sama dengan esai. Angka di papan ini berasal dari data simulasi dan tidak boleh dibaca sebagai hasil lapangan.') +
@@ -3698,7 +3805,7 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
       return App.pageHead('Ambang indikator', 'Ambang awal simulasi yang disetujui dinas, bukan angka resmi PEARLS atau pemerintah.', '<button class="btn outline" data-act="salin-ambang">' + icon('copy') + 'Salin CSV</button>') +
         '<div class="stack lg"><section class="card"><div class="card-head"><h2>Versi ' + esc(amb.versi) + '</h2><span class="small body">Disetujui ' + esc(amb.disetujui_oleh) + ' · ' + App.tglPanjang(amb.tanggal) + '</span></div>' +
         '<div class="table-wrap"><table class="t"><thead><tr><th></th><th>Indikator dan rumus</th><th>Hijau (100)</th><th>Kuning (60)</th><th>Merah (20)</th><th class="r">Bobot</th></tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td></td><td colspan="4"><b>Jumlah bobot</b></td><td class="r strong">100</td></tr></tfoot></table></div></section>' +
-        '<section class="card"><h2 style="margin-bottom:8px">Aturan status</h2><ul class="stack sm body" style="padding-left:20px;margin:0"><li>Skor 80 ke atas Sehat; 55 sampai 79 Waspada; di bawah 55 Perlu tindakan.</li><li>Bila likuiditas (L) merah, status minimal Waspada.</li><li>Bila dua indikator atau lebih merah, status Perlu tindakan.</li><li>Tiga bulan buku pertama berstatus Dikalibrasi.</li></ul></section>' +
+        '<section class="card"><h2 class="u-mb-2">Aturan status</h2><ul class="u-list stack sm body"><li>Skor 80 ke atas Sehat; 55 sampai 79 Waspada; di bawah 55 Perlu tindakan.</li><li>Bila likuiditas (L) merah, status minimal Waspada.</li><li>Bila dua indikator atau lebih merah, status Perlu tindakan.</li><li>Tiga bulan buku pertama berstatus Dikalibrasi.</li></ul></section>' +
         App.callout('info', 'lock', '<p>Prototipe hanya menampilkan ambang. Di produk sesungguhnya perubahan ambang membuat versi baru yang butuh persetujuan dinas yang tercatat; skor lama tetap dihitung ulang dengan versi yang dipakai saat itu.</p>') + '</div>';
     }
   };
@@ -4019,14 +4126,14 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
   App.acts.demo = function () {
     var s = App.state;
     var tamper = s._tamper;
-    var btn = function (act, ic, txt, attrs, cls) { return '<button class="btn ' + (cls || 'outline') + ' sm block" style="justify-content:flex-start" data-act="' + act + '" ' + (attrs || '') + '>' + icon(ic) + txt + '</button>'; };
+    var btn = function (act, ic, txt, attrs, cls) { return '<button class="u-start btn ' + (cls || 'outline') + ' sm block" data-act="' + act + '" ' + (attrs || '') + '>' + icon(ic) + txt + '</button>'; };
     var peran = ['ANG', 'PNG', 'PGW', 'KJD', 'DIN'].map(function (k) {
       return '<button class="btn ' + (App.session && App.session.peran === k ? 'dark' : 'secondary') + ' sm" data-act="demo-peran" data-p="' + k + '">' + App.PERAN[k].nama.replace(' KJDP', '').replace(' Koperasi', '') + '</button>';
     }).join('');
     App.sheet('Panel demo', '<p class="body">Alat bantu demonstrasi. Tidak ada di produk sesungguhnya.</p>' +
-      '<section class="stack sm"><h3>Masuk sebagai</h3><div class="row" style="gap:8px">' + peran + '</div></section>' +
+      '<section class="stack sm"><h3>Masuk sebagai</h3><div class="u-gap-2 row">' + peran + '</div></section>' +
       '<section class="stack sm"><h3>Tanggal dan koneksi</h3><p class="small body">Tanggal simulasi ' + App.tglPanjang(s.tanggalSimulasi) + ' · ' + (s.online ? 'Daring' : 'Luring') + '</p>' +
-      '<div class="row" style="gap:8px"><button class="btn secondary sm" data-act="demo-hari" data-n="1">+1 hari</button><button class="btn secondary sm" data-act="demo-hari" data-n="7">+7 hari</button><button class="btn secondary sm" data-act="demo-hari" data-n="15">+15 hari</button><button class="btn secondary sm" data-act="koneksi">' + icon(s.online ? 'wifiOff' : 'wifi') + (s.online ? 'Jadikan luring' : 'Jadikan daring') + '</button></div></section>' +
+      '<div class="u-gap-2 row"><button class="btn secondary sm" data-act="demo-hari" data-n="1">+1 hari</button><button class="btn secondary sm" data-act="demo-hari" data-n="7">+7 hari</button><button class="btn secondary sm" data-act="demo-hari" data-n="15">+15 hari</button><button class="btn secondary sm" data-act="koneksi">' + icon(s.online ? 'wifiOff' : 'wifi') + (s.online ? 'Jadikan luring' : 'Jadikan daring') + '</button></div></section>' +
       '<section class="stack sm"><h3>1. Pemulihan</h3><p class="small body">Lihat status Waspada di beranda anggota, lalu catat angsuran PJ-04 dan PJ-06 sebagai pengurus (bisa luring).</p>' +
       btn('demo-go', 'home', 'Beranda anggota (Siti Aminah)', 'data-p="ANG" data-l="beranda"') + btn('demo-go', 'plus', 'Catat angsuran PJ-04', 'data-p="PNG" data-l="catat" data-q="?j=T06&p=PJ-04"') +
       btn('demo-go', 'plus', 'Catat angsuran PJ-06', 'data-p="PNG" data-l="catat" data-q="?j=T06&p=PJ-06"') + btn('demo-go', 'lock', 'Pratinjau dan tutup buku Oktober', 'data-p="PNG" data-l="tutup"') + btn('demo-go', 'fileCheck', 'Pengawas: tinjau dan sahkan', 'data-p="PGW" data-l="tinjau"') + '</section>' +

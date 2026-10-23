@@ -40,3 +40,17 @@ Lebar ≥ 768 px: bilah samping 264 px. Ponsel: tab bawah (maksimal empat tab pl
 ## Halaman depan publik
 
 Register brand, arah "produk yang tampil": potongan antarmuka sungguhan (atribut `data-ui`) yang dihitung oleh mesin yang sama menggantikan ilustrasi. Hero dua bidang hijau tua (`--lp-deep`, `--lp-deep-2`) dengan satu aksi amber. Di luar potongan: tanpa garis tipis, tanpa bayangan diam, permukaan dipisah oleh langkah nada. Halaman depan selalu bertema terang. Gerak: judul naik per baris, bagian masuk bertahap hanya bila belum terlihat, foto pembuka bergeser pelan; semua dimatikan di `prefers-reduced-motion`. Tanpa video agar berkas tunggal tetap di bawah 1 MB.
+
+## Token (Oktober 2026)
+
+Semua nilai lewat token di `:root` pada `src/css/app.css`; tidak ada gaya inline statis di JS (sisanya hanya lebar bar yang dihitung).
+
+| Kelompok | Token |
+|---|---|
+| Ukuran huruf | `--fs-xs` 13, `--fs-sm` 15, `--fs-base` 16, `--fs-md` 20, `--fs-lg` 28, `--fs-xl` 36 px; halaman depan menambah ukuran tampilan sendiri |
+| Jarak | `--s1` sampai `--s8`: 4, 8, 12, 16, 24, 32, 48, 64 px |
+| Radius | `--r-sm` 8, `--r-lg` 16, `--r-pill` |
+| Bayangan | `--shadow-pop`, hanya untuk dialog, lembar samping, toast, dan tombol mengambang |
+| Warna peran | `--hero-bg`, `--on-hero`, `--paper*` (lembar cetak selalu putih), `--on-strong` |
+
+Tombol: `primary` (satu aksi utama per layar), `secondary` (bergaris tepi; `.outline` alias lama), `ghost` (teks bergaris bawah), `danger`. Paragraf rata kiri-kanan hanya di wadah selebar 560 px ke atas (container query). Galat formulir tampil di bawah kolomnya.

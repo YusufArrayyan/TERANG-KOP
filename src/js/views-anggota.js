@@ -60,7 +60,7 @@
         '<p class="hero-note">Nomor anggota ' + a.no + ' · ' + esc(s.koperasi.nama) + '</p></section>' +
         '<section class="card stack sm" aria-labelledby="h-pinj"><h2 id="h-pinj">Pinjaman Anda</h2>' + pinjHtml + '</section></div>' +
         (sk ? App.ui.ringkasSkor(sk, 'Kesehatan koperasi, ' + TK.namaPeriode(pt.id), '<a class="btn outline sm" href="' + App.href('koperasi') + '">Lihat rincian skor</a>') : '') +
-        (shu ? '<section class="card" aria-labelledby="h-shu"><h2 id="h-shu">Perkiraan SHU Anda</h2><p class="mid" style="margin:10px 0">' + rp(shu.nilai) + '</p>' +
+        (shu ? '<section class="card" aria-labelledby="h-shu"><h2 id="h-shu">Perkiraan SHU Anda</h2><p class="u-m-3-0 mid">' + rp(shu.nilai) + '</p>' +
           '<p class="small body">Perkiraan bagian anggota 70% dari SHU ' + rp(shu.surplus) + ' per ' + tgl(shu.sampai) + ', dibagi menurut simpanan pokok dan wajib. Angka final ditetapkan RAT.</p></section>' : '') +
         '<div class="row"><a class="btn outline" href="' + App.href('cetak') + '">' + icon('print') + 'Lihat ringkasan cetak</a><a class="btn outline" href="' + App.href('riwayat') + '">' + icon('list') + 'Lihat riwayat transaksi</a></div>' +
         '</div>';
@@ -110,12 +110,12 @@
         (antre.length ? App.callout('warn', 'clock', '<p>' + antre.length + ' transaksi atas nama Anda dicatat pengurus saat luring dan masih menunggu sinkron.</p>') : '') +
         (rows ? '<div class="list">' + rows + '</div>' : App.empty('list', 'Belum ada transaksi', 'Transaksi muncul di sini setelah pengurus mencatat setoran atau angsuran atas nama Anda.')) + '</section>' +
         (jadwal ? '<section class="stack"><h2>Jadwal angsuran</h2>' + jadwal + '</section>' : '') +
-        '<section class="card" aria-labelledby="h-pdp"><h2 id="h-pdp">Data pribadi Anda</h2><p class="body" style="margin:6px 0 16px">Koperasi hanya menyimpan data minimal: nama, nomor anggota, dan nomor ponsel bila Anda memberikannya. Nomor KTP tidak disimpan.</p>' +
+        '<section class="card" aria-labelledby="h-pdp"><h2 id="h-pdp">Data pribadi Anda</h2><p class="u-m-2-4 body">Koperasi hanya menyimpan data minimal: nama, nomor anggota, dan nomor ponsel bila Anda memberikannya. Nomor KTP tidak disimpan.</p>' +
         '<dl class="dl"><dt>Nama</dt><dd>' + esc(a.nama) + '</dd><dt>Nomor anggota</dt><dd>' + a.no + '</dd><dt>Nomor ponsel</dt><dd>Tidak diberikan</dd><dt>Persetujuan</dt><dd>' +
         (a.persetujuan_pdp ? 'Diberikan ' + App.tglPanjang(a.persetujuan_pdp) + ' sesuai UU Nomor 27 Tahun 2022' : '<span class="ind merah">' + icon('x', 'sm') + 'Dicabut</span>') + '</dd></dl>' +
-        '<div class="row" style="margin-top:16px"><button class="btn outline sm" data-act="pdp-unduh">' + icon('download') + 'Unduh salinan data saya</button>' +
+        '<div class="u-mt-4 row"><button class="btn outline sm" data-act="pdp-unduh">' + icon('download') + 'Unduh salinan data saya</button>' +
         (a.persetujuan_pdp ? '<button class="btn ghost sm" data-act="pdp-cabut">Cabut persetujuan</button>' : '<button class="btn ghost sm" data-act="pdp-beri">Berikan persetujuan lagi</button>') + '</div>' +
-        '<h3 style="margin:24px 0 6px">Siapa yang membuka data Anda</h3><p class="small mute" style="margin-bottom:8px">Setiap akses oleh peran selain anggota tercatat di log audit.</p>' +
+        '<h3 class="u-m-5-2">Siapa yang membuka data Anda</h3><p class="u-mb-2 small mute">Setiap akses oleh peran selain anggota tercatat di log audit.</p>' +
         (audit.length ? '<div class="list">' + audit.map(function (x) { return '<div class="li"><span class="ic">' + icon('eye', 'sm') + '</span><div class="grow"><b class="small">' + esc(x.nama) + '</b><div class="small mute">' + esc(x.aksi) + ' · ' + tgl(x.tanggal) + '</div></div></div>'; }).join('') + '</div>' : '<p class="body">Belum ada akses tercatat.</p>') +
         '</section></div>';
     }
@@ -148,7 +148,7 @@
       return App.pageHead('Laporan dan skor koperasi', esc(s.koperasi.nama) + '. Laporan ' + TK.namaPeriode(pt.id) + ' disahkan pengawas pada ' + App.tglPanjang(pt.disahkan_pada) + '.') +
         '<div class="stack lg">' + App.ui.ringkasSkor(sk, 'Skor ' + TK.namaPeriode(pt.id)) +
         '<section class="card"><div class="card-head"><h2>Rincian tujuh indikator</h2><a class="btn ghost sm" href="' + App.href('cara-skor') + '">' + icon('calc') + 'Cara skor dihitung</a></div>' + App.ui.tabelIndikator(sk) + '</section>' +
-        '<section class="card"><h2 style="margin-bottom:4px">Riwayat skor</h2><p class="small mute" style="margin-bottom:8px">Bulan bergaris adalah masa kalibrasi.</p>' + App.ui.histori(hist) + '</section>' +
+        '<section class="card"><h2 class="u-mb-1">Riwayat skor</h2><p class="u-mb-2 small mute">Bulan bergaris adalah masa kalibrasi.</p>' + App.ui.histori(hist) + '</section>' +
         '<section class="stack"><h2>Laporan keuangan ' + TK.namaPeriode(pt.id) + '</h2>' + App.ui.laporan(pt.id) + '</section>' +
         '<p class="small mute">Skor adalah peringatan dini agar pengurus, pengawas, anggota, dan dinas bertindak lebih awal. Skor bukan penilaian hukum.</p></div>';
     }
@@ -161,21 +161,30 @@
       var s = App.state, rat = s.rat, a = aku();
       var hMin = TK.tgl.diffDays(rat.tanggal, App.today());
       var head = App.pageHead('Rapat Anggota Tahunan', 'RAT ' + App.tglPanjang(rat.tanggal) + '. e-RAT melengkapi rapat tatap muka dan tidak menggantikannya.');
-      var status = '<div class="card"><div class="row between"><div><span class="label">Status</span><p class="mid" style="margin-top:4px">' + esc(rat.status) + '</p></div>' +
+      var status = '<div class="card"><div class="row between"><div><span class="label">Status</span><p class="u-mt-1 mid">' + esc(rat.status) + '</p></div>' +
         '<div class="row">' + (rat.status === 'Dijadwalkan' ? App.chip(hMin > 0 ? hMin + ' hari lagi' : 'Hari ini', 'amber', 'calendar') : '') + '</div></div>' +
-        (rat.status === 'Dijadwalkan' ? '<p class="body" style="margin-top:12px">Paket laporan akan dibagikan paling lambat ' + App.tglPanjang(TK.tgl.addDays(rat.tanggal, -7)) + ' (H-7). Setelah terbit, paket dikunci dan tidak dapat diubah.</p>' : '') + '</div>';
-      if (!rat.paket) return head + '<div class="stack lg">' + status + '</div>';
+        (rat.status === 'Dijadwalkan' ? '<p class="u-mt-3 body">Paket laporan akan dibagikan paling lambat ' + App.tglPanjang(TK.tgl.addDays(rat.tanggal, -7)) + ' (H-7). Setelah terbit, paket dikunci dan tidak dapat diubah.</p>' : '') + '</div>';
+      if (!rat.paket) {
+        var tahap = [['Dijadwalkan', 'Tanggal dan agenda sudah ditetapkan.'], ['Paket terbit', 'Laporan dibagikan paling lambat ' + App.tglPanjang(TK.tgl.addDays(rat.tanggal, -7)) + '.'], ['Berlangsung', 'Hari RAT: isi daftar hadir dengan kode, lalu beri suara.'], ['Selesai', 'Berita acara terbentuk dari daftar hadir dan hasil suara.']];
+        return head + '<div class="stack lg">' + status +
+          '<div class="grid g2"><section class="card" aria-labelledby="h-agenda"><h2 id="h-agenda" class="u-mb-3">Agenda yang akan diputuskan</h2><ol class="u-list stack sm body">' +
+          rat.agenda.map(function (ag) { return '<li>' + esc(ag.judul) + '</li>'; }).join('') + '</ol></section>' +
+          '<section class="card" aria-labelledby="h-tahap"><h2 id="h-tahap" class="u-mb-3">Tahapan RAT</h2><div class="tasks">' +
+          tahap.map(function (t, i) { return '<div class="task' + (i === 0 ? ' attn' : '') + '"><span class="ic">' + icon(i === 0 ? 'clock' : 'more') + '</span><span class="grow"><b>' + t[0] + '</b><span class="small body">' + esc(t[1]) + '</span></span></div>'; }).join('') +
+          '</div></section></div>' +
+          '<p class="small body">Sambil menunggu paket, Anda bisa membaca laporan bulanan dan skor koperasi di halaman <a href="' + App.href('koperasi') + '">Koperasi</a>.</p></div>';
+      }
       var dibaca = rat.dibaca[a.id];
       var paket = '<section class="card"><div class="card-head"><h2>Paket laporan RAT</h2>' + (dibaca ? App.chip('Dibaca ' + tgl(dibaca), '', 'check') : App.chip('Belum dibaca', 'amber')) + '</div>' +
         '<p class="body">Terbit ' + App.tglPanjang(rat.paket.terbit_pada) + ' (H-' + rat.paket.h_minus + '), dikunci sehingga isinya tidak bisa diubah lagi. Sidik jari digital: <span class="hash">' + App.pendek(rat.paket.hash, 12) + '</span>.</p>' +
-        '<div class="row" style="margin-top:16px"><button class="btn ' + (dibaca ? 'outline' : 'primary') + '" data-act="baca-paket">' + icon('book') + (dibaca ? 'Baca lagi paket RAT' : 'Baca paket RAT') + '</button></div></section>';
+        '<div class="u-mt-4 row"><button class="btn ' + (dibaca ? 'outline' : 'primary') + '" data-act="baca-paket">' + icon('book') + (dibaca ? 'Baca lagi paket RAT' : 'Baca paket RAT') + '</button></div></section>';
       var hadir = rat.kehadiran.some(function (k) { return k.anggota_id === a.id; });
       var kuo = TK.kuorumRAT(s);
       var hari = '';
       if (rat.status === 'Berlangsung') {
         hari = '<section class="card stack"><h2>Hari RAT</h2>' +
           (hadir ? App.callout('ok', 'checkCircle', '<p>Kehadiran Anda tercatat.</p>') :
-            '<form class="stack" data-form="hadir" novalidate><div class="field"><label for="kode">Kode hadir</label><input class="input mono" id="kode" name="kode" inputmode="numeric" maxlength="4" autocomplete="off" spellcheck="false" placeholder="Contoh: 1234…" style="max-width:200px;font-size:1.25rem;letter-spacing:.2em" aria-describedby="kode-h"><span class="hint" id="kode-h">Kode empat angka ditampilkan pengurus di tempat rapat.</span><span class="err" id="kode-err" role="alert"></span></div><div><button class="btn primary" type="submit">Catat kehadiran saya</button></div></form>') +
+            '<form class="stack" data-form="hadir" novalidate><div class="field"><label for="kode">Kode hadir</label><input class="u-code-input input mono" id="kode" name="kode" inputmode="numeric" maxlength="4" autocomplete="off" spellcheck="false" placeholder="Contoh: 1234…" aria-describedby="kode-h"><span class="hint" id="kode-h">Kode empat angka ditampilkan pengurus di tempat rapat.</span><span class="err" id="kode-err" role="alert"></span></div><div><button class="btn primary" type="submit">Catat kehadiran saya</button></div></form>') +
           '<p class="small body">Hadir ' + kuo.hadir + ' dari ' + kuo.anggota + ' anggota. Kuorum ' + (kuo.tercapai ? 'tercapai.' : 'belum tercapai; perlu ' + kuo.perlu + ' anggota.') + '</p>' +
           (hadir ? '<div class="stack">' + rat.agenda.map(function (ag, i) {
             var su = rat.suara.filter(function (x) { return x.agenda_id === ag.id && x.anggota_id === a.id; })[0];
@@ -196,7 +205,7 @@
       '<table class="t"><tbody><tr><td>Jumlah aset</td><td class="r strong">' + rp(nr.aset) + '</td></tr><tr><td>Simpanan anggota (pokok, wajib, sukarela)</td><td class="r">' + rp(nr.pokok + nr.wajib + nr.sukarela) + '</td></tr>' +
       '<tr><td>Utang bank</td><td class="r">' + rp(nr.utangBank) + '</td></tr><tr><td>Pendapatan tahun berjalan</td><td class="r">' + rp(lr.pendapatan) + '</td></tr><tr><td>Beban tahun berjalan</td><td class="r">' + rp(lr.beban) + '</td></tr>' +
       '<tr><td><b>SHU tahun berjalan</b></td><td class="r strong">' + rp(lr.shu) + '</td></tr><tr><td>Usulan bagian anggota (70%)</td><td class="r">' + rp(Math.round(lr.shu * 0.7)) + '</td></tr><tr><td>Usulan cadangan (30%)</td><td class="r">' + rp(lr.shu - Math.round(lr.shu * 0.7)) + '</td></tr></tbody></table>' +
-      '<h3>Agenda</h3><ol class="body" style="margin:0;padding-left:20px">' + p.agenda.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol>' +
+      '<h3>Agenda</h3><ol class="u-list body">' + p.agenda.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol>' +
       '<p class="small mute">Sidik jari digital paket <span class="hash">' + esc(rat.paket.hash) + '</span>. ' + (TK.periksaPaket(rat) ? 'Isinya cocok dengan sidik jari, jadi paket tidak berubah sejak terbit.' : 'Isinya tidak cocok dengan sidik jari. Laporkan kepada pengawas.') + '</p>';
   };
   App.acts['baca-paket'] = function () {
@@ -225,9 +234,9 @@
     return '<section class="card"><div class="card-head"><h2>Berita acara RAT</h2>' + App.chip('Terbentuk otomatis', '', 'check') + '</div>' +
       '<dl class="dl"><dt>Tanggal RAT</dt><dd>' + App.tglPanjang(ba.tanggal_rat) + '</dd><dt>Dibuat</dt><dd>' + App.tglPanjang(ba.dibuat_pada) + '</dd><dt>Kehadiran</dt><dd>' + ba.kuorum.hadir + ' dari ' + ba.kuorum.anggota + ' anggota; kuorum ' + (ba.kuorum.tercapai ? 'tercapai' : 'tidak tercapai') + '</dd>' +
       '<dt>Sidik jari paket</dt><dd class="hash">' + App.pendek(ba.paket_hash, 16) + '</dd></dl>' +
-      '<div class="table-wrap" style="margin-top:16px"><table class="t"><thead><tr><th>Agenda</th><th class="r">Setuju</th><th class="r">Tidak</th><th class="r">Abstain</th><th>Hasil</th></tr></thead><tbody>' +
+      '<div class="u-mt-4 table-wrap"><table class="t"><thead><tr><th>Agenda</th><th class="r">Setuju</th><th class="r">Tidak</th><th class="r">Abstain</th><th>Hasil</th></tr></thead><tbody>' +
       ba.rekap.map(function (x) { return '<tr><td>' + esc(x.judul) + '</td><td class="r">' + x.rekap.Setuju + '</td><td class="r">' + x.rekap['Tidak setuju'] + '</td><td class="r">' + x.rekap.Abstain + '</td><td>' + (x.hasil === 'Diterima' ? '<span class="ind hijau">' + icon('check', 'sm') + 'Diterima</span>' : '<span class="ind merah">' + icon('x', 'sm') + esc(x.hasil) + '</span>') + '</td></tr>'; }).join('') +
-      '</tbody></table></div><p class="small mute" style="margin-top:12px">Sidik jari digital berita acara <span class="hash">' + App.pendek(ba.hash, 16) + '</span></p></section>';
+      '</tbody></table></div><p class="u-mt-3 small mute">Sidik jari digital berita acara <span class="hash">' + App.pendek(ba.hash, 16) + '</span></p></section>';
   };
 
   /* ---------- Ringkasan cetak A5 ---------- */

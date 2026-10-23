@@ -16,14 +16,14 @@
   App.acts.demo = function () {
     var s = App.state;
     var tamper = s._tamper;
-    var btn = function (act, ic, txt, attrs, cls) { return '<button class="btn ' + (cls || 'outline') + ' sm block" style="justify-content:flex-start" data-act="' + act + '" ' + (attrs || '') + '>' + icon(ic) + txt + '</button>'; };
+    var btn = function (act, ic, txt, attrs, cls) { return '<button class="u-start btn ' + (cls || 'outline') + ' sm block" data-act="' + act + '" ' + (attrs || '') + '>' + icon(ic) + txt + '</button>'; };
     var peran = ['ANG', 'PNG', 'PGW', 'KJD', 'DIN'].map(function (k) {
       return '<button class="btn ' + (App.session && App.session.peran === k ? 'dark' : 'secondary') + ' sm" data-act="demo-peran" data-p="' + k + '">' + App.PERAN[k].nama.replace(' KJDP', '').replace(' Koperasi', '') + '</button>';
     }).join('');
     App.sheet('Panel demo', '<p class="body">Alat bantu demonstrasi. Tidak ada di produk sesungguhnya.</p>' +
-      '<section class="stack sm"><h3>Masuk sebagai</h3><div class="row" style="gap:8px">' + peran + '</div></section>' +
+      '<section class="stack sm"><h3>Masuk sebagai</h3><div class="u-gap-2 row">' + peran + '</div></section>' +
       '<section class="stack sm"><h3>Tanggal dan koneksi</h3><p class="small body">Tanggal simulasi ' + App.tglPanjang(s.tanggalSimulasi) + ' · ' + (s.online ? 'Daring' : 'Luring') + '</p>' +
-      '<div class="row" style="gap:8px"><button class="btn secondary sm" data-act="demo-hari" data-n="1">+1 hari</button><button class="btn secondary sm" data-act="demo-hari" data-n="7">+7 hari</button><button class="btn secondary sm" data-act="demo-hari" data-n="15">+15 hari</button><button class="btn secondary sm" data-act="koneksi">' + icon(s.online ? 'wifiOff' : 'wifi') + (s.online ? 'Jadikan luring' : 'Jadikan daring') + '</button></div></section>' +
+      '<div class="u-gap-2 row"><button class="btn secondary sm" data-act="demo-hari" data-n="1">+1 hari</button><button class="btn secondary sm" data-act="demo-hari" data-n="7">+7 hari</button><button class="btn secondary sm" data-act="demo-hari" data-n="15">+15 hari</button><button class="btn secondary sm" data-act="koneksi">' + icon(s.online ? 'wifiOff' : 'wifi') + (s.online ? 'Jadikan luring' : 'Jadikan daring') + '</button></div></section>' +
       '<section class="stack sm"><h3>1. Pemulihan</h3><p class="small body">Lihat status Waspada di beranda anggota, lalu catat angsuran PJ-04 dan PJ-06 sebagai pengurus (bisa luring).</p>' +
       btn('demo-go', 'home', 'Beranda anggota (Siti Aminah)', 'data-p="ANG" data-l="beranda"') + btn('demo-go', 'plus', 'Catat angsuran PJ-04', 'data-p="PNG" data-l="catat" data-q="?j=T06&p=PJ-04"') +
       btn('demo-go', 'plus', 'Catat angsuran PJ-06', 'data-p="PNG" data-l="catat" data-q="?j=T06&p=PJ-06"') + btn('demo-go', 'lock', 'Pratinjau dan tutup buku Oktober', 'data-p="PNG" data-l="tutup"') + btn('demo-go', 'fileCheck', 'Pengawas: tinjau dan sahkan', 'data-p="PGW" data-l="tinjau"') + '</section>' +
