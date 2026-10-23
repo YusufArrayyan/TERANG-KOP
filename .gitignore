@@ -1,0 +1,4 @@
+.taste-skill/
+assets/
+node_modules/
+*.log
