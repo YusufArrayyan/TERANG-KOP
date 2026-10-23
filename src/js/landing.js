@@ -57,7 +57,7 @@
       '<p class="lp-why">' + esc(sk.penurun.length ? 'Paling menurunkan skor: ' + sk.penurun.slice(0, 2).map(function (i) { return i.nama.toLowerCase(); }).join(' dan ') + '.' : 'Semua indikator hijau.') + (sk.jumlahMerah >= 2 ? ' Dua indikator merah, status Perlu tindakan.' : '') + '</p></div></div>' +
       '<ul class="lp-ind" aria-label="Tujuh indikator">' + rows + '</ul>' +
       '<fieldset class="lp-checks"><legend>Coba tagih peminjam yang menunggak</legend>' + cek + '</fieldset>' +
-      '<p class="lp-readout" aria-live="polite">Dihitung ulang dari ' + h.n + ' entri buku besar · hash ujung <span class="hash">' + App.pendek(h.ujung, 8) + '</span></p>';
+      '<p class="lp-readout" aria-live="polite">Dihitung ulang dari ' + h.n + ' catatan buku besar · sidik jari terakhir <span class="hash">' + App.pendek(h.ujung, 8) + '</span></p>';
   }
 
   /* ---------- Potongan: tiga keadaan "dari catatan ke peringatan" ---------- */
@@ -75,8 +75,8 @@
     var sep = d.sep, tk = s.tiket.filter(function (t) { return t.koperasi_id === s.koperasi.id && t.periode_id === '2026-09'; })[0];
     return '<div class="lp-state" data-ui data-state="0"><div class="lp-frag-head"><div><b>Antrean luring</b><span>Ponsel bendahara, tanpa sinyal</span></div>' +
       '<span class="conn" data-online="false">' + icon('wifiOff') + 'Luring <span class="count">2</span></span></div>' + antre +
-      '<p class="lp-note">Setiap entri membawa ID klien unik; sinkron ulang tidak menggandakan.</p></div>' +
-      '<div class="lp-state" data-ui data-state="1"><div class="lp-frag-head"><div><b>Buku besar</b><span>' + s.entri.length + ' entri, hanya tambah</span></div>' + App.chip('Rantai utuh', '', 'link') + '</div>' + buku +
+      '<p class="lp-note">Setiap catatan punya nomor unik, jadi kiriman ulang tidak tercatat dua kali.</p></div>' +
+      '<div class="lp-state" data-ui data-state="1"><div class="lp-frag-head"><div><b>Buku besar</b><span>' + s.entri.length + ' catatan, tidak bisa diubah atau dihapus</span></div>' + App.chip('Rantai utuh', '', 'link') + '</div>' + buku +
       '<div class="lp-frag-score sm">' + App.gauge(sep.nilai, sep.status, true) + '<div class="stack sm"><b>Tutup buku September</b>' + App.statusBadge(sep.status) + '</div></div></div>' +
       '<div class="lp-state" data-ui data-state="2"><div class="lp-frag-head"><div><b>' + esc(tk.id) + ' · ' + esc(tk.jenis) + '</b><span>Untuk ' + esc(tk.pemilik_nama) + ', salinan ' + esc(tk.salinan.join(', ')) + '</span></div>' + App.chip(tk.status, 'amber') + '</div>' +
       '<p class="lp-ticket">' + esc(tk.ringkasan) + '</p><dl class="dl"><dt>Dibuat</dt><dd>' + App.tglPanjang(tk.dibuat) + '</dd><dt>Tenggat kontak</dt><dd>' + App.tglPanjang(tk.tenggat) + '</dd></dl>' +
@@ -111,7 +111,7 @@
       return kepala('Paket RAT 2026 · terkunci', 'Terbit ' + tgl(p.terbit_pada) + ', H-' + p.h_minus + ' dari RAT ' + tgl(d.rat.rat.tanggal)) +
         '<table><tbody>' + baris('SHU tahun berjalan sampai September', rp(p.isi.laba_rugi.shu), 1) + baris('Usulan bagian anggota (70%)', rp(Math.round(p.isi.laba_rugi.shu * 0.7))) + baris('Usulan cadangan (30%)', rp(p.isi.laba_rugi.shu - Math.round(p.isi.laba_rugi.shu * 0.7))) + '</tbody></table>' +
         '<ol>' + p.isi.agenda.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ol>' +
-        '<p class="lp-sheet-foot">Sidik jari paket <span class="hash">' + App.pendek(p.hash, 14) + '</span>. Setelah terbit, isi paket tidak dapat diubah.</p>';
+        '<p class="lp-sheet-foot">Setelah terbit, isi paket dikunci dan tidak dapat diubah. Sidik jari paket <span class="hash">' + App.pendek(p.hash, 14) + '</span>.</p>';
     }
     var ba = d.rat.rat.berita_acara;
     return kepala('Berita acara RAT 2026', 'Terbentuk otomatis dari daftar hadir dan hasil suara') +
@@ -130,14 +130,14 @@
       var d = data();
       var langkah = [
         ['Catat sekali, bahkan tanpa sinyal.', 'Pengurus mencatat simpanan, angsuran, dan penjualan gerai di ponsel. Entri luring menunggu di antrean dan masuk buku besar saat sinyal kembali.'],
-        ['Lalu buku besar menghitung skornya.', 'Tiap tutup buku, tujuh indikator adaptasi PEARLS dihitung dari entri yang sama. Setiap entri membawa sidik jari SHA-256 yang mengait ke entri sebelumnya.'],
-        ['Bila skor turun, tiket bertenggat terbuka.', 'Waspada memanggil pendamping KJDP dalam tujuh hari kerja. Perlu tindakan memberi pengurus 14 hari untuk menjelaskan langkahnya kepada anggota.']
+        ['Lalu buku besar menghitung skornya.', 'Saat tutup buku bulanan, sistem menghitung tujuh indikator kesehatan (adaptasi PEARLS) dari catatan yang sama. Setiap catatan dikunci dengan sidik jari digital, jadi perubahan diam-diam ketahuan.'],
+        ['Bila skor turun, tiket bertenggat terbuka.', 'Status Waspada mewajibkan pendamping KJDP menghubungi pengurus dalam tujuh hari kerja. Status Perlu tindakan memberi pengurus 14 hari untuk menjelaskan langkah perbaikannya kepada anggota secara tertulis.']
       ];
       return '<div class="lp">' +
         '<header class="lp-hero" aria-labelledby="lp-h1">' +
         '<div class="lp-hero-text"><a class="lp-mark" href="#/" aria-label="TERANG-KOP">' + App.LOGO + '<b translate="no">TERANG-KOP</b></a>' +
-        '<div class="lp-hero-copy"><h1 id="lp-h1"><span class="lp-line"><span>Pembukuan koperasi</span></span><span class="lp-line"><span>yang terang</span></span></h1>' +
-        '<p class="lp-lead">TERANG-KOP mencatat setiap transaksi Koperasi Desa Merah Putih, menghitung skor kesehatannya tiap bulan, dan memberi peringatan kepada anggota sebelum masalah membesar.</p>' +
+        '<div class="lp-hero-copy"><h1 id="lp-h1"><span class="lp-line"><span>Angka koperasi desa,</span></span><span class="lp-line"><span>terbuka bagi anggota</span></span></h1>' +
+        '<p class="lp-lead">TERANG-KOP adalah pembukuan Koperasi Desa Merah Putih. Pengurus mencatat transaksi di ponsel, bahkan tanpa sinyal. Setiap bulan anggota melihat saldonya dan skor kesehatan koperasi. Kalau skor turun, pengurus wajib menjelaskan langkahnya dalam 14 hari.</p>' +
         '<div class="row"><a class="btn lp-btn" href="#/masuk">Coba prototipe</a><button type="button" class="btn lp-ghost" data-act="lp-ke" data-to="lp-alur">Lihat cara kerjanya</button></div></div></div>' +
         '<div class="lp-hero-stage"><a class="lp-top-link" href="#/masuk">Masuk ke prototipe</a><div class="lp-frag" data-ui id="lp-skor">' + fragSkor([]) + '</div></div>' +
         '</header>' +
@@ -146,7 +146,7 @@
         '<section class="lp-intro" aria-labelledby="lp-intro-h"><div class="lp-intro-text"><h2 id="lp-intro-h">Sekitar 21 anggota per koperasi</h2>' +
         '<p class="first">Lebih dari 80.000 desa membentuk Koperasi Desa/Kelurahan Merah Putih sejak Inpres Nomor 9 Tahun 2025, dengan anggota melampaui 1,7 juta orang pada Januari 2026. Dibagi rata, satu koperasi hanya beranggotakan sekitar 21 orang.</p>' +
         '<p>Kepemilikan setipis itu membuat pengawasan oleh anggota sulit berjalan dengan sendirinya. Jumlah koperasi aktif turun dari 209.448 unit pada 2014 menjadi 130.119 pada akhir 2023, dan hanya 71,5% yang menggelar RAT.</p>' +
-        '<p>Delapan koperasi bermasalah menimbulkan kerugian Rp26 triliun. Penjaminan simpanan bekerja setelah koperasi gagal. TERANG-KOP dirancang untuk bekerja sebelum itu: anggota melihat angkanya setiap bulan, dan setiap kemunduran memicu tindakan bertenggat.</p>' +
+        '<p>Delapan koperasi bermasalah menimbulkan kerugian Rp26 triliun. Penjaminan simpanan bekerja setelah koperasi gagal. TERANG-KOP dirancang untuk bekerja sebelum itu: anggota melihat angka koperasinya tiap bulan, dan skor yang turun langsung membuka tugas bertenggat bagi pengurus atau pendamping.</p>' +
         '<p class="small body">Sumber: Revindo (2026); InvestorTrust.id (2026b); Rajagukguk (2025); Antara (2025). Rincian di esai COOPFEST 2026.</p></div>' +
         '<figure class="lp-intro-fig">' + foto('img/tugu.jpg', 'Tugu peringatan Kongres Koperasi di Tasikmalaya, lambang koperasi di atas alas hitam di antara pilar putih', 1100, 619) +
         '<figcaption>Tugu Kongres Koperasi pertama di Tasikmalaya. Gerakan koperasi Indonesia berumur hampir delapan puluh tahun.</figcaption></figure></section>' +
@@ -178,7 +178,7 @@
         '<div class="lp-letter"><h2 id="lp-surat-h">Mengapa koperasi pemuda</h2><span class="avatar" aria-hidden="true">MY</span>' +
         '<p>Program magang dan KKN mendekatkan mahasiswa dengan koperasi, tetapi penempatannya sementara, sedangkan pembukuan menuntut kesinambungan setiap bulan. Perangkat lunak saja juga tidak menjamin kebiasaan memakainya.</p>' +
         '<p>Karena itu saya mengusulkan Koperasi Jasa Digital Pemuda di tingkat kabupaten. Pemudanya menjadi anggota sekaligus pekerja, memperoleh pendapatan dari tarif layanan yang disepakati dalam RAT, dan berkepentingan agar koperasi yang didampinginya tetap sehat.</p>' +
-        '<p>Risiko kepentingan ganda saya jawab dengan membuka rumus skor kepada pengawas dan dinas. Dinas dapat menghitung ulang dari data yang sama dan harus mendapat hasil yang sama.</p>' +
+        '<p>KJDP menghitung skor koperasi yang juga membayar jasanya. Supaya penilaiannya tetap jujur, rumus skor dibuka untuk pengawas dan dinas, dan dinas bisa menghitung ulang dari data yang sama untuk memastikan hasilnya cocok.</p>' +
         '<p class="lp-sign">Muhammad Yusuf Arrayyan</p><p class="small body">Penggagas, Universitas Bengkulu · esai COOPFEST 2026</p></div></section>' +
 
         '<section class="lp-proof" aria-labelledby="lp-proof-h"><div class="lp-tiles"><div class="lp-tile lead"><h2 id="lp-proof-h">Pijakan rancangan</h2></div>' +
@@ -187,7 +187,7 @@
         }).join('') + '</div></section>' +
 
         '<section class="lp-cta" aria-labelledby="lp-cta-h"><div class="lp-cta-text"><h2 id="lp-cta-h">Buka bukunya</h2><p>Pilih peran, lalu jalankan skenario demo dari tombol Panel demo. Semua data simulasi; tidak ada data koperasi nyata.</p></div>' +
-        '<form class="lp-dialog" data-ui data-form="lp-masuk"><h3>Masuk ke prototipe</h3><p class="small body">Prototipe tanpa otentikasi sungguhan.</p>' +
+        '<form class="lp-dialog" data-ui data-form="lp-masuk"><h3>Masuk ke prototipe</h3><p class="small body">Di prototipe ini tidak ada kata sandi. Pilih peran, lalu masuk.</p>' +
         '<div class="field"><span class="flabel" id="lp-peran-l">Peran</span><div class="seg lp-seg" role="radiogroup" aria-labelledby="lp-peran-l">' +
         ['ANG', 'PNG', 'PGW', 'KJD', 'DIN'].map(function (k, i) { return '<label><input type="radio" name="peran" value="' + k + '"' + (i === 0 ? ' checked' : '') + '><span>' + App.PERAN[k].nama.replace('Pendamping KJDP', 'Pendamping').replace('Dinas Koperasi', 'Dinas') + '</span></label>'; }).join('') + '</div></div>' +
         '<div class="field" id="lp-ang"><label for="lp-anggota">Anggota</label><select class="input" id="lp-anggota" name="anggota">' +

@@ -1,0 +1,16 @@
+# Blueprint Render: situs statis prototipe TERANG-KOP.
+# Render menjalankan build lalu menerbitkan folder dist/ (index.html berisi seluruh aplikasi).
+services:
+  - type: web
+    name: terang-kop
+    runtime: static
+    buildCommand: node build.mjs
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: false
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin

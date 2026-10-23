@@ -166,7 +166,7 @@
       if (!rat.paket) return head + '<div class="stack lg">' + status + '</div>';
       var dibaca = rat.dibaca[a.id];
       var paket = '<section class="card"><div class="card-head"><h2>Paket laporan RAT</h2>' + (dibaca ? App.chip('Dibaca ' + tgl(dibaca), '', 'check') : App.chip('Belum dibaca', 'amber')) + '</div>' +
-        '<p class="body">Terbit ' + App.tglPanjang(rat.paket.terbit_pada) + ' (H-' + rat.paket.h_minus + '), dikunci dengan hash <span class="hash">' + App.pendek(rat.paket.hash, 12) + '</span>.</p>' +
+        '<p class="body">Terbit ' + App.tglPanjang(rat.paket.terbit_pada) + ' (H-' + rat.paket.h_minus + '), dikunci sehingga isinya tidak bisa diubah lagi. Sidik jari digital: <span class="hash">' + App.pendek(rat.paket.hash, 12) + '</span>.</p>' +
         '<div class="row" style="margin-top:16px"><button class="btn ' + (dibaca ? 'outline' : 'primary') + '" data-act="baca-paket">' + icon('book') + (dibaca ? 'Baca lagi paket RAT' : 'Baca paket RAT') + '</button></div></section>';
       var hadir = rat.kehadiran.some(function (k) { return k.anggota_id === a.id; });
       var kuo = TK.kuorumRAT(s);
@@ -196,7 +196,7 @@
       '<tr><td>Utang bank</td><td class="r">' + rp(nr.utangBank) + '</td></tr><tr><td>Pendapatan tahun berjalan</td><td class="r">' + rp(lr.pendapatan) + '</td></tr><tr><td>Beban tahun berjalan</td><td class="r">' + rp(lr.beban) + '</td></tr>' +
       '<tr><td><b>SHU tahun berjalan</b></td><td class="r strong">' + rp(lr.shu) + '</td></tr><tr><td>Usulan bagian anggota (70%)</td><td class="r">' + rp(Math.round(lr.shu * 0.7)) + '</td></tr><tr><td>Usulan cadangan (30%)</td><td class="r">' + rp(lr.shu - Math.round(lr.shu * 0.7)) + '</td></tr></tbody></table>' +
       '<h3>Agenda</h3><ol class="body" style="margin:0;padding-left:20px">' + p.agenda.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol>' +
-      '<p class="small mute">Hash paket <span class="hash">' + esc(rat.paket.hash) + '</span>. Isi paket ' + (TK.periksaPaket(rat) ? 'cocok dengan hash; paket tidak berubah sejak terbit.' : 'tidak cocok dengan hash.') + '</p>';
+      '<p class="small mute">Sidik jari digital paket <span class="hash">' + esc(rat.paket.hash) + '</span>. ' + (TK.periksaPaket(rat) ? 'Isinya cocok dengan sidik jari, jadi paket tidak berubah sejak terbit.' : 'Isinya tidak cocok dengan sidik jari. Laporkan kepada pengawas.') + '</p>';
   };
   App.acts['baca-paket'] = function () {
     var s = App.state, a = aku();
@@ -223,10 +223,10 @@
   App.ui.beritaAcara = function (ba) {
     return '<section class="card"><div class="card-head"><h2>Berita acara RAT</h2>' + App.chip('Terbentuk otomatis', '', 'check') + '</div>' +
       '<dl class="dl"><dt>Tanggal RAT</dt><dd>' + App.tglPanjang(ba.tanggal_rat) + '</dd><dt>Dibuat</dt><dd>' + App.tglPanjang(ba.dibuat_pada) + '</dd><dt>Kehadiran</dt><dd>' + ba.kuorum.hadir + ' dari ' + ba.kuorum.anggota + ' anggota; kuorum ' + (ba.kuorum.tercapai ? 'tercapai' : 'tidak tercapai') + '</dd>' +
-      '<dt>Paket</dt><dd class="hash">' + App.pendek(ba.paket_hash, 16) + '</dd></dl>' +
+      '<dt>Sidik jari paket</dt><dd class="hash">' + App.pendek(ba.paket_hash, 16) + '</dd></dl>' +
       '<div class="table-wrap" style="margin-top:16px"><table class="t"><thead><tr><th>Agenda</th><th class="r">Setuju</th><th class="r">Tidak</th><th class="r">Abstain</th><th>Hasil</th></tr></thead><tbody>' +
       ba.rekap.map(function (x) { return '<tr><td>' + esc(x.judul) + '</td><td class="r">' + x.rekap.Setuju + '</td><td class="r">' + x.rekap['Tidak setuju'] + '</td><td class="r">' + x.rekap.Abstain + '</td><td>' + (x.hasil === 'Diterima' ? '<span class="ind hijau">' + icon('check', 'sm') + 'Diterima</span>' : '<span class="ind merah">' + icon('x', 'sm') + esc(x.hasil) + '</span>') + '</td></tr>'; }).join('') +
-      '</tbody></table></div><p class="small mute" style="margin-top:12px">Hash berita acara <span class="hash">' + App.pendek(ba.hash, 16) + '</span></p></section>';
+      '</tbody></table></div><p class="small mute" style="margin-top:12px">Sidik jari digital berita acara <span class="hash">' + App.pendek(ba.hash, 16) + '</span></p></section>';
   };
 
   /* ---------- Ringkasan cetak A5 ---------- */

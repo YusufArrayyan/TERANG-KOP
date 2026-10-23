@@ -311,7 +311,7 @@
       document.documentElement.setAttribute('data-theme', 'light'); // halaman depan selalu terang
       var tc = document.querySelector('meta[name="theme-color"]'); if (tc) tc.setAttribute('content', '#0d2a22');
       root.innerHTML = App.views.depan.render(r);
-      document.title = 'TERANG-KOP · pembukuan Koperasi Desa Merah Putih yang terang';
+      document.title = 'TERANG-KOP · pembukuan Koperasi Desa Merah Putih yang terbuka bagi anggota';
       App.views.depan.after(r);
       if (App._lastRoute !== location.hash) window.scrollTo(0, 0);
       App._lastRoute = location.hash;

@@ -322,7 +322,7 @@
     var akibat = pv.skor.status === 'Perlu tindakan' ? 'Status Perlu tindakan akan membuat tiket Tindak lanjut untuk pengurus dengan tenggat 14 hari; penjelasan tertulis kepada anggota wajib.' :
       pv.skor.status === 'Waspada' ? 'Status Waspada akan membuat tiket Pendampingan untuk pendamping KJDP.' : 'Tidak ada tiket yang dibuat.';
     App.confirm({ judul: 'Tutup buku ' + TK.namaPeriode(pid) + '?', tombol: 'Tutup buku ' + TK.namaBulan(pid),
-      isi: '<p>Skor ' + pv.skor.nilai + ' (' + esc(pv.skor.status) + ') dikunci bersama hash ujung buku besar. Entri bertanggal ' + TK.namaBulan(pid) + ' tidak dapat ditambah lagi; koreksi memakai entri pembalik di bulan berikutnya.</p><p>' + akibat + '</p>' }).then(function (ok) {
+      isi: '<p>Skor ' + pv.skor.nilai + ' (' + esc(pv.skor.status) + ') dikunci bersama sidik jari catatan terakhir buku besar. Entri bertanggal ' + TK.namaBulan(pid) + ' tidak dapat ditambah lagi; koreksi memakai entri pembalik di bulan berikutnya.</p><p>' + akibat + '</p>' }).then(function (ok) {
       if (!ok) return;
       var r = TK.tutupBuku(App.state, pid, 'PNG');
       if (!r.ok) { App.toast(r.pesan, 'bad'); return; }

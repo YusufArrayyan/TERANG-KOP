@@ -19,4 +19,6 @@ const img = (p) => `data:image/jpeg;base64,${readFileSync(join(root, 'src', p)).
 html = html.replace(/(["'])(img\/[a-z0-9-]+\.jpg)\1/g, (_, q, p) => q + img(p) + q);
 mkdirSync(join(root, 'dist'), { recursive: true });
 writeFileSync(join(root, 'dist', 'terang-kop.html'), html);
+// Salinan untuk hosting statis (Render): alamat utama langsung membuka prototipe.
+writeFileSync(join(root, 'dist', 'index.html'), html);
 console.log('dist/terang-kop.html', (Buffer.byteLength(html) / 1024).toFixed(1), 'KB');

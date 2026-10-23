@@ -14,6 +14,10 @@ node serve.mjs
 
 lalu buka http://localhost:5173.
 
+## Terbitkan di Render
+
+Repo ini berisi `render.yaml`. Di dasbor Render pilih **New > Blueprint**, hubungkan repo `YusufArrayyan/TERANG-KOP`, lalu terapkan. Render menjalankan `node build.mjs` dan menerbitkan folder `dist/` sebagai situs statis; alamat utama membuka halaman depan.
+
 ## Membangun ulang berkas tunggal
 
 ```bash

@@ -337,7 +337,7 @@
       return {
         kode: kode, nama: def.nama, nilai: x.nilai, warna: warna, skor: skor, bobot: def.bobot,
         kontribusi: def.bobot * skor / 100, hilang: def.bobot * (100 - skor) / 100,
-        catatan: x.catatan || (x.kosong ? 'Tidak ada data' : (x.paksaMerah ? 'Penyebut nol atau negatif' : null)),
+        catatan: x.catatan || (x.kosong ? 'Tidak ada data' : (x.paksaMerah ? 'Tidak bisa dihitung: pembaginya nol atau negatif' : null)),
         rumus: def.rumus, saran: def.saran, satuan: def.satuan
       };
     });
@@ -423,7 +423,7 @@
       else {
         if (p.anggota_id !== draft.anggota_id) galat.push({ field: 'pinjaman_id', pesan: 'Pinjaman ini bukan milik anggota yang dipilih.' });
         var stp = statusPinjaman(state, p, draft.tanggal || state.tanggalSimulasi);
-        if (stp && draft.pokok > stp.sisa) { galat.push({ field: 'pokok', pesan: 'Pokok melebihi sisa pinjaman (' + rp(stp.sisa) + ').' }); tinjau = true; }
+        if (stp && draft.pokok > stp.sisa) { galat.push({ field: 'pokok', pesan: 'Pokok melebihi sisa pinjaman. Isi paling banyak ' + rp(stp.sisa) + '.' }); tinjau = true; }
       }
     }
     if (draft.jenis === 'T05') {
@@ -432,7 +432,7 @@
     }
     if (draft.jenis === 'T04' && draft.anggota_id && bulat(draft.nominal)) {
       var sal = saldoAnggota(state, draft.anggota_id).sukarela;
-      if (draft.nominal > sal) { galat.push({ field: 'nominal', pesan: 'Penarikan ' + rp(draft.nominal) + ' melebihi saldo sukarela anggota (' + rp(sal) + ').' }); tinjau = true; }
+      if (draft.nominal > sal) { galat.push({ field: 'nominal', pesan: 'Penarikan ' + rp(draft.nominal) + ' melebihi saldo sukarela anggota. Isi paling banyak ' + rp(sal) + '.' }); tinjau = true; }
     }
     // Uang keluar tidak boleh melebihi saldo kas atau bank (aturan saldo, diperiksa ulang saat sinkron).
     var sumber = { T04: '1101', T05: '1101', T08: '1101', T09: '1101', T11: '1102' }[draft.jenis];
@@ -440,7 +440,7 @@
       var keluar = draft.jenis === 'T11' ? (draft.pokok || 0) + (draft.jasa || 0) : draft.nominal;
       var saldo = saldoAkun(state.entri, '9999-12-31')[sumber];
       if (keluar > saldo) {
-        galat.push({ field: draft.jenis === 'T11' ? 'pokok' : 'nominal', pesan: 'Saldo ' + AKUN[sumber].nama.toLowerCase() + ' tidak cukup: ' + rp(saldo) + ' tersedia, ' + rp(keluar) + ' diminta.' });
+        galat.push({ field: draft.jenis === 'T11' ? 'pokok' : 'nominal', pesan: 'Saldo ' + AKUN[sumber].nama.toLowerCase() + ' tinggal ' + rp(saldo) + ', tidak cukup untuk ' + rp(keluar) + '. Kurangi nominalnya, atau catat dulu uang yang masuk.' });
         tinjau = true;
       }
     }
@@ -455,7 +455,7 @@
     if (galat.length === 0) {
       var d = 0, k = 0;
       baris.forEach(function (b) { d += b.debit || 0; k += b.kredit || 0; if (!bulat(b.debit || 0) || !bulat(b.kredit || 0)) galat.push({ field: 'nominal', pesan: 'Nominal harus bilangan bulat rupiah.' }); });
-      if (d !== k) galat.push({ field: 'nominal', pesan: 'Debit dan kredit tidak seimbang.' });
+      if (d !== k) galat.push({ field: 'nominal', pesan: 'Debit dan kredit tidak seimbang. Periksa lagi nominal pokok dan jasa.' });
       if (d <= 0) galat.push({ field: 'nominal', pesan: 'Nominal harus lebih dari nol.' });
     }
     return { ok: galat.length === 0, galat: galat, tinjau: tinjau && galat.every(function (g) { return g.field === 'nominal' || g.field === 'pokok'; }), baris: baris };
