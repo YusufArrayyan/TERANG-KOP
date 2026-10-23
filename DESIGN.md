@@ -54,3 +54,7 @@ Semua nilai lewat token di `:root` pada `src/css/app.css`; tidak ada gaya inline
 | Warna peran | `--hero-bg`, `--on-hero`, `--paper*` (lembar cetak selalu putih), `--on-strong` |
 
 Tombol: `primary` (satu aksi utama per layar), `secondary` (bergaris tepi; `.outline` alias lama), `ghost` (teks bergaris bawah), `danger`. Paragraf rata kiri-kanan hanya di wadah selebar 560 px ke atas (container query). Galat formulir tampil di bawah kolomnya.
+
+## Halaman depan React (Oktober 2026)
+
+Dibangun ulang dengan React + Tailwind CSS 4 + Motion + Three.js (`landing/`). Tailwind memakai awalan `tw:` tanpa reset global; seluruh CSS aplikasi berada di `@layer app`, sehingga utilitas halaman depan tidak bertabrakan dengan komponen aplikasi. Warna Tailwind dipetakan ke token aplikasi (`@theme inline`). Satu elemen 3D: batang riwayat skor Januari sampai September dengan bidang ambang 80 dan 55, berayun pelan, bisa diseret, berhenti saat di luar layar, statis bila gerak dikurangi, dan beralih ke batang 2D bila WebGL tidak ada. Animasi lain hanya geser naik pendek tanpa mengubah opasitas, jadi isi selalu terlihat. Berkas tunggal menjadi sekitar 1,6 MB karena Three.js (melewati batas 1 MB konsep v1.0, atas persetujuan pemilik).

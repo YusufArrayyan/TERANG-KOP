@@ -1,0 +1,57 @@
+/* Halaman depan TERANG-KOP.
+   Tailwind tanpa reset global (preflight) dan dengan awalan tw: agar tidak bertabrakan
+   dengan kelas aplikasi. CSS aplikasi berada di @layer app, jadi utilitas selalu menang. */
+@layer app, theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme) prefix(tw);
+@import "tailwindcss/utilities.css" layer(utilities) prefix(tw);
+@source "./";
+
+/* Warna dan huruf diambil dari token aplikasi (src/css/app.css). */
+@theme inline {
+  --font-sans: var(--font);
+  --color-deep: oklch(0.255 0.045 172);
+  --color-deep-2: oklch(0.315 0.052 172);
+  --color-on-deep: oklch(0.975 0.008 172);
+  --color-on-deep-soft: oklch(0.87 0.025 172);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-pale: var(--brand-pale);
+  --color-amber: var(--amber);
+  --color-amber-ink: var(--amber-ink);
+  --color-amber-pale: var(--amber-pale);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-mute: var(--mute);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-paper: var(--paper);
+  --color-paper-ink: var(--paper-ink);
+  --color-paper-mute: var(--paper-mute);
+  --color-paper-line: var(--paper-line);
+  --color-ok: var(--ok-mark);
+  --color-ok-bg: var(--ok-bg);
+  --color-ok-ink: var(--ok-ink);
+  --color-warn: var(--warn-mark);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-ink: var(--warn-ink);
+  --color-bad: var(--bad-mark);
+  --color-bad-bg: var(--bad-bg);
+  --color-bad-ink: var(--bad-ink);
+  --color-cal: var(--cal-mark);
+  --color-cal-bg: var(--cal-bg);
+  --color-cal-ink: var(--cal-ink);
+  --radius-card: var(--r-lg);
+  --radius-ctl: var(--r-sm);
+}
+
+@layer components {
+  .lp-root { background: var(--canvas); color: var(--ink); overflow-x: clip; }
+  .lp-root :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .lp-root .on-deep :focus-visible { outline-color: var(--amber); }
+  /* Bar kalibrasi bergaris, sama dengan riwayat skor di aplikasi */
+  .lp-hatch { background: repeating-linear-gradient(135deg, var(--cal-mark) 0 4px, var(--cal-bg) 4px 8px); }
+}

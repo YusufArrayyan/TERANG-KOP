@@ -56,7 +56,7 @@ for (const v of VARIAN) {
   cek(await page.locator('#lp-h1').isVisible(), 'halaman depan publik tampil tanpa sesi');
   const lp = await page.evaluate(async () => {
     const w = (t) => new Promise((r) => setTimeout(r, t || 60));
-    const nilai = () => +document.querySelector('#lp-skor .gauge b').textContent;
+    const nilai = () => +document.querySelector('#lp-skor [data-skor]').dataset.skor;
     const a = nilai();
     document.querySelector('[data-lp-tagih="PJ-04"]').click(); await w();
     document.querySelector('[data-lp-tagih="PJ-06"]').click(); await w();

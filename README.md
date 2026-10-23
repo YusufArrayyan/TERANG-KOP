@@ -20,6 +20,14 @@ Repo ini berisi `render.yaml`. Di dasbor Render pilih **New > Blueprint**, hubun
 
 ## Membangun ulang berkas tunggal
 
+Halaman depan dibuat dengan React 19, Tailwind CSS 4, Motion, dan Three.js di folder `landing/`. Hasil build-nya (`src/landing/landing.js` dan `landing.css`) ikut disimpan di repo, jadi aplikasi bisa langsung dibuka tanpa memasang apa pun. Setelah mengubah `landing/src`, bangun ulang:
+
+```bash
+cd landing && npm install && npm run build
+```
+
+Lalu satukan semuanya menjadi satu berkas:
+
 ```bash
 node build.mjs
 ```
@@ -46,10 +54,10 @@ Menjalankan halaman depan, semua layar, dan skenario demo di desktop dan ponsel 
 | `src/js/seed.js` | Kopdes Sukamaju (21 anggota, sembilan bulan buku, dibangun lewat mesin yang sama) dan 29 koperasi simulasi |
 | `src/js/core.js` | Penyimpanan, sesi, router, kerangka, komponen |
 | `src/js/views-*.js` | Layar per peran: Anggota, Pengurus/Pengawas, Pendamping/Dinas, dan layar bersama |
-| `src/js/landing.js` | Halaman depan publik: alur esai, skor yang bisa dioperasikan (dihitung mesin yang sama), lembar keluaran, kalkulator pemuda KJDP |
+| `landing/src/` | Halaman depan publik (React + Tailwind + Motion + Three.js): grafik 3D riwayat skor, skor yang bisa dioperasikan, cara kerja, lembar keluaran, peta penugasan pemuda KJDP. Semua angka dihitung oleh `src/js/engine.js` |
+| `src/js/landing-mount.js` | Menghubungkan rute `#/` ke halaman depan React |
 | `src/js/demo.js` | Panel demo dan pemuatan awal |
 | `src/css/app.css` | Token desain dan komponen (lihat `DESIGN.md`) |
-| `src/css/landing.css` | Halaman depan publik |
 | `brand/` | Logo TERANG-KOP: SVG hijau dan putih, PNG transparan 1024 px, ikon berlatar putih 512 px, dan PNG asli |
 | `src/img/` | Empat foto berlisensi CC untuk halaman depan, disisipkan ke berkas tunggal saat build |
 

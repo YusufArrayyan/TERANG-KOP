@@ -1,3 +1,6 @@
+/* Urutan lapisan: gaya aplikasi paling bawah, utilitas Tailwind halaman depan paling atas. */
+@layer app, theme, base, components, utilities;
+@layer app {
 /* TERANG-KOP — token dan komponen.
    Struktur turunan Wise (Inter, tombol pil, kartu 16 px, kontras permukaan sebagai elevasi). Semua nilai lewat token di :root.
    warna dari logo: hijau koperasi sebagai merek, kuning amber sebagai aksen pertumbuhan. */
@@ -569,3 +572,5 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
   main { padding: 0; }
   .a5 { box-shadow: none; }
 }
+
+} /* akhir @layer app */

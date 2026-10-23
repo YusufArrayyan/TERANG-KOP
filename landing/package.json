@@ -1,0 +1,23 @@
+{
+  "name": "terang-kop-landing",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Halaman depan TERANG-KOP: React + Tailwind + Motion + Three.js. Hasil build disisipkan ke berkas tunggal oleh ../build.mjs.",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch"
+  },
+  "dependencies": {
+    "motion": "^14.6.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.2",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.5"
+  }
+}
