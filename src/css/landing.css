@@ -122,7 +122,7 @@
 .lp-alur-text:has(.lp-step.on) .lp-step:not(.on) .lp-step-t { color: var(--mute); }
 .lp-step-s { color: var(--ink); max-width: 44ch !important; }
 .lp-step-img { aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--r-lg); max-width: 420px; margin-top: var(--s2); }
-.lp-alur-stage { grid-column: 6 / span 7; position: sticky; top: 10vh; min-height: 80vh; background: var(--lp-deep); color: var(--lp-on-deep); border-radius: var(--r-lg); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: var(--s6); padding: var(--s5) var(--s6) var(--s6); margin-top: 72px; }
+.lp-alur-stage { grid-column: 6 / span 7; position: sticky; top: 10vh; min-height: min(80vh, 760px); background: var(--lp-deep); color: var(--lp-on-deep); border-radius: var(--r-lg); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: var(--s6); padding: var(--s5) var(--s6) var(--s6); margin-top: 72px; }
 .lp-stage-nav { display: flex; gap: var(--s1); padding: var(--s1); border-radius: var(--r-pill); background: var(--lp-deep-2); align-self: stretch; }
 .lp-stage-nav button { flex: 1; min-height: 44px; border: 0; border-radius: var(--r-pill); background: transparent; color: var(--lp-on-deep-soft); font-weight: 600; font-size: var(--fs-sm); cursor: pointer; transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease); }
 .lp-stage-nav button:hover { color: var(--lp-on-deep); }
