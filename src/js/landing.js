@@ -136,6 +136,7 @@
       return '<div class="lp">' +
         '<header class="lp-hero" aria-labelledby="lp-h1">' +
         '<div class="lp-hero-text"><a class="lp-mark" href="#/" aria-label="TERANG-KOP">' + App.LOGO + '<b translate="no">TERANG-KOP</b></a>' +
+        '<figure class="lp-hero-fig">' + foto('img/warung.jpg', 'Warung bercat biru di Desa Ngawonggo, Malang, dengan pintu kayu terbuka', 1100, 619, '', true) + '<figcaption>Warung di Desa Ngawonggo, Malang: skala usaha yang dibukukan koperasi desa setiap hari.</figcaption></figure>' +
         '<div class="lp-hero-copy"><h1 id="lp-h1"><span class="lp-line"><span>Angka koperasi desa,</span></span><span class="lp-line"><span>terbuka bagi anggota</span></span></h1>' +
         '<p class="lp-lead">TERANG-KOP adalah pembukuan Koperasi Desa Merah Putih. Pengurus mencatat transaksi di ponsel, bahkan tanpa sinyal. Setiap bulan anggota melihat saldonya dan skor kesehatan koperasi. Kalau skor turun, pengurus wajib menjelaskan langkahnya dalam 14 hari.</p>' +
         '<div class="row"><a class="btn lp-btn" href="#/masuk">Coba prototipe</a><button type="button" class="btn lp-ghost" data-act="lp-ke" data-to="lp-alur">Lihat cara kerjanya</button></div></div></div>' +
@@ -143,10 +144,17 @@
         '</header>' +
 
         '<main id="konten" class="lp-main">' +
+        '<section class="lp-data" aria-labelledby="lp-data-h"><h2 id="lp-data-h" class="sr-only">Angka Koperasi Desa Merah Putih</h2><dl>' +
+        [['80.000+', 'desa membentuk Koperasi Desa/Kelurahan Merah Putih sejak Maret 2025', 'Revindo, 2026'],
+         ['1,7 juta', 'anggota tercatat pada Januari 2026, sekitar 21 orang per koperasi', 'InvestorTrust.id, 2026b'],
+         ['71,5%', 'koperasi aktif yang masih menggelar RAT pada akhir 2023', 'Rajagukguk, 2025'],
+         ['Rp26 triliun', 'kerugian dari delapan koperasi bermasalah', 'Antara, 2025']].map(function (x) {
+          return '<div><dt class="num">' + x[0] + '</dt><dd>' + x[1] + ' (' + x[2] + ')</dd></div>';
+        }).join('') + '</dl></section>' +
         '<section class="lp-intro" aria-labelledby="lp-intro-h"><div class="lp-intro-text"><h2 id="lp-intro-h">Sekitar 21 anggota per koperasi</h2>' +
         '<p class="first">Lebih dari 80.000 desa membentuk Koperasi Desa/Kelurahan Merah Putih sejak Inpres Nomor 9 Tahun 2025, dengan anggota melampaui 1,7 juta orang pada Januari 2026. Dibagi rata, satu koperasi hanya beranggotakan sekitar 21 orang.</p>' +
-        '<p>Kepemilikan setipis itu membuat pengawasan oleh anggota sulit berjalan dengan sendirinya. Jumlah koperasi aktif turun dari 209.448 unit pada 2014 menjadi 130.119 pada akhir 2023, dan hanya 71,5% yang menggelar RAT.</p>' +
-        '<p>Delapan koperasi bermasalah menimbulkan kerugian Rp26 triliun. Penjaminan simpanan bekerja setelah koperasi gagal. TERANG-KOP dirancang untuk bekerja sebelum itu: anggota melihat angka koperasinya tiap bulan, dan skor yang turun langsung membuka tugas bertenggat bagi pengurus atau pendamping.</p>' +
+        '<p>Kepemilikan setipis itu membuat pengawasan oleh anggota sulit berjalan dengan sendirinya. Jumlah koperasi aktif turun dari 209.448 unit pada 2014 menjadi 130.119 pada akhir 2023. Ketika rapat anggota tidak lagi digelar, tidak ada yang memeriksa angkanya.</p>' +
+        '<p>Penjaminan simpanan baru bekerja setelah koperasi gagal. TERANG-KOP dirancang untuk bekerja sebelum itu: anggota melihat angka koperasinya tiap bulan, dan skor yang turun langsung membuka tugas bertenggat bagi pengurus atau pendamping.</p>' +
         '<p class="small body">Sumber: Revindo (2026); InvestorTrust.id (2026b); Rajagukguk (2025); Antara (2025). Rincian di esai COOPFEST 2026.</p></div>' +
         '<figure class="lp-intro-fig">' + foto('img/tugu.jpg', 'Tugu peringatan Kongres Koperasi di Tasikmalaya, lambang koperasi di atas alas hitam di antara pilar putih', 1100, 619) +
         '<figcaption>Tugu Kongres Koperasi pertama di Tasikmalaya. Gerakan koperasi Indonesia berumur hampir delapan puluh tahun.</figcaption></figure></section>' +
@@ -154,7 +162,7 @@
         '<section class="lp-alur" id="lp-alur" aria-labelledby="lp-alur-h"><div class="lp-alur-text"><h2 id="lp-alur-h">Dari catatan ke peringatan</h2>' +
         langkah.map(function (l, i) {
           return '<div class="lp-step" data-step="' + i + '"><p class="lp-step-t">' + esc(l[0]) + '</p><p class="lp-step-s">' + esc(l[1]) + '</p>' +
-            (i === 0 ? foto('img/warung.jpg', 'Warung bercat biru di Desa Ngawonggo, Malang, dengan pintu kayu terbuka', 1100, 619, 'lp-step-img') : '') + '</div>';
+            '</div>';
         }).join('') + '</div>' +
         '<div class="lp-alur-stage"><div class="lp-frag" id="lp-alur-frag" data-active="0">' + fragAlur() + '</div></div></section>' +
 
@@ -196,6 +204,7 @@
 
         '<p class="lp-credit">Foto: “Tugu Koperasi Indonesia (1)” oleh Mirani Pramitasari; “Warung Biru - Desa Ngawonggo” oleh Hngdery; “Village Meeting Hall of Pandansari” oleh ShinyFiver (CC BY-SA 4.0); “Bms rice planting 141229-47913 rwg” oleh Wie146 (CC BY-SA 3.0); semuanya via Wikimedia Commons.</p>' +
         '</main>' +
+        '<p class="lp-wordmark" aria-hidden="true" translate="no">TERANG-KOP</p>' +
         '<footer class="lp-foot"><span>TERANG-KOP · prototipe esai COOPFEST 2026</span><nav aria-label="Tautan kaki"><a href="#/masuk">Masuk</a><a href="https://github.com/YusufArrayyan/TERANG-KOP">Kode sumber</a></nav><span>2026 · data simulasi, tanpa data pribadi nyata</span></footer>' +
         '</div>';
     },

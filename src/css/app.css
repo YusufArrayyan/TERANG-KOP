@@ -146,7 +146,41 @@ svg.i.lg { width: 24px; height: 24px; }
 .badge-dot { margin-left: auto; min-width: 22px; height: 22px; padding: 0 7px; border-radius: var(--r-pill); background: var(--bad-mark); color: #fff; font-size: .75rem; font-weight: 700; display: grid; place-items: center; }
 
 main { padding: 32px 32px 120px; min-width: 0; }
-.page { max-width: 1040px; }
+.page { max-width: 1180px; }
+#judul:focus { outline: none; } /* fokus terprogram untuk pembaca layar; judul bukan kontrol */
+/* Paragraf prosa rata kiri-kanan di layar lebar; di ponsel tetap rata kiri agar spasi antarkata tidak melebar. */
+@media (min-width: 768px) {
+  .card p.body, .card > p, .callout p, .empty p, .stack.sm.body li, .lp-intro-text p, .lp-letter p, .lp-show-index > p, .lp-fase li, .lp-kpi dd, .lp-lead, .lp-cta-text p, .lp-credit {
+    text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto;
+  }
+}
+/* Kartu info koperasi di bilah samping */
+.side-info { margin-top: 20px; padding: 18px; border-radius: var(--r-xl); background: var(--surface); display: flex; flex-direction: column; gap: 4px; }
+.side-info .side-logo svg { width: 34px; height: 40px; margin-bottom: 8px; }
+.side-info b { font-size: .9375rem; line-height: 1.3; }
+.side-info > span { font-size: .8125rem; color: var(--body); }
+.side-info .side-skor { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+/* Kartu hero anggota: bidang hijau tua, angka besar */
+.card.hero-card { background: oklch(0.29 0.05 172); color: oklch(0.97 0.01 172); }
+.card.hero-card h2 { color: inherit; }
+.card.hero-card .label { color: oklch(0.85 0.03 172); }
+.card.hero-card .kv b { color: #fff; }
+.hero-num { font-size: clamp(2.25rem, 3.4vw, 3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin: 14px 0 18px; color: var(--amber); font-variant-numeric: tabular-nums; }
+.hero-note { margin-top: 16px; font-size: .875rem; color: oklch(0.85 0.03 172); }
+/* Deret angka kunci pengurus */
+.kpi-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding: 0; margin-bottom: 16px; overflow: hidden; }
+.kpi { padding: 20px 22px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.kpi + .kpi { border-left: 1px solid var(--line); }
+.kpi b { font-size: clamp(1.125rem, 1.8vw, 1.5rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; white-space: nowrap; }
+.kpi b.warn { color: var(--warn-ink); }
+/* Sebaran status wilayah */
+.dist-bar { display: flex; gap: 4px; height: 18px; border-radius: var(--r-pill); overflow: hidden; }
+.dist-bar i { display: block; min-width: 8px; }
+.dist-bar .sehat { background: var(--ok-mark); } .dist-bar .waspada { background: var(--warn-mark); }
+.dist-bar .tindakan { background: var(--bad-mark); } .dist-bar .kalibrasi { background: repeating-linear-gradient(135deg, var(--cal-mark) 0 4px, var(--cal-bg) 4px 8px); }
+.dist-legend { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+.dist-item { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.dist-item b { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
 .page-head { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; }
 .page-head p { color: var(--body); margin-top: 6px; max-width: 68ch; }
 .crumb { display: inline-flex; align-items: center; gap: 6px; font-size: .875rem; font-weight: 600; color: var(--brand-ink); text-decoration: none; margin-bottom: 10px; min-height: 32px; }
@@ -374,6 +408,9 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
 
 /* ---------- Responsif ---------- */
 @media (max-width: 1100px) {
+  .kpi-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi:nth-child(3) { border-left: 0; }
+  .kpi:nth-child(n+3) { border-top: 1px solid var(--line); }
   .layout { grid-template-columns: 220px minmax(0, 1fr); }
   main { padding: 28px 24px 120px; }
   .g3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -400,6 +437,11 @@ dialog.sheet[open] { position: fixed; inset: 0 0 0 auto; height: 100%; width: mi
   .big { font-size: 1.875rem; }
   .card { padding: 20px; border-radius: 20px; }
   .g2, .g3 { grid-template-columns: 1fr; }
+  .kpi-strip, .dist-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card.kpi-strip { padding: 0; }
+  .kpi { padding: 16px 14px; }
+  .kpi:nth-child(3) { border-left: 0; }
+  .kpi:nth-child(n+3) { border-top: 1px solid var(--line); }
   .span2 { grid-column: auto; }
   .form-grid { grid-template-columns: 1fr; }
   .score-wrap { flex-direction: column; gap: 16px; }

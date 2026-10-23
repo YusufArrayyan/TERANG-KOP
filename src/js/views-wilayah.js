@@ -63,6 +63,13 @@
 
   /* ================= Dinas: wilayah ================= */
   var FILTER = ['Semua', 'Sehat', 'Waspada', 'Perlu tindakan', 'Dikalibrasi'];
+  function sebaran(h, n) {
+    var urut = ['Sehat', 'Waspada', 'Perlu tindakan', 'Dikalibrasi'];
+    var bar = urut.map(function (st) { var v = h[st] || 0; return v ? '<i class="' + App.STATUS[st].cls + '" style="flex:' + v + '" title="' + st + ' ' + v + '"></i>' : ''; }).join('');
+    var leg = urut.map(function (st) { return '<div class="dist-item">' + App.statusBadge(st) + '<b class="num">' + (h[st] || 0) + '</b><span class="small body">' + Math.round((h[st] || 0) / n * 100) + '% koperasi</span></div>'; }).join('');
+    return '<section class="card" aria-labelledby="h-sebaran"><div class="card-head"><h2 id="h-sebaran">Sebaran status terakhir</h2><span class="small body">' + n + ' koperasi</span></div>' +
+      '<div class="dist-bar" role="img" aria-label="' + urut.map(function (st) { return st + ' ' + (h[st] || 0); }).join(', ') + '">' + bar + '</div><div class="dist-legend">' + leg + '</div></section>';
+  }
   App.views['din/wilayah'] = {
     title: 'Wilayah',
     render: function (r) {
@@ -80,7 +87,7 @@
       }).join('') + '</div>';
       return App.pageHead('Wilayah ' + App.state.koperasi.kabupaten.replace('Kabupaten ', 'Kab. '), semua.length + ' koperasi. Status terakhir dari laporan bulanan; baris merah punya tiket yang lewat tenggat.',
         '<a class="btn outline" href="' + App.href('ekspor') + '">' + icon('download') + 'Ekspor data</a>') +
-        '<div class="stack lg">' + (telat ? App.callout('bad', 'clock', '<p><b>' + telat + ' tiket terlambat</b> di wilayah. Tiket tetap harus ditutup oleh penerimanya.</p>') : '') +
+        '<div class="stack lg">' + sebaran(hitung, semua.length) + (telat ? App.callout('bad', 'clock', '<p><b>' + telat + ' tiket terlambat</b> di wilayah. Tiket tetap harus ditutup oleh penerimanya.</p>') : '') +
         '<section class="card"><div style="margin-bottom:12px">' + seg + '</div><p class="small mute" style="margin-bottom:8px" aria-live="polite">Menampilkan ' + rows.length + ' koperasi.</p>' +
         (rows.length ? tabelKop(rows, 'wilayah') : App.empty('map', 'Tidak ada koperasi berstatus ' + esc(f), 'Pilih status lain untuk melihat daftar.', '<a class="btn secondary" href="' + App.href('wilayah') + '">Tampilkan semua</a>')) + '</section></div>';
     }

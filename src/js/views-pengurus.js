@@ -9,6 +9,20 @@
   function fmtRibuan(n) { return isNaN(n) || n === null || n === undefined || n === '' ? '' : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
 
   /* ================= Beranda pengurus ================= */
+  function stripPengurus() {
+    var s = App.state, hari = App.today();
+    var nr = TK.neraca(s.entri, hari, hari.slice(0, 4) + '-01-01');
+    var pj = semuaPinjaman(), beredar = 0, tunggak = 0;
+    pj.forEach(function (x) { beredar += x.sisa; if (x.status === 'Menunggak' || x.status === 'Terlambat') tunggak++; });
+    var bln = s.entri.filter(function (e) { return e.tanggal.slice(0, 7) === hari.slice(0, 7); }).length;
+    var sal = 0; s.anggota.forEach(function (a) { sal += TK.saldoAnggota(s, a.id).total; });
+    var item = function (lbl, v, sub, cls) { return '<div class="kpi"><span class="label">' + lbl + '</span><b class="num' + (cls ? ' ' + cls : '') + '">' + v + '</b><span class="small body">' + sub + '</span></div>'; };
+    return '<section class="card kpi-strip" aria-label="Angka kunci">' +
+      item('Kas dan bank', rp(nr.kas + nr.bank), 'Kas ' + rp(nr.kas) + ' · bank ' + rp(nr.bank)) +
+      item('Simpanan anggota', rp(sal), s.anggota.length + ' anggota') +
+      item('Pinjaman beredar', rp(beredar), tunggak ? tunggak + ' pinjaman terlambat bayar' : 'Semua lancar', tunggak ? 'warn' : '') +
+      item('Transaksi ' + TK.namaBulan(hari.slice(0, 7)), String(bln), 'dicatat sampai ' + tgl(hari)) + '</section>';
+  }
   App.views['png/beranda'] = {
     title: 'Beranda',
     render: function () {
@@ -37,6 +51,7 @@
         return t[4] ? '<a class="task ' + t[0] + '" href="' + t[4] + '" style="text-decoration:none;color:inherit">' + inner + '</a>' : '<div class="task ' + t[0] + '">' + inner + '</div>';
       }).join('');
       return App.pageHead('Halo, ' + App.namaDepan(u.nama), 'Tugas bulan ini untuk ' + esc(s.koperasi.nama) + '.', '<a class="btn primary" href="' + App.href('catat') + '">' + icon('plus') + 'Catat transaksi</a>') +
+        stripPengurus() +
         '<div class="grid g3" style="align-items:start"><section class="card span2" aria-labelledby="h-tugas"><h2 id="h-tugas" style="margin-bottom:12px">Tugas</h2><div class="tasks">' + taskHtml + '</div></section>' +
         '<div class="stack">' +
         (skT ? '<section class="card stack sm"><h2>Skor ' + TK.namaPeriode(pt.id) + '</h2><div class="row">' + App.gauge(skT.nilai, skT.status, true) + App.statusBadge(skT.status) + '</div><p class="small body">Laporan terakhir yang terbit ke anggota.</p></section>' : '') +

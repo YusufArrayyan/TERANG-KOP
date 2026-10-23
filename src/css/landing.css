@@ -9,9 +9,9 @@
   --lp-deep-2: oklch(0.315 0.052 172);
   --lp-on-deep: oklch(0.975 0.008 172);
   --lp-on-deep-soft: oklch(0.87 0.025 172);
-  --lp-gap: clamp(120px, 14vw, 200px);
+  --lp-gap: clamp(96px, 9vw, 144px);
   --lp-display: clamp(2.25rem, 3.6vw, 3.5rem);
-  --lp-statement: clamp(1.5rem, 2.2vw, 2rem);
+  --lp-statement: clamp(1.75rem, 2.6vw, 2.375rem);
   background: var(--canvas);
   color: var(--ink);
   overflow-x: clip;
@@ -83,11 +83,23 @@
 .lp-top-link { position: absolute; top: 40px; right: var(--lp-m); color: var(--lp-on-deep); font-weight: 600; font-size: .9375rem; min-height: 44px; display: inline-flex; align-items: center; }
 .lp-hero-stage .lp-frag { animation: lp-fade-up 700ms 300ms var(--ease) both; }
 
+/* ---------- Foto hero dan pita angka ---------- */
+.lp-hero-fig { flex: 1; min-height: 180px; max-height: 42vh; display: flex; flex-direction: column; gap: 10px; margin: 0; }
+.lp-hero-fig img { flex: 1; min-height: 0; object-fit: cover; border-radius: var(--r-xl); }
+.lp-hero-fig figcaption { color: var(--lp-on-deep-soft); font-size: .875rem; margin: 0; }
+.lp-hero-text { gap: 32px !important; }
+.lp-data { background: var(--brand-pale); padding: 56px var(--lp-m) !important; }
+.lp-data dl { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+.lp-data dt { font-size: clamp(2.25rem, 3.6vw, 3.25rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1; color: var(--brand-ink); }
+.lp-data dd { margin: 12px 0 0; color: var(--ink); max-width: 30ch; }
+.lp-data cite { font-style: normal; color: var(--body); }
+.lp-wordmark { margin: 96px 0 0; padding: 0 var(--lp-m); font-size: clamp(3.5rem, 14.4vw, 13rem); line-height: .82; font-weight: 800; letter-spacing: -0.05em; color: var(--brand); max-width: none !important; white-space: nowrap; overflow: hidden; }
+
 /* ---------- Bagian ---------- */
 .lp-main { padding: 0; min-width: 0; }
 .lp-main > section { padding: 0 var(--lp-m); }
 .lp-main > section + section { margin-top: var(--lp-gap); }
-.lp-intro { padding-top: var(--lp-gap) !important; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: center; }
+.lp-intro { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: center; }
 .lp-intro-text { grid-column: 1 / span 5; display: flex; flex-direction: column; gap: 18px; }
 .lp-intro-text h2 { margin-bottom: 6px; }
 .lp-intro-text p { color: var(--ink); }
@@ -100,8 +112,8 @@
 
 .lp-alur { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: start; }
 .lp-alur-text { grid-column: 1 / span 5; }
-.lp-step { min-height: 62vh; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
-.lp-step:last-child { min-height: 48vh; }
+.lp-step { min-height: 50vh; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+.lp-step:last-child { min-height: 40vh; }
 .lp-step-t { font-size: var(--lp-statement); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; color: var(--mute); transition: color var(--t-med) var(--ease); max-width: 20ch !important; }
 .lp-step.on .lp-step-t, .lp-step:first-of-type .lp-step-t { color: var(--ink); }
 .lp-alur-text:has(.lp-step.on) .lp-step:not(.on) .lp-step-t { color: var(--mute); }
@@ -188,7 +200,7 @@
 .lp-dialog [hidden] { display: none; }
 
 .lp-credit { padding: 48px var(--lp-m) 0; font-size: .875rem; color: var(--body); max-width: 110ch; }
-.lp-foot { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px 24px; align-items: baseline; padding: 160px var(--lp-m) 30px; font-size: .9375rem; color: var(--body); }
+.lp-foot { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px 24px; align-items: baseline; padding: 24px var(--lp-m) 30px; font-size: .9375rem; color: var(--body); }
 .lp-foot nav { display: flex; gap: 24px; }
 .lp-foot a { color: var(--ink); font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
 .lp-foot > span:last-child { text-align: right; }
@@ -256,7 +268,11 @@
   .lp-cta-text h2 { font-size: 13vw; }
   .lp-dialog { padding: 20px; }
   .lp-dialog .btn { min-height: 52px; }
-  .lp-foot { grid-template-columns: 1fr; padding-top: 20svh; gap: 8px; }
+  .lp-foot { grid-template-columns: 1fr; padding-top: 16px; gap: 8px; }
+  .lp-data dl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px 20px; }
+  .lp-data { padding: 40px 20px !important; }
+  .lp-hero-fig { max-height: 34svh; min-height: 160px; }
+  .lp-wordmark { margin-top: 64px; padding: 0 20px; }
   .lp-foot > span:last-child { text-align: left; }
 }
 @media (max-width: 420px) {

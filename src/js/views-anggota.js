@@ -55,8 +55,9 @@
       var shu = pt ? App.ui.estimasiSHU(a.id, pt.id) : null;
       return App.pageHead('Halo, ' + App.namaDepan(a.nama), 'Ini ringkasan simpanan dan kondisi koperasi Anda per ' + App.tglPanjang(App.today()) + '.') +
         '<div class="stack">' + tlHtml +
-        '<div class="grid g2"><section class="card" aria-labelledby="h-simp"><h2 id="h-simp">Simpanan Anda</h2><p class="big" style="margin:10px 0 16px">' + rp(sal.total) + '</p>' +
-        '<div class="kv"><div><span class="label">Pokok</span><b>' + rp(sal.pokok) + '</b></div><div><span class="label">Wajib</span><b>' + rp(sal.wajib) + '</b></div><div><span class="label">Sukarela</span><b>' + rp(sal.sukarela) + '</b></div></div></section>' +
+        '<div class="grid g2"><section class="card hero-card" aria-labelledby="h-simp"><div class="row between top"><h2 id="h-simp">Simpanan Anda</h2>' + (sk ? App.statusBadge(sk.status) : '') + '</div><p class="hero-num">' + rp(sal.total) + '</p>' +
+        '<div class="kv"><div><span class="label">Pokok</span><b>' + rp(sal.pokok) + '</b></div><div><span class="label">Wajib</span><b>' + rp(sal.wajib) + '</b></div><div><span class="label">Sukarela</span><b>' + rp(sal.sukarela) + '</b></div></div>' +
+        '<p class="hero-note">Nomor anggota ' + a.no + ' · ' + esc(s.koperasi.nama) + '</p></section>' +
         '<section class="card stack sm" aria-labelledby="h-pinj"><h2 id="h-pinj">Pinjaman Anda</h2>' + pinjHtml + '</section></div>' +
         (sk ? App.ui.ringkasSkor(sk, 'Kesehatan koperasi, ' + TK.namaPeriode(pt.id), '<a class="btn outline sm" href="' + App.href('koperasi') + '">Lihat rincian skor</a>') : '') +
         (shu ? '<section class="card" aria-labelledby="h-shu"><h2 id="h-shu">Perkiraan SHU Anda</h2><p class="mid" style="margin:10px 0">' + rp(shu.nilai) + '</p>' +

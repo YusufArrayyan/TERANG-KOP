@@ -50,6 +50,7 @@ Menjalankan halaman depan, semua layar, dan skenario demo di desktop dan ponsel 
 | `src/js/demo.js` | Panel demo dan pemuatan awal |
 | `src/css/app.css` | Token desain dan komponen (lihat `DESIGN.md`) |
 | `src/css/landing.css` | Halaman depan publik |
+| `brand/` | Logo TERANG-KOP: SVG hijau dan putih, PNG transparan 1024 px, ikon berlatar putih 512 px, dan PNG asli |
 | `src/img/` | Empat foto berlisensi CC untuk halaman depan, disisipkan ke berkas tunggal saat build |
 
 ## Alur demo

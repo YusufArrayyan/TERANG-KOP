@@ -347,6 +347,15 @@
     App._lastRoute = location.hash;
   };
 
+  function sideInfo(P) {
+    var s = App.state, k = s.koperasi;
+    var pt = App.periodeTerbitTerakhir(), rec = pt ? s.skor.filter(function (x) { return x.periode_id === pt.id; })[0] : null;
+    var judul = P.kode === 'din' ? k.kabupaten : P.kode === 'kjd' ? 'KJDP ' + k.kabupaten.replace('Kabupaten ', 'Kab. ') : k.nama;
+    var isi = P.kode === 'din' ? '30 koperasi dipantau' : P.kode === 'kjd' ? 'Pendamping ' + App.ORANG.KJD.nama : s.anggota.length + ' anggota · ' + k.desa + ', ' + k.kecamatan;
+    return '<div class="side-info"><div class="side-logo">' + App.LOGO + '</div><b>' + esc(judul) + '</b><span>' + esc(isi) + '</span>' +
+      (rec && P.kode !== 'din' && P.kode !== 'kjd' ? '<span class="side-skor">Skor ' + TK.namaPeriode(pt.id) + ': <b>' + rec.nilai + '</b> · ' + esc(rec.status) + '</span>' : '') + '</div>';
+  }
+
   function shell(P, aktif, html) {
     var u = App.pengguna();
     var s = App.state;
@@ -379,7 +388,7 @@
       '<button class="user" data-act="menu-user" aria-haspopup="dialog"><span class="avatar">' + App.inisial(u.nama) + '</span><span class="who"><b>' + esc(u.nama) + '</b><span>' + esc(P.nama === 'Anggota' ? 'Anggota' : u.jabatan) + '</span></span></button>' +
       '</header>' +
       '<div class="banner" role="note"><span><b>Prototipe.</b> Semua data di layar ini simulasi dan bukan data koperasi nyata.</span><span>Tanggal simulasi: <b>' + App.tgl(s.tanggalSimulasi) + '</b></span></div>' +
-      '<div class="layout"><nav class="sidenav" aria-label="Navigasi utama">' + navLinks + '<div class="sep" role="presentation"></div>' + shared + '</nav>' +
+      '<div class="layout"><nav class="sidenav" aria-label="Navigasi utama">' + navLinks + '<div class="sep" role="presentation"></div>' + shared + sideInfo(P) + '</nav>' +
       '<main id="konten"><div class="page">' + html + '</div></main></div>' +
       '<nav class="tabbar" aria-label="Navigasi utama">' + tabs + '</nav>' +
       '<button class="btn dark fab" data-act="demo" aria-label="Buka panel demo">' + icon('play') + '<span class="txt">Panel demo</span></button>';
