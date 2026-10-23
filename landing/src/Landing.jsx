@@ -24,7 +24,7 @@ function Hero({ d }) {
           <h1 id="lp-h1" className="tw:text-[clamp(1.875rem,4.6vw,3.75rem)] tw:leading-[1.02] tw:font-extrabold tw:tracking-[-0.035em] tw:text-on-deep tw:text-balance">
             Angka koperasi desa,<br />terbuka bagi anggota
           </h1>
-          <p className="tw:mt-6 tw:max-w-[46ch] tw:text-[17px] tw:leading-relaxed tw:text-on-deep-soft">
+          <p className="tw:mt-6 tw:max-w-[54ch] tw:text-[17px] tw:leading-relaxed lp-justify tw:text-on-deep-soft">
             TERANG-KOP adalah pembukuan Koperasi Desa Merah Putih. Pengurus mencatat transaksi di ponsel, bahkan tanpa sinyal. Setiap bulan anggota melihat saldonya dan skor kesehatan koperasi. Kalau skor turun, pengurus wajib menjelaskan langkahnya dalam 14 hari.
           </p>
           <div className="tw:mt-7 tw:flex tw:flex-wrap tw:gap-3">
@@ -88,7 +88,7 @@ function Coba({ d }) {
     <section id="lp-coba" aria-labelledby="lp-coba-h" className={WRAP + ' ' + GAP + ' tw:grid tw:gap-10 tw:lg:grid-cols-12 tw:items-center'}>
       <Reveal className="tw:lg:col-span-5 tw:flex tw:flex-col tw:gap-5">
         <SectionTitle id="lp-coba-h">Tagih dua peminjam, lihat skornya naik</SectionTitle>
-        <p className="tw:text-[17px] tw:leading-relaxed">Oktober belum ditutup. Dua peminjam Kopdes Sukamaju menunggak lebih dari 30 hari, jadi perlindungan dan kualitas aset merah dan statusnya Perlu tindakan. Centang angsuran mereka: skor dihitung ulang dari buku besar dengan mesin yang sama dengan aplikasi.</p>
+        <p className="tw:text-[17px] tw:leading-relaxed lp-justify">Oktober belum ditutup. Dua peminjam Kopdes Sukamaju menunggak lebih dari 30 hari, jadi perlindungan dan kualitas aset merah dan statusnya Perlu tindakan. Centang angsuran mereka: skor dihitung ulang dari buku besar dengan mesin yang sama dengan aplikasi.</p>
         <ul className="tw:m-0 tw:grid tw:gap-2 tw:p-0 tw:list-none">
           {[['calc', 'Skor 0 sampai 100 dari tujuh indikator berbobot'], ['alert', 'Dua indikator merah langsung berarti Perlu tindakan'], ['shield', 'Skor adalah peringatan dini, bukan penilaian hukum']].map(([ic, t]) => (
             <li key={t} className="tw:flex tw:items-center tw:gap-3 tw:rounded-ctl tw:bg-surface tw:px-4 tw:py-3 tw:text-[15px] tw:font-medium"><Icon name={ic} className="tw:text-brand-ink" />{t}</li>
@@ -141,11 +141,11 @@ function Coba({ d }) {
 function Masalah() {
   return (
     <section aria-labelledby="lp-intro-h" className={WRAP + ' ' + GAP + ' tw:grid tw:gap-10 tw:lg:grid-cols-12 tw:items-center'}>
-      <Reveal className="tw:lg:col-span-5 tw:flex tw:flex-col tw:gap-4">
+      <Reveal className="tw:lg:col-span-6 tw:flex tw:flex-col tw:gap-4">
         <SectionTitle id="lp-intro-h">Sekitar 21 anggota per koperasi</SectionTitle>
-        <p className="tw:text-[17px] tw:font-semibold tw:leading-relaxed">Lebih dari 80.000 desa membentuk Koperasi Desa/Kelurahan Merah Putih sejak Inpres Nomor 9 Tahun 2025, dengan anggota melampaui 1,7 juta orang pada Januari 2026. Dibagi rata, satu koperasi hanya beranggotakan sekitar 21 orang.</p>
-        <p className="tw:leading-relaxed">Kepemilikan setipis itu membuat pengawasan oleh anggota sulit berjalan dengan sendirinya. Jumlah koperasi aktif turun dari 209.448 unit pada 2014 menjadi 130.119 pada akhir 2023. Ketika rapat anggota tidak lagi digelar, tidak ada yang memeriksa angkanya.</p>
-        <p className="tw:leading-relaxed">Penjaminan simpanan baru bekerja setelah koperasi gagal. TERANG-KOP dirancang untuk bekerja sebelum itu: anggota melihat angka koperasinya tiap bulan, dan skor yang turun langsung membuka tugas bertenggat bagi pengurus atau pendamping.</p>
+        <p className="tw:text-[17px] tw:font-semibold tw:leading-relaxed lp-justify">Lebih dari 80.000 desa membentuk Koperasi Desa/​Kelurahan Merah Putih sejak Inpres Nomor 9 Tahun 2025, dengan anggota melampaui 1,7 juta orang pada Januari 2026. Dibagi rata, satu koperasi hanya beranggotakan sekitar 21 orang.</p>
+        <p className="tw:leading-relaxed lp-justify">Kepemilikan setipis itu membuat pengawasan oleh anggota sulit berjalan dengan sendirinya. Jumlah koperasi aktif turun dari 209.448 unit pada 2014 menjadi 130.119 pada akhir 2023. Ketika rapat anggota tidak lagi digelar, tidak ada yang memeriksa angkanya.</p>
+        <p className="tw:leading-relaxed lp-justify">Penjaminan simpanan baru bekerja setelah koperasi gagal. TERANG-KOP dirancang untuk bekerja sebelum itu: anggota melihat angka koperasinya tiap bulan, dan skor yang turun langsung membuka tugas bertenggat bagi pengurus atau pendamping.</p>
         <p className="tw:text-sm tw:text-body">Sumber: Revindo (2026); InvestorTrust.id (2026b); Rajagukguk (2025); Antara (2025). Rincian di esai COOPFEST 2026.</p>
       </Reveal>
       <Reveal delay={0.08} as="figure" className="tw:m-0 tw:lg:col-span-6 tw:lg:col-start-7">
@@ -219,7 +219,7 @@ function CaraKerja({ d }) {
         {LANGKAH.map(([t, s, fakta], i) => (
           <div key={t} ref={(el) => (refs.current[i] = el)} data-step={i} className="tw:flex tw:flex-col tw:justify-center tw:gap-4 tw:py-6 tw:lg:min-h-[52vh]">
             <p className={'tw:text-[clamp(1.5rem,2.4vw,2.125rem)] tw:leading-[1.15] tw:font-extrabold tw:tracking-[-0.02em] tw:transition-colors tw:max-w-[20ch] ' + (aktif === i ? 'tw:text-ink' : 'tw:text-ink tw:lg:text-mute')}>{t}</p>
-            <p className="tw:max-w-[46ch] tw:leading-relaxed">{s}</p>
+            <p className="tw:max-w-[60ch] tw:leading-relaxed lp-justify">{s}</p>
             <ul className="tw:m-0 tw:grid tw:max-w-[46ch] tw:list-none tw:gap-2 tw:p-0">
               {fakta.map(([ic, f]) => <li key={f} className="tw:flex tw:items-center tw:gap-3 tw:rounded-ctl tw:bg-surface tw:px-4 tw:py-3 tw:text-[15px] tw:font-medium"><Icon name={ic} className="tw:text-brand-ink" />{f}</li>)}
             </ul>
@@ -313,7 +313,7 @@ function Keluaran({ d }) {
               className={'tw:min-h-11 tw:cursor-pointer tw:border-0 tw:bg-transparent tw:p-0 tw:text-left tw:text-[clamp(1.5rem,3.4vw,3.25rem)] tw:leading-[1.1] tw:font-extrabold tw:tracking-[-0.025em] tw:transition ' + (k === id ? 'tw:text-ink' : 'tw:text-mute tw:hover:text-body')}>{l}</button>
           ))}
         </div>
-        <p className="tw:max-w-[46ch] tw:leading-relaxed">Setiap lembar dibentuk dari buku besar yang sama, jadi angka di beranda anggota, di paket RAT, dan di dasbor dinas tidak bisa berbeda.</p>
+        <p className="tw:max-w-[60ch] tw:leading-relaxed lp-justify">Setiap lembar dibentuk dari buku besar yang sama, jadi angka di beranda anggota, di paket RAT, dan di dasbor dinas tidak bisa berbeda.</p>
       </Reveal>
       <Reveal delay={0.08} className="tw:lg:col-span-7 tw:rounded-card tw:bg-surface-2 tw:p-4 tw:sm:p-8">
         <AnimatePresence mode="wait" initial={false}>
@@ -348,7 +348,7 @@ function Kjdp() {
             <span className="tw:text-[clamp(5rem,11vw,9rem)] tw:leading-[.82] tw:font-extrabold tw:tracking-[-0.045em] tw:text-amber tw:tabular-nums">{pemuda}</span>
             <span className="tw:pb-2 tw:text-2xl tw:font-extrabold">pemuda bekerja di KJDP</span>
           </p>
-          <p className="tw:max-w-[40ch] tw:text-[17px] tw:leading-relaxed tw:text-on-deep-soft">Setiap pekerja KJDP menjadi pendamping utama bagi dua koperasi dan cadangan bagi dua koperasi lain. Jumlah pemuda adalah jumlah Kopdes dibagi dua, dibulatkan ke atas.</p>
+          <p className="tw:max-w-[56ch] tw:text-[17px] tw:leading-relaxed lp-justify tw:text-on-deep-soft">Setiap pekerja KJDP menjadi pendamping utama bagi dua koperasi dan cadangan bagi dua koperasi lain. Jumlah pemuda adalah jumlah Kopdes dibagi dua, dibulatkan ke atas.</p>
         </Reveal>
         <Reveal delay={0.08} className="tw:lg:col-span-7 tw:flex tw:flex-col tw:gap-6">
           <div className="tw:rounded-card tw:bg-deep-2 tw:p-5">
@@ -408,12 +408,12 @@ function Surat() {
       <Reveal as="figure" className="tw:m-0 tw:lg:col-span-6">
         <Foto src="img/sawah.jpg" alt="Petani menanam padi di sawah berair di Desa Gebangsari, Banyumas" w={960} h={720} className="tw:aspect-[4/3] tw:lg:aspect-[4/5]" />
       </Reveal>
-      <Reveal delay={0.08} className="tw:lg:col-span-5 tw:lg:col-start-8 tw:flex tw:flex-col tw:gap-4">
+      <Reveal delay={0.08} className="tw:lg:col-span-6 tw:lg:col-start-7 tw:flex tw:flex-col tw:gap-4">
         <SectionTitle id="lp-surat-h">Mengapa koperasi pemuda</SectionTitle>
         <span aria-hidden="true" className="tw:grid tw:size-11 tw:place-items-center tw:rounded-full tw:bg-brand tw:text-[13px] tw:font-bold tw:text-white">MY</span>
-        <p className="tw:text-[17px] tw:leading-relaxed">Program magang dan KKN mendekatkan mahasiswa dengan koperasi, tetapi penempatannya sementara, sedangkan pembukuan menuntut kesinambungan setiap bulan. Perangkat lunak saja juga tidak menjamin kebiasaan memakainya.</p>
-        <p className="tw:text-[17px] tw:leading-relaxed">Karena itu saya mengusulkan Koperasi Jasa Digital Pemuda di tingkat kabupaten. Pemudanya menjadi anggota sekaligus pekerja, memperoleh pendapatan dari tarif layanan yang disepakati dalam RAT, dan berkepentingan agar koperasi yang didampinginya tetap sehat.</p>
-        <p className="tw:text-[17px] tw:leading-relaxed">KJDP menghitung skor koperasi yang juga membayar jasanya. Supaya penilaiannya tetap jujur, rumus skor dibuka untuk pengawas dan dinas, dan dinas bisa menghitung ulang dari data yang sama untuk memastikan hasilnya cocok.</p>
+        <p className="tw:text-[17px] tw:leading-relaxed lp-justify">Program magang dan KKN mendekatkan mahasiswa dengan koperasi, tetapi penempatannya sementara, sedangkan pembukuan menuntut kesinambungan setiap bulan. Perangkat lunak saja juga tidak menjamin kebiasaan memakainya.</p>
+        <p className="tw:text-[17px] tw:leading-relaxed lp-justify">Karena itu saya mengusulkan Koperasi Jasa Digital Pemuda di tingkat kabupaten. Pemudanya menjadi anggota sekaligus pekerja, memperoleh pendapatan dari tarif layanan yang disepakati dalam RAT, dan berkepentingan agar koperasi yang didampinginya tetap sehat.</p>
+        <p className="tw:text-[17px] tw:leading-relaxed lp-justify">KJDP menghitung skor koperasi yang juga membayar jasanya. Supaya penilaiannya tetap jujur, rumus skor dibuka untuk pengawas dan dinas, dan dinas bisa menghitung ulang dari data yang sama untuk memastikan hasilnya cocok.</p>
         <p className="tw:mt-2 tw:text-2xl tw:font-bold tw:italic">Muhammad Yusuf Arrayyan</p>
         <p className="tw:text-sm tw:text-body">Penggagas, Universitas Bengkulu · esai COOPFEST 2026</p>
       </Reveal>

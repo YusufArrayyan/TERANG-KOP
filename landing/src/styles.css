@@ -52,6 +52,11 @@
   .lp-root { background: var(--canvas); color: var(--ink); overflow-x: clip; }
   .lp-root :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
   .lp-root .on-deep :focus-visible { outline-color: var(--amber); }
+  /* Paragraf prosa rata kiri-kanan di layar lebar. Di ponsel tetap rata kiri karena kolomnya sempit
+     dan spasi antarkata akan melebar. hyphens: auto memenggal kata panjang bila peramban mendukung. */
+  @media (min-width: 1024px) {
+    .lp-justify { text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto; }
+  }
   /* Bar kalibrasi bergaris, sama dengan riwayat skor di aplikasi */
   .lp-hatch { background: repeating-linear-gradient(135deg, var(--cal-mark) 0 4px, var(--cal-bg) 4px 8px); }
 }
