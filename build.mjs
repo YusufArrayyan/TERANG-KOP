@@ -1,6 +1,6 @@
 // Menggabungkan src/ menjadi satu berkas: dist/terang-kop.html
 // Jalankan: node build.mjs
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -21,4 +21,6 @@ mkdirSync(join(root, 'dist'), { recursive: true });
 writeFileSync(join(root, 'dist', 'terang-kop.html'), html);
 // Salinan untuk hosting statis (Render): alamat utama langsung membuka prototipe.
 writeFileSync(join(root, 'dist', 'index.html'), html);
+// Berkas besar (video dan PDF panduan) disajikan terpisah, tidak disisipkan ke HTML.
+if (existsSync(join(root, 'public'))) cpSync(join(root, 'public'), join(root, 'dist'), { recursive: true });
 console.log('dist/terang-kop.html', (Buffer.byteLength(html) / 1024).toFixed(1), 'KB');

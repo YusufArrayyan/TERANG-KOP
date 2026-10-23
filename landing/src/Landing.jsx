@@ -42,7 +42,11 @@ function Hero({ d }) {
       <div className="on-deep tw:flex tw:flex-col tw:justify-center tw:gap-6 tw:bg-deep-2 tw:text-on-deep tw:p-[clamp(20px,3.4vw,48px)]">
         <div className="tw:flex tw:items-center tw:justify-between tw:gap-3">
           <p className="tw:text-sm tw:font-semibold tw:text-on-deep-soft">Kopdes Merah Putih Sukamaju · data simulasi</p>
-          <a href="#/masuk" className="tw:text-sm tw:font-semibold tw:text-on-deep tw:underline tw:underline-offset-4 tw:min-h-11 tw:inline-flex tw:items-center">Masuk ke prototipe</a>
+          <span className="tw:flex tw:gap-5">
+            <a href="#lp-panduan" onClick={(e) => { e.preventDefault(); document.getElementById('lp-panduan')?.scrollIntoView({ behavior: 'smooth' }); }}
+              className="tw:text-sm tw:font-semibold tw:text-on-deep tw:underline tw:underline-offset-4 tw:min-h-11 tw:inline-flex tw:items-center">Cara pakai</a>
+            <a href="#/masuk" className="tw:text-sm tw:font-semibold tw:text-on-deep tw:underline tw:underline-offset-4 tw:min-h-11 tw:inline-flex tw:items-center">Masuk ke prototipe</a>
+          </span>
         </div>
         <Score3D riwayat={d.riwayat} />
         <div className="tw:flex tw:flex-wrap tw:items-center tw:gap-3 tw:rounded-card tw:bg-deep tw:p-4">
@@ -521,6 +525,60 @@ function Pijakan() {
   );
 }
 
+/* ---------------- Cara pakai: video demo, PDF panduan, akun demo ---------------- */
+const AKUN_DEMO = [['Anggota', 'Siti Aminah · SKM-004'], ['Pengurus', 'Rina Wulandari'], ['Pengawas', 'Hendra Gunawan'], ['Pendamping KJDP', 'Dimas Pratama'], ['Dinas Koperasi', 'Ratih Kusumawardani']];
+const SKENARIO = [
+  ['Pemulihan', 'Anggota melihat status Waspada; pengurus mencatat angsuran saat luring, menyinkronkan, menutup buku Oktober; pengawas mengesahkan.'],
+  ['Rapat anggota tahunan', 'Paket RAT terbit dan terkunci, anggota hadir dengan kode dan memberi suara, berita acara terbentuk otomatis.'],
+  ['Dinas Koperasi', 'Memantau 30 koperasi, menghitung ulang skor Sukamaju sampai hasilnya sama, lalu mengunduh CSV dan JSON.'],
+  ['Perlu tindakan', 'Penarikan dan beban besar membuat skor turun ke 36; tiket tindak lanjut bertenggat 14 hari muncul di beranda anggota.']
+];
+
+function Panduan() {
+  const luring = typeof location !== 'undefined' && location.protocol === 'file:';
+  return (
+    <section id="lp-panduan" aria-labelledby="lp-panduan-h" className={WRAP + ' ' + GAP}>
+      <Reveal className="tw:flex tw:flex-col tw:gap-3 tw:lg:max-w-[62ch]">
+        <SectionTitle id="lp-panduan-h">Cara pakai prototipe</SectionTitle>
+        <p className="tw:text-[17px] tw:leading-relaxed lp-justify">Tonton demo tiga menit yang menjalankan sistem dari awal sampai akhir, atau unduh panduan PDF bergambar. Prototipe tidak memakai kata sandi: pilih salah satu akun demo di layar Masuk.</p>
+      </Reveal>
+      <div className="tw:mt-8 tw:grid tw:grid-cols-1 tw:gap-8 tw:lg:grid-cols-12 tw:lg:items-start">
+        <Reveal delay={0.06} as="figure" className="tw:m-0 tw:min-w-0 tw:lg:col-span-7">
+          <video controls preload="none" playsInline poster="panduan/video-demo-poster.jpg" className="tw:block tw:aspect-video tw:w-full tw:rounded-card tw:bg-deep">
+            <source src="panduan/video-demo-terang-kop.mp4" type="video/mp4" />
+            Peramban Anda tidak bisa memutar video ini. <a href="panduan/video-demo-terang-kop.mp4">Unduh videonya</a>.
+          </video>
+          <figcaption className="tw:mt-3 tw:text-[15px] tw:text-body">Video demo 3 menit 9 detik, bersuara dan bersubtitle bahasa Indonesia. Semua data dalam video adalah simulasi.</figcaption>
+        </Reveal>
+        <Reveal delay={0.1} className="tw:min-w-0 tw:lg:col-span-5 tw:flex tw:flex-col tw:gap-5">
+          <div className="tw:flex tw:flex-wrap tw:gap-3">
+            <a href="panduan/panduan-penggunaan-terang-kop.pdf" download className="tw:inline-flex tw:min-h-12 tw:items-center tw:gap-2 tw:rounded-full tw:bg-brand tw:px-6 tw:font-semibold tw:text-white tw:no-underline tw:transition tw:hover:brightness-110 tw:active:scale-[.98]">
+              <Icon name="download" />Unduh panduan PDF
+            </a>
+            <a href="panduan/panduan-penggunaan-terang-kop.pdf" target="_blank" rel="noopener" className="tw:inline-flex tw:min-h-12 tw:items-center tw:rounded-full tw:border tw:border-line-strong tw:bg-surface tw:px-6 tw:font-semibold tw:text-ink tw:no-underline tw:transition tw:hover:bg-surface-2">Buka di tab baru</a>
+          </div>
+          <p className="tw:-mt-2 tw:text-sm tw:text-body">PDF 9 halaman, 2,6 MB: cara membuka, akun demo, empat skenario langkah demi langkah dengan tangkapan layar.</p>
+          <div className="tw:rounded-card tw:bg-surface tw:p-5">
+            <b className="tw:block tw:text-lg">Akun demo</b>
+            <p className="tw:mb-3 tw:text-sm tw:text-body">Tanpa kata sandi. Tekan <b>Coba prototipe</b>, pilih peran, lalu Masuk.</p>
+            <dl className="tw:m-0 tw:grid tw:grid-cols-[max-content_1fr] tw:gap-x-5 tw:gap-y-2 tw:text-[15px]">
+              {AKUN_DEMO.map(([p, n]) => <div key={p} className="tw:contents"><dt className="tw:text-mute">{p}</dt><dd className="tw:m-0 tw:font-semibold">{n}</dd></div>)}
+            </dl>
+          </div>
+          {luring && <p className="tw:text-sm tw:text-body">Halaman ini dibuka dari berkas luring. Video dan PDF tersedia di terang-kop.onrender.com.</p>}
+        </Reveal>
+      </div>
+      <Reveal delay={0.08} className="tw:mt-10">
+        <h3 className="tw:mb-4 tw:text-xl tw:font-bold">Empat skenario yang bisa dicoba</h3>
+        <ol className="tw:m-0 tw:grid tw:grid-cols-1 tw:gap-x-10 tw:gap-y-5 tw:pl-6 tw:md:grid-cols-2 tw:marker:font-extrabold tw:marker:text-brand-ink">
+          {SKENARIO.map(([j, t]) => <li key={j} className="tw:pl-1"><b className="tw:block tw:text-lg">{j}</b><span className="tw:text-[15px] tw:text-body">{t}</span></li>)}
+        </ol>
+        <p className="tw:mt-4 tw:text-sm tw:text-body">Di dalam aplikasi, tombol <b>Panel demo</b> di kanan bawah menjalankan setiap skenario dengan satu tekan dan bisa mengatur ulang semua data.</p>
+      </Reveal>
+    </section>
+  );
+}
+
 /* ---------------- Masuk ---------------- */
 function Ajakan({ d }) {
   const App = window.App;
@@ -616,6 +674,7 @@ export default function Landing() {
           <Pilot />
           <Surat />
           <Pijakan />
+          <Panduan />
           <Ajakan d={d} />
           <Kaki />
         </main>

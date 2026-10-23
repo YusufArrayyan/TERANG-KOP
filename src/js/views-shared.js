@@ -391,7 +391,11 @@
         dua('<b>5. Keutuhan</b>', 'Panel demo mengubah satu entri tanpa menghitung ulang hash. Periksa keutuhan menunjuk entri itu sebagai yang pertama tidak cocok; tombol pulihkan mengembalikan rantai.') +
         '</tbody></table></div></div>' +
         '<div class="card tint"><h2 class="u-mb-2">Batas klaim keamanan</h2><p class="body">Rantai hash membuat perubahan diam-diam terdeteksi, tetapi tidak mencegah pihak yang menguasai server menulis ulang seluruh rantai. Karena itu pengawas dan dinas dapat menjalankan pemeriksaan keutuhan sendiri, dan paket RAT dikunci dengan hash. Ini penanda keutuhan, bukan blockchain dan bukan jaminan keamanan mutlak.</p></div>' +
-        '<p><a class="btn outline" href="#/depan">' + icon('home') + 'Buka halaman depan publik</a></p>' +
+        '<div class="card"><h2 class="u-mb-2">Panduan cara pakai</h2><p class="body u-mb-4">Video demo tiga menit (bersuara dan bersubtitle) dan panduan PDF sembilan halaman berisi akun demo serta empat skenario langkah demi langkah.' +
+        (location.protocol === 'file:' ? ' Halaman ini dibuka dari berkas luring; video dan PDF tersedia di terang-kop.onrender.com.' : '') + '</p>' +
+        '<div class="row"><a class="btn primary" href="panduan/video-demo-terang-kop.mp4" target="_blank" rel="noopener">' + icon('play') + 'Tonton video demo</a>' +
+        '<a class="btn secondary" href="panduan/panduan-penggunaan-terang-kop.pdf" download>' + icon('download') + 'Unduh panduan PDF</a>' +
+        '<a class="btn ghost" href="#/depan">' + icon('home') + 'Halaman depan</a></div></div>' +
         '<p class="small mute">Kerangka acuan: Evans, E., &amp; Branch, B. (2002). Technical guide: PEARLS performance monitoring system. World Council of Credit Unions. Pelindungan data pribadi mengacu UU Nomor 27 Tahun 2022. Seluruh ambang dan bobot adalah ambang awal simulasi.</p></div>';
     }
   };
