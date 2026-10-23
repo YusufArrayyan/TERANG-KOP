@@ -83,6 +83,26 @@
       '<div class="lp-row note"><span class="avatar">DP</span><div class="grow"><b>Dimas Pratama (KJDP)</b><span>' + esc(tk.catatan[0].teks) + '</span></div></div></div>';
   }
 
+  /* Fakta konkret per langkah, semuanya dari aturan sistem (konsep v1.0). */
+  var FAKTA = [
+    [['wifiOff', 'Tetap mencatat tanpa sinyal'], ['hash', 'Nomor unik per catatan, tidak tercatat dua kali'], ['check', 'Jurnal ganda dibentuk otomatis']],
+    [['chart', 'Tujuh indikator, bobot total 100'], ['link', 'Rantai sidik jari SHA-256'], ['refresh', 'Dinas menghitung ulang, hasilnya sama']],
+    [['clock', 'Waspada: kontak pertama dalam 7 hari kerja'], ['flag', 'Perlu tindakan: 14 hari, penjelasan tertulis'], ['alert', 'Lewat tenggat: tanda Terlambat di dasbor dinas']]
+  ];
+  /* Baris angka di bawah panggung, satu set per tahap, dihitung dari data simulasi. */
+  function capAlur() {
+    var d = data(), s = d.s, sep = d.sep;
+    var tk = s.tiket.filter(function (t) { return t.koperasi_id === s.koperasi.id && t.periode_id === '2026-09'; })[0];
+    var set = [
+      [['2', 'entri menunggu sinkron'], [rp(1006000), 'nilai di antrean'], ['0', 'entri tergandakan']],
+      [[String(s.entri.length), 'catatan di buku besar'], [String(sep.nilai), 'skor September'], ['Utuh', 'rantai sidik jari']],
+      [[tk.id, tk.jenis], [tgl(tk.tenggat), 'tenggat kontak pertama'], [tk.status, 'status tiket']]
+    ];
+    return '<div class="lp-stage-cap">' + set.map(function (row, i) {
+      return '<dl data-state="' + i + '">' + row.map(function (c) { return '<div><dt>' + esc(c[0]) + '</dt><dd>' + esc(c[1]) + '</dd></div>'; }).join('') + '</dl>';
+    }).join('') + '</div>';
+  }
+
   /* ---------- Lembar keluaran ---------- */
   var KELUAR = [['ringkasan', 'Ringkasan anggota'], ['laporan', 'Laporan bulanan'], ['paket', 'Paket RAT'], ['ba', 'Berita acara']];
   function lembar(jenis) {
@@ -161,10 +181,12 @@
 
         '<section class="lp-alur" id="lp-alur" aria-labelledby="lp-alur-h"><div class="lp-alur-text"><h2 id="lp-alur-h">Dari catatan ke peringatan</h2>' +
         langkah.map(function (l, i) {
-          return '<div class="lp-step" data-step="' + i + '"><p class="lp-step-t">' + esc(l[0]) + '</p><p class="lp-step-s">' + esc(l[1]) + '</p>' +
-            '</div>';
+          return '<div class="lp-step" data-step="' + i + '" id="lp-step-' + i + '"><p class="lp-step-t">' + esc(l[0]) + '</p><p class="lp-step-s">' + esc(l[1]) + '</p>' +
+            '<ul class="lp-facts">' + FAKTA[i].map(function (f) { return '<li>' + icon(f[0], 'sm') + '<span>' + esc(f[1]) + '</span></li>'; }).join('') + '</ul></div>';
         }).join('') + '</div>' +
-        '<div class="lp-alur-stage"><div class="lp-frag" id="lp-alur-frag" data-active="0">' + fragAlur() + '</div></div></section>' +
+        '<div class="lp-alur-stage" id="lp-alur-stage" data-active="0"><div class="lp-stage-nav" role="group" aria-label="Tahap">' +
+        ['Catat', 'Hitung skor', 'Tindak lanjut'].map(function (t, i) { return '<button type="button" data-act="lp-tahap" data-i="' + i + '">' + t + '</button>'; }).join('') + '</div>' +
+        '<div class="lp-frag" id="lp-alur-frag" data-active="0">' + fragAlur() + '</div>' + capAlur() + '</div></section>' +
 
         '<section class="lp-show" aria-labelledby="lp-show-h"><div class="lp-show-index"><h2 id="lp-show-h">Yang dipegang anggota</h2><div class="lp-names" role="tablist" aria-label="Keluaran sistem">' +
         KELUAR.map(function (k, i) { return '<button type="button" role="tab" id="lp-tab-' + k[0] + '" aria-controls="lp-sheet" aria-selected="' + (i === 0) + '" data-act="lp-lembar" data-k="' + k[0] + '">' + k[1] + '</button>'; }).join('') +
@@ -242,6 +264,7 @@
           if (!e.isIntersecting) return;
           var i = e.target.getAttribute('data-step');
           frag.setAttribute('data-active', i);
+          document.getElementById('lp-alur-stage').setAttribute('data-active', i);
           steps.forEach(function (s) { s.classList.toggle('on', s === e.target); });
         });
       }, { rootMargin: '-45% 0px -45% 0px' });
@@ -269,6 +292,10 @@
   App.acts['lp-ke'] = function (el) {
     var t = document.getElementById(el.getAttribute('data-to'));
     if (t) t.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  };
+  App.acts['lp-tahap'] = function (el) {
+    var t = document.getElementById('lp-step-' + el.getAttribute('data-i'));
+    if (t) t.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
   };
   App.acts['lp-lembar'] = function (el) {
     var k = el.getAttribute('data-k'), sh = document.getElementById('lp-sheet');
