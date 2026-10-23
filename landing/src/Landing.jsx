@@ -21,7 +21,7 @@ function Hero({ d }) {
           <Logo className="tw:size-11 tw:rounded-ctl tw:bg-paper tw:p-1.5" /><b translate="no" className="tw:font-extrabold tw:tracking-wide">TERANG-KOP</b>
         </a>
         <div>
-          <h1 id="lp-h1" className="tw:text-[clamp(1.875rem,4.6vw,3.75rem)] tw:leading-[1.02] tw:font-extrabold tw:tracking-[-0.035em] tw:text-on-deep tw:text-balance">
+          <h1 id="lp-h1" className="tw:text-[clamp(1.875rem,6vw,3rem)] tw:lg:text-[clamp(2.25rem,3.6vw,3.5rem)] tw:leading-[1.02] tw:font-extrabold tw:tracking-[-0.035em] tw:text-on-deep tw:text-balance">
             Angka koperasi desa,<br />terbuka bagi anggota
           </h1>
           <p className="tw:mt-6 tw:max-w-[54ch] tw:text-[17px] tw:leading-relaxed lp-justify tw:text-on-deep-soft">

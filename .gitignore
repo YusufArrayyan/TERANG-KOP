@@ -1,4 +1,5 @@
+*.log
 .taste-skill/
 assets/
+deliverables/_kerja/
 node_modules/
-*.log
