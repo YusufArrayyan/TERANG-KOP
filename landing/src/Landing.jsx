@@ -156,6 +156,93 @@ function Masalah() {
   );
 }
 
+/* ---------------- Pelengkap sistem pemerintah ---------------- */
+function Pelengkap({ d }) {
+  const s = d.s;
+  // Cuplikan berkas ekspor "Skor bulanan" yang sama dengan layar Ekspor dinas, dari buku besar simulasi.
+  const baris = s.skor.slice().sort((a, b) => (a.periode_id < b.periode_id ? -1 : 1)).slice(-4).map((r) => {
+    const p = s.periode.find((x) => x.id === r.periode_id);
+    return [s.koperasi.id, r.periode_id, r.nilai, r.status, r.ambang_versi, p.terbit_pada].join(',');
+  });
+  const csv = ['koperasi_id,periode,skor,status,ambang,terbit_pada'].concat(baris).join('\n');
+  const banding = [
+    ['Untuk siapa', 'Pelaporan koperasi kepada pemerintah: pembinaan, pengawasan, dan evaluasi.', 'Anggota koperasi: saldo, pinjaman, laporan bulanan, dan skor koperasinya sendiri.'],
+    ['Peringatan dini', 'Dokumen kebijakan yang terbuka untuk publik belum merinci cara kerjanya.', 'Skor tujuh indikator tiap tutup buku; Waspada dan Perlu tindakan langsung membuka tiket bertenggat.'],
+    ['Tindak lanjut', 'Tidak disebut dalam dokumen yang dikutip esai.', 'Pendamping KJDP dalam 7 hari kerja; penjelasan tertulis pengurus kepada anggota dalam 14 hari.'],
+    ['Rapat anggota', 'Tidak disebut dalam dokumen yang dikutip esai.', 'Paket RAT terbit paling lambat H-7 dan dikunci; hadir, suara, dan berita acara tercatat.'],
+    ['Data ke pemerintah', 'Sumber resmi pelaporan Kopdes Merah Putih.', 'Ekspor CSV dan JSON dari buku besar yang sama; integrasi langsung menunggu persetujuan Kemenkop.']
+  ];
+  return (
+    <section aria-labelledby="lp-pelengkap-h" className={WRAP + ' ' + GAP}>
+      <Reveal className="tw:grid tw:gap-6 tw:lg:grid-cols-12 tw:lg:items-end">
+        <div className="tw:lg:col-span-7 tw:flex tw:flex-col tw:gap-4">
+          <SectionTitle id="lp-pelengkap-h">Bukan pengganti Simkopdes</SectionTitle>
+          <p className="tw:max-w-[62ch] tw:text-[17px] tw:leading-relaxed lp-justify">Pemerintah sudah menyiapkan sistem informasi manajemen dan pelaporan Kopdes Merah Putih lewat Peraturan Menteri Koperasi Nomor 2 Tahun 2025. TERANG-KOP tidak menyaingi sistem itu. Ia mengisi bagian yang belum dijamin: anggota bisa melihat angka koperasinya setiap bulan, dan setiap kemunduran punya tenggat tindak lanjut.</p>
+        </div>
+        <p className="tw:lg:col-span-5 tw:text-sm tw:text-body">Kolom sistem pemerintah diringkas dari dokumen yang dikutip esai (Menteri Koperasi, 2025; Katadata, 2026), bukan dari uji langsung terhadap aplikasinya.</p>
+      </Reveal>
+
+      <Reveal delay={0.06} className="tw:mt-8 tw:hidden tw:overflow-x-auto tw:rounded-card tw:bg-surface tw:md:block">
+        <table className="tw:w-full tw:min-w-[640px] tw:border-collapse tw:text-[15px]">
+          <caption className="tw:sr-only">Perbandingan sistem pelaporan pemerintah dan TERANG-KOP</caption>
+          <thead>
+            <tr className="tw:text-left">
+              <th scope="col" className="tw:w-[18%] tw:px-5 tw:pt-5 tw:pb-3 tw:text-[13px] tw:font-semibold tw:text-mute"><span className="tw:sr-only">Aspek</span></th>
+              <th scope="col" className="tw:w-[38%] tw:px-5 tw:pt-5 tw:pb-3"><span className="tw:block tw:text-base tw:font-bold">Sistem pemerintah</span><span className="tw:text-[13px] tw:font-medium tw:text-mute">Simkopdes, Permenkop 2/2025</span></th>
+              <th scope="col" className="tw:w-[44%] tw:rounded-tr-card tw:bg-brand-pale tw:px-5 tw:pt-5 tw:pb-3"><span className="tw:flex tw:items-center tw:gap-2 tw:text-base tw:font-bold tw:text-brand-ink"><Logo className="tw:size-5" />TERANG-KOP</span><span className="tw:text-[13px] tw:font-medium tw:text-brand-ink">dijalankan KJDP kabupaten</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {banding.map(([a, g, t], i) => (
+              <tr key={a} className="tw:align-top">
+                <th scope="row" className="tw:border-t tw:border-line tw:px-5 tw:py-4 tw:text-left tw:font-semibold">{a}</th>
+                <td className="tw:border-t tw:border-line tw:px-5 tw:py-4 tw:text-body">{g}</td>
+                <td className={'tw:border-t tw:border-line tw:bg-brand-pale tw:px-5 tw:py-4 ' + (i === banding.length - 1 ? 'tw:rounded-br-card' : '')}>
+                  <span className="tw:flex tw:gap-2"><Icon name="check" className="tw:mt-0.5 tw:text-brand-ink" /><span>{t}</span></span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Reveal>
+      <ul className="tw:mt-8 tw:grid tw:list-none tw:grid-cols-1 tw:gap-3 tw:p-0 tw:md:hidden" aria-label="Perbandingan sistem pemerintah dan TERANG-KOP">
+        {banding.map(([a, g, t]) => (
+          <li key={a} className="tw:overflow-hidden tw:rounded-card tw:bg-surface">
+            <b className="tw:block tw:px-4 tw:pt-4 tw:pb-2">{a}</b>
+            <p className="tw:px-4 tw:pb-3 tw:text-[15px] tw:text-body"><span className="tw:block tw:text-[13px] tw:font-semibold tw:text-mute">Sistem pemerintah</span>{g}</p>
+            <p className="tw:bg-brand-pale tw:px-4 tw:py-3 tw:text-[15px]"><span className="tw:block tw:text-[13px] tw:font-semibold tw:text-brand-ink">TERANG-KOP</span>{t}</p>
+          </li>
+        ))}
+      </ul>
+
+      <div className="tw:mt-8 tw:grid tw:grid-cols-1 tw:gap-6 tw:lg:grid-cols-12 tw:lg:items-start">
+        <Reveal delay={0.08} className="tw:min-w-0 tw:lg:col-span-5 tw:flex tw:flex-col tw:gap-3">
+          <b className="tw:text-lg">Cara keduanya tersambung</b>
+          <ol className="tw:m-0 tw:grid tw:list-none tw:gap-2 tw:p-0">
+            {[['book', 'Buku besar TERANG-KOP', 'Pengurus mencatat sekali; skor dan laporan dihitung dari catatan yang sama.'],
+              ['download', 'Ekspor CSV dan JSON', 'Dinas mengunduh ringkasan wilayah, skor bulanan, tiket, dan buku besar dari layar Ekspor.'],
+              ['map', 'Dinas dan Simkopdes', 'Berkas dipakai untuk pelaporan resmi. Integrasi otomatis baru dibangun setelah ada persetujuan Kemenkop.']].map(([ic, j, t], i, arr) => (
+              <li key={j} className="tw:flex tw:items-start tw:gap-3 tw:rounded-card tw:bg-surface tw:p-4">
+                <span className="tw:grid tw:size-10 tw:shrink-0 tw:place-items-center tw:rounded-full tw:bg-brand-pale tw:text-brand-ink"><Icon name={ic} size="" /></span>
+                <span><b className="tw:block">{j}</b><span className="tw:text-[15px] tw:text-body">{t}</span></span>
+                {i < arr.length - 1 && <span className="tw:sr-only">, lalu</span>}
+              </li>
+            ))}
+          </ol>
+        </Reveal>
+        <Reveal delay={0.12} className="on-deep tw:min-w-0 tw:lg:col-span-7 tw:flex tw:flex-col tw:gap-3 tw:rounded-card tw:bg-deep tw:p-5 tw:text-on-deep">
+          <div className="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-2">
+            <b>terangkop-skor-2026-10-16.csv</b>
+            <span className="tw:text-sm tw:text-on-deep-soft">cuplikan 4 baris terakhir · data simulasi</span>
+          </div>
+          <pre className="tw:m-0 tw:max-w-full tw:overflow-x-auto tw:rounded-ctl tw:bg-deep-2 tw:p-4 tw:font-mono tw:text-[13px] tw:leading-relaxed tw:text-on-deep"><code>{csv}</code></pre>
+          <p className="tw:text-sm tw:text-on-deep-soft">Setiap baris menyimpan versi ambang yang dipakai, jadi dinas bisa menghitung ulang skor dari data yang sama dan mendapat hasil yang sama.</p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 /* ---------------- Cara kerja ---------------- */
 const LANGKAH = [
   ['Catat sekali, bahkan tanpa sinyal.', 'Pengurus mencatat simpanan, angsuran, dan penjualan gerai di ponsel. Entri luring menunggu di antrean dan masuk buku besar saat sinyal kembali.',
@@ -525,6 +612,7 @@ export default function Landing() {
           <Angka />
           <Coba d={d} />
           <Masalah />
+          <Pelengkap d={d} />
           <CaraKerja d={d} />
           <FotoWarung />
           <Keluaran d={d} />
