@@ -218,15 +218,11 @@ function Pelengkap({ d }) {
       <div className="tw:mt-8 tw:grid tw:grid-cols-1 tw:gap-6 tw:lg:grid-cols-12 tw:lg:items-start">
         <Reveal delay={0.08} className="tw:min-w-0 tw:lg:col-span-5 tw:flex tw:flex-col tw:gap-3">
           <b className="tw:text-lg">Cara keduanya tersambung</b>
-          <ol className="tw:m-0 tw:grid tw:list-none tw:gap-2 tw:p-0">
-            {[['book', 'Buku besar TERANG-KOP', 'Pengurus mencatat sekali; skor dan laporan dihitung dari catatan yang sama.'],
-              ['download', 'Ekspor CSV dan JSON', 'Dinas mengunduh ringkasan wilayah, skor bulanan, tiket, dan buku besar dari layar Ekspor.'],
-              ['map', 'Dinas dan Simkopdes', 'Berkas dipakai untuk pelaporan resmi. Integrasi otomatis baru dibangun setelah ada persetujuan Kemenkop.']].map(([ic, j, t], i, arr) => (
-              <li key={j} className="tw:flex tw:items-start tw:gap-3 tw:rounded-card tw:bg-surface tw:p-4">
-                <span className="tw:grid tw:size-10 tw:shrink-0 tw:place-items-center tw:rounded-full tw:bg-brand-pale tw:text-brand-ink"><Icon name={ic} size="" /></span>
-                <span><b className="tw:block">{j}</b><span className="tw:text-[15px] tw:text-body">{t}</span></span>
-                {i < arr.length - 1 && <span className="tw:sr-only">, lalu</span>}
-              </li>
+          <ol className="tw:m-0 tw:flex tw:flex-col tw:gap-5 tw:rounded-card tw:bg-surface tw:p-5 tw:pl-10 tw:marker:font-extrabold tw:marker:text-brand-ink">
+            {[['Dicatat di buku besar TERANG-KOP', 'Pengurus mencatat sekali; skor dan laporan dihitung dari catatan yang sama.'],
+              ['Diekspor sebagai CSV dan JSON', 'Dinas mengunduh ringkasan wilayah, skor bulanan, tiket, dan buku besar dari layar Ekspor.'],
+              ['Dipakai dinas dan Simkopdes', 'Berkas menjadi bahan pelaporan resmi. Integrasi otomatis baru dibangun setelah ada persetujuan Kemenkop.']].map(([j, t]) => (
+              <li key={j} className="tw:pl-1"><b className="tw:block tw:text-lg">{j}</b><span className="tw:text-[15px] tw:text-body">{t}</span></li>
             ))}
           </ol>
         </Reveal>
