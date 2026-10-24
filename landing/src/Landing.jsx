@@ -14,48 +14,57 @@ function Foto({ src, alt, w, h, className = '', eager }) {
 
 /* ---------------- Hero ---------------- */
 function Hero({ d }) {
+  const tautan = 'tw:text-sm tw:font-semibold tw:text-on-deep tw:underline tw:underline-offset-4 tw:min-h-11 tw:inline-flex tw:items-center';
+  const geser = (id) => (e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); };
   return (
     <header aria-labelledby="lp-h1" className="tw:grid tw:min-h-svh tw:grid-cols-1 tw:lg:grid-cols-2">
-      <div className="on-deep tw:flex tw:flex-col tw:justify-between tw:gap-10 tw:bg-deep tw:text-on-deep tw:p-[clamp(20px,3.4vw,48px)] tw:pt-8">
-        <a href="#/" className="tw:inline-flex tw:items-center tw:gap-3 tw:text-on-deep tw:no-underline tw:min-h-11" aria-label="TERANG-KOP">
-          <Logo className="tw:size-11 tw:rounded-ctl tw:bg-paper tw:p-1.5" /><b translate="no" className="tw:font-extrabold tw:tracking-wide">TERANG-KOP</b>
-        </a>
-        <div>
-          <h1 id="lp-h1" className="tw:text-[clamp(1.875rem,6vw,3rem)] tw:lg:text-[clamp(2.25rem,3.6vw,3.5rem)] tw:leading-[1.02] tw:font-extrabold tw:tracking-[-0.035em] tw:text-on-deep tw:text-balance">
-            Angka koperasi desa,<br />terbuka bagi anggota
-          </h1>
-          <p className="tw:mt-6 tw:max-w-[54ch] tw:text-[17px] tw:leading-relaxed lp-justify tw:text-on-deep-soft">
-            TERANG-KOP adalah pembukuan Koperasi Desa Merah Putih. Pengurus mencatat transaksi di ponsel, bahkan tanpa sinyal. Setiap bulan anggota melihat saldonya dan skor kesehatan koperasi. Kalau skor turun, pengurus wajib menjelaskan langkahnya dalam 14 hari.
-          </p>
-          <div className="tw:mt-7 tw:flex tw:flex-wrap tw:gap-3">
-            <a href="#/masuk" className="tw:inline-flex tw:min-h-12 tw:items-center tw:rounded-full tw:bg-amber tw:px-6 tw:font-semibold tw:text-amber-ink tw:no-underline tw:transition tw:hover:brightness-105 tw:active:scale-[.98]">Coba prototipe</a>
-            <a href="#lp-coba" onClick={(e) => { e.preventDefault(); document.getElementById('lp-coba')?.scrollIntoView({ behavior: 'smooth' }); }}
-              className="tw:inline-flex tw:min-h-12 tw:items-center tw:rounded-full tw:border tw:border-on-deep-soft tw:px-6 tw:font-semibold tw:text-on-deep tw:no-underline tw:transition tw:hover:bg-deep-2">Coba hitung skornya</a>
+      {/* Kiri: isi selebar paling banyak 640 px, rapat ke garis tengah, agar sejajar dengan bagian lain di layar lebar */}
+      <div className="on-deep tw:flex tw:bg-deep tw:text-on-deep tw:px-[clamp(20px,3.4vw,48px)] tw:py-8 tw:lg:pr-[clamp(32px,4vw,64px)]">
+        <div className="tw:flex tw:w-full tw:max-w-[640px] tw:flex-col tw:gap-10 tw:lg:ml-auto">
+          <a href="#/" className="tw:inline-flex tw:items-center tw:gap-3 tw:self-start tw:text-on-deep tw:no-underline tw:min-h-11" aria-label="TERANG-KOP">
+            <Logo className="tw:size-11 tw:rounded-ctl tw:bg-paper tw:p-1.5" /><b translate="no" className="tw:font-extrabold tw:tracking-wide">TERANG-KOP</b>
+          </a>
+          <div className="tw:my-auto tw:pb-4">
+            <h1 id="lp-h1" className="tw:text-[clamp(1.875rem,6vw,3rem)] tw:lg:text-[clamp(2.25rem,3.6vw,3.5rem)] tw:leading-[1.02] tw:font-extrabold tw:tracking-[-0.035em] tw:text-on-deep tw:text-balance">
+              Angka koperasi desa,<br />terbuka bagi anggota
+            </h1>
+            <p className="tw:mt-6 tw:text-[17px] tw:leading-relaxed lp-justify tw:text-on-deep-soft">
+              TERANG-KOP adalah pembukuan Koperasi Desa Merah Putih. Pengurus mencatat transaksi di ponsel, bahkan tanpa sinyal. Setiap bulan anggota melihat saldonya dan skor kesehatan koperasi. Kalau skor turun, pengurus wajib menjelaskan langkahnya dalam 14 hari.
+            </p>
+            <div className="tw:mt-7 tw:flex tw:flex-wrap tw:gap-3">
+              <a href="#/masuk" className="tw:inline-flex tw:min-h-12 tw:items-center tw:rounded-full tw:bg-amber tw:px-6 tw:font-semibold tw:text-amber-ink tw:no-underline tw:transition tw:hover:brightness-105 tw:active:scale-[.98]">Coba prototipe</a>
+              <a href="#lp-coba" onClick={geser('lp-coba')}
+                className="tw:inline-flex tw:min-h-12 tw:items-center tw:rounded-full tw:border tw:border-on-deep-soft tw:px-6 tw:font-semibold tw:text-on-deep tw:no-underline tw:transition tw:hover:bg-deep-2">Coba hitung skornya</a>
+            </div>
+            <dl className="tw:mt-10 tw:grid tw:grid-cols-3 tw:gap-4 tw:rounded-card tw:bg-deep-2 tw:p-5">
+              {[[String(d.s.anggota.length), 'anggota Kopdes Sukamaju'], [String(d.s.entri.length), 'catatan buku besar'], ['7', 'indikator kesehatan']].map(([v, l]) => (
+                <div key={l}><dt className="tw:text-[28px] tw:font-extrabold tw:tracking-tight tw:tabular-nums">{v}</dt><dd className="tw:m-0 tw:text-sm tw:text-on-deep-soft">{l}</dd></div>
+              ))}
+            </dl>
           </div>
-          <dl className="tw:mt-10 tw:grid tw:grid-cols-3 tw:gap-4 tw:rounded-card tw:bg-deep-2 tw:p-5">
-            {[[String(d.s.anggota.length), 'anggota Kopdes Sukamaju'], [String(d.s.entri.length), 'catatan buku besar'], ['7', 'indikator kesehatan']].map(([v, l]) => (
-              <div key={l}><dt className="tw:text-[28px] tw:font-extrabold tw:tracking-tight tw:tabular-nums">{v}</dt><dd className="tw:m-0 tw:text-sm tw:text-on-deep-soft">{l}</dd></div>
-            ))}
-          </dl>
         </div>
       </div>
-      <div className="on-deep tw:flex tw:flex-col tw:justify-center tw:gap-6 tw:bg-deep-2 tw:text-on-deep tw:p-[clamp(20px,3.4vw,48px)]">
-        <div className="tw:flex tw:items-center tw:justify-between tw:gap-3">
-          <p className="tw:text-sm tw:font-semibold tw:text-on-deep-soft">Kopdes Merah Putih Sukamaju · data simulasi</p>
-          <span className="tw:flex tw:gap-5">
-            <a href="#lp-panduan" onClick={(e) => { e.preventDefault(); document.getElementById('lp-panduan')?.scrollIntoView({ behavior: 'smooth' }); }}
-              className="tw:text-sm tw:font-semibold tw:text-on-deep tw:underline tw:underline-offset-4 tw:min-h-11 tw:inline-flex tw:items-center">Cara pakai</a>
-            <a href="#/masuk" className="tw:text-sm tw:font-semibold tw:text-on-deep tw:underline tw:underline-offset-4 tw:min-h-11 tw:inline-flex tw:items-center">Masuk ke prototipe</a>
-          </span>
-        </div>
-        <Score3D riwayat={d.riwayat} />
-        <div className="tw:flex tw:flex-wrap tw:items-center tw:gap-3 tw:rounded-card tw:bg-deep tw:p-4">
-          <Gauge nilai={d.sep.nilai} status={d.sep.status} size={64} />
-          <div className="tw:flex-1 tw:min-w-[200px]">
-            <b className="tw:block">September 2026: skor {d.sep.nilai}</b>
-            <span className="tw:text-sm tw:text-on-deep-soft">Likuiditas dan kualitas aset kuning. Tiket Pendampingan terbuka untuk pendamping KJDP.</span>
+      {/* Kanan: baris tautan sejajar dengan logo, grafik dan status di tengah */}
+      <div className="on-deep tw:flex tw:bg-deep-2 tw:text-on-deep tw:px-[clamp(20px,3.4vw,48px)] tw:py-8 tw:lg:pl-[clamp(32px,4vw,64px)]">
+        <div className="tw:flex tw:w-full tw:max-w-[640px] tw:flex-col tw:gap-6 tw:lg:mr-auto">
+          <div className="tw:flex tw:min-h-11 tw:flex-wrap tw:items-center tw:justify-between tw:gap-x-4 tw:gap-y-1">
+            <p className="tw:text-sm tw:font-semibold tw:text-on-deep-soft">Kopdes Merah Putih Sukamaju · data simulasi</p>
+            <span className="tw:flex tw:gap-5">
+              <a href="#lp-panduan" onClick={geser('lp-panduan')} className={tautan}>Cara pakai</a>
+              <a href="#/masuk" className={tautan}>Masuk ke prototipe</a>
+            </span>
           </div>
-          <StatusBadge status={d.sep.status} />
+          <div className="tw:my-auto tw:flex tw:flex-col tw:gap-6 tw:pb-4">
+            <Score3D riwayat={d.riwayat} />
+            <div className="tw:flex tw:flex-wrap tw:items-center tw:gap-3 tw:rounded-card tw:bg-deep tw:p-4">
+              <Gauge nilai={d.sep.nilai} status={d.sep.status} size={64} />
+              <div className="tw:flex-1 tw:min-w-[200px]">
+                <b className="tw:block">September 2026: skor {d.sep.nilai}</b>
+                <span className="tw:text-sm tw:text-on-deep-soft">Likuiditas dan kualitas aset kuning. Tiket Pendampingan terbuka untuk pendamping KJDP.</span>
+              </div>
+              <StatusBadge status={d.sep.status} />
+            </div>
+          </div>
         </div>
       </div>
     </header>
