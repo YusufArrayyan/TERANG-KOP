@@ -21,9 +21,15 @@ function Hero({ d }) {
       {/* Kiri: isi selebar paling banyak 640 px, rapat ke garis tengah, agar sejajar dengan bagian lain di layar lebar */}
       <div className="on-deep tw:flex tw:bg-deep tw:text-on-deep tw:px-[clamp(20px,3.4vw,48px)] tw:py-8 tw:lg:pr-[clamp(32px,4vw,64px)]">
         <div className="tw:flex tw:w-full tw:max-w-[640px] tw:flex-col tw:gap-10 tw:lg:ml-auto">
-          <a href="#/" className="tw:inline-flex tw:items-center tw:gap-3 tw:self-start tw:text-on-deep tw:no-underline tw:min-h-11" aria-label="TERANG-KOP">
-            <Logo className="tw:size-11 tw:rounded-ctl tw:bg-paper tw:p-1.5" /><b translate="no" className="tw:font-extrabold tw:tracking-wide">TERANG-KOP</b>
-          </a>
+          <div className="tw:flex tw:items-center tw:justify-between tw:gap-4">
+            <a href="#/" className="tw:inline-flex tw:items-center tw:gap-3 tw:text-on-deep tw:no-underline tw:min-h-11" aria-label="TERANG-KOP">
+              <Logo className="tw:size-11 tw:rounded-ctl tw:bg-paper tw:p-1.5" /><b translate="no" className="tw:font-extrabold tw:tracking-wide">TERANG-KOP</b>
+            </a>
+            <span className="tw:flex tw:gap-4 tw:lg:hidden">
+              <a href="#lp-panduan" onClick={geser('lp-panduan')} className={tautan}>Cara pakai</a>
+              <a href="#/masuk" className={tautan}>Masuk</a>
+            </span>
+          </div>
           <div className="tw:my-auto tw:pb-4">
             <h1 id="lp-h1" className="tw:text-[clamp(1.875rem,6vw,3rem)] tw:lg:text-[clamp(2.25rem,3.6vw,3.5rem)] tw:leading-[1.02] tw:font-extrabold tw:tracking-[-0.035em] tw:text-on-deep tw:text-balance">
               Angka koperasi desa,<br />terbuka bagi anggota
@@ -37,7 +43,7 @@ function Hero({ d }) {
                 className="tw:inline-flex tw:min-h-12 tw:items-center tw:rounded-full tw:border tw:border-on-deep-soft tw:px-6 tw:font-semibold tw:text-on-deep tw:no-underline tw:transition tw:hover:bg-deep-2">Coba hitung skornya</a>
             </div>
             <dl className="tw:mt-10 tw:grid tw:grid-cols-3 tw:gap-4 tw:rounded-card tw:bg-deep-2 tw:p-5">
-              {[[String(d.s.anggota.length), 'anggota Kopdes Sukamaju'], [String(d.s.entri.length), 'catatan buku besar'], ['7', 'indikator kesehatan']].map(([v, l]) => (
+              {[[String(d.s.anggota.length), 'anggota koperasi'], [String(d.s.entri.length), 'catatan buku besar'], ['7', 'indikator kesehatan']].map(([v, l]) => (
                 <div key={l}><dt className="tw:text-[28px] tw:font-extrabold tw:tracking-tight tw:tabular-nums">{v}</dt><dd className="tw:m-0 tw:text-sm tw:text-on-deep-soft">{l}</dd></div>
               ))}
             </dl>
@@ -47,7 +53,7 @@ function Hero({ d }) {
       {/* Kanan: baris tautan sejajar dengan logo, grafik dan status di tengah */}
       <div className="on-deep tw:flex tw:bg-deep-2 tw:text-on-deep tw:px-[clamp(20px,3.4vw,48px)] tw:py-8 tw:lg:pl-[clamp(32px,4vw,64px)]">
         <div className="tw:flex tw:w-full tw:max-w-[640px] tw:flex-col tw:gap-6 tw:lg:mr-auto">
-          <div className="tw:flex tw:min-h-11 tw:flex-wrap tw:items-center tw:justify-between tw:gap-x-4 tw:gap-y-1">
+          <div className="tw:hidden tw:min-h-11 tw:flex-wrap tw:items-center tw:justify-between tw:gap-x-4 tw:gap-y-1 tw:lg:flex">
             <p className="tw:text-sm tw:font-semibold tw:text-on-deep-soft">Kopdes Merah Putih Sukamaju · data simulasi</p>
             <span className="tw:flex tw:gap-5">
               <a href="#lp-panduan" onClick={geser('lp-panduan')} className={tautan}>Cara pakai</a>
@@ -56,13 +62,12 @@ function Hero({ d }) {
           </div>
           <div className="tw:my-auto tw:flex tw:flex-col tw:gap-6 tw:pb-4">
             <Score3D riwayat={d.riwayat} />
-            <div className="tw:flex tw:flex-wrap tw:items-center tw:gap-3 tw:rounded-card tw:bg-deep tw:p-4">
+            <div className="tw:flex tw:items-center tw:gap-4 tw:rounded-card tw:bg-deep tw:p-4">
               <Gauge nilai={d.sep.nilai} status={d.sep.status} size={64} />
-              <div className="tw:flex-1 tw:min-w-[200px]">
-                <b className="tw:block">September 2026: skor {d.sep.nilai}</b>
-                <span className="tw:text-sm tw:text-on-deep-soft">Likuiditas dan kualitas aset kuning. Tiket Pendampingan terbuka untuk pendamping KJDP.</span>
+              <div className="tw:min-w-0 tw:flex-1">
+                <div className="tw:flex tw:flex-wrap tw:items-center tw:gap-x-3 tw:gap-y-1"><b>September 2026: skor {d.sep.nilai}</b><StatusBadge status={d.sep.status} /></div>
+                <span className="tw:mt-1 tw:block tw:text-sm tw:text-on-deep-soft">Likuiditas dan kualitas aset kuning. Tiket Pendampingan terbuka untuk pendamping KJDP.</span>
               </div>
-              <StatusBadge status={d.sep.status} />
             </div>
           </div>
         </div>
@@ -153,15 +158,15 @@ function Coba({ d }) {
 /* ---------------- Masalah ---------------- */
 function Masalah() {
   return (
-    <section aria-labelledby="lp-intro-h" className={WRAP + ' ' + GAP + ' tw:grid tw:gap-10 tw:lg:grid-cols-12 tw:items-center'}>
-      <Reveal className="tw:lg:col-span-6 tw:flex tw:flex-col tw:gap-4">
+    <section aria-labelledby="lp-intro-h" className={WRAP + ' ' + GAP + ' tw:grid tw:gap-10 tw:md:grid-cols-12 tw:items-center'}>
+      <Reveal className="tw:md:col-span-6 tw:flex tw:flex-col tw:gap-4">
         <SectionTitle id="lp-intro-h">Sekitar 21 anggota per koperasi</SectionTitle>
         <p className="tw:text-[17px] tw:font-semibold tw:leading-relaxed lp-justify">Lebih dari 80.000 desa membentuk Koperasi Desa/​Kelurahan Merah Putih sejak Inpres Nomor 9 Tahun 2025, dengan anggota melampaui 1,7 juta orang pada Januari 2026. Dibagi rata, satu koperasi hanya beranggotakan sekitar 21 orang.</p>
         <p className="tw:leading-relaxed lp-justify">Kepemilikan setipis itu membuat pengawasan oleh anggota sulit berjalan dengan sendirinya. Jumlah koperasi aktif turun dari 209.448 unit pada 2014 menjadi 130.119 pada akhir 2023. Ketika rapat anggota tidak lagi digelar, tidak ada yang memeriksa angkanya.</p>
         <p className="tw:leading-relaxed lp-justify">Penjaminan simpanan baru bekerja setelah koperasi gagal. TERANG-KOP dirancang untuk bekerja sebelum itu: anggota melihat angka koperasinya tiap bulan, dan skor yang turun langsung membuka tugas bertenggat bagi pengurus atau pendamping.</p>
         <p className="tw:text-sm tw:text-body">Sumber: Revindo (2026); InvestorTrust.id (2026b); Rajagukguk (2025); Antara (2025). Rincian di esai COOPFEST 2026.</p>
       </Reveal>
-      <Reveal delay={0.08} as="figure" className="tw:m-0 tw:lg:col-span-6 tw:lg:col-start-7">
+      <Reveal delay={0.08} as="figure" className="tw:m-0 tw:md:col-span-6 tw:md:col-start-7">
         <Foto src="img/tugu.jpg" alt="Tugu peringatan Kongres Koperasi di Tasikmalaya, lambang koperasi di atas alas hitam di antara pilar putih" w={1100} h={619} className="tw:aspect-[4/3]" />
         <figcaption className="tw:mt-3 tw:text-[15px] tw:text-body">Tugu Kongres Koperasi pertama di Tasikmalaya. Gerakan koperasi Indonesia berumur hampir delapan puluh tahun.</figcaption>
       </Reveal>
@@ -479,17 +484,17 @@ function Pilot() {
     ['K3', '90% Kopdes menggelar RAT dengan laporan dibagikan tujuh hari sebelumnya.'], ['K4', 'Seluruh status Perlu tindakan ditindaklanjuti dalam 14 hari.'], ['K5', '15 pemuda bekerja di KJDP dengan upah sesuai UMK kabupaten.']];
   const fase = [['Bulan 1 sampai 3', 'KJDP didirikan, anggotanya dilatih, perjanjian ditandatangani dengan dinas koperasi dan Kopdes peserta.'], ['Bulan 4 sampai 9', 'Buku besar dipasang, skor bulanan terbit, RAT pertama digelar dengan paket dibagikan lebih dahulu.'], ['Bulan 10 sampai 12', 'Hasil dievaluasi bersama dinas untuk replikasi ke kabupaten lain.']];
   return (
-    <section aria-labelledby="lp-pilot-h" className={WRAP + ' ' + GAP + ' tw:grid tw:gap-10 tw:lg:grid-cols-12 tw:items-start'}>
-      <Reveal className="tw:lg:col-span-6 tw:flex tw:flex-col tw:gap-7">
+    <section aria-labelledby="lp-pilot-h" className={WRAP + ' ' + GAP + ' tw:grid tw:gap-10 tw:md:grid-cols-12 tw:items-start'}>
+      <Reveal className="tw:md:col-span-6 tw:flex tw:flex-col tw:gap-7">
         <SectionTitle id="lp-pilot-h">Pilot 12 bulan, 30 Kopdes, lima ukuran</SectionTitle>
-        <ol className="tw:m-0 tw:grid tw:list-none tw:gap-3 tw:p-0 tw:sm:grid-cols-3">
+        <ol className="tw:m-0 tw:grid tw:list-none tw:gap-3 tw:p-0 tw:lg:grid-cols-3">
           {fase.map(([b, t]) => <li key={b} className="tw:rounded-card tw:bg-surface tw:p-4"><b className="tw:block tw:text-brand-ink">{b}</b><span className="tw:text-[15px]">{t}</span></li>)}
         </ol>
         <dl className="tw:m-0 tw:grid tw:gap-2">
           {kpi.map(([k, t]) => <div key={k} className="tw:grid tw:grid-cols-[56px_1fr] tw:items-baseline tw:gap-4 tw:rounded-card tw:bg-surface tw:px-4 tw:py-3.5"><dt className="tw:text-xl tw:font-extrabold tw:text-brand-ink">{k}</dt><dd className="tw:m-0">{t}</dd></div>)}
         </dl>
       </Reveal>
-      <Reveal delay={0.08} as="figure" className="tw:m-0 tw:lg:col-span-5 tw:lg:col-start-8 tw:lg:sticky tw:lg:top-[12vh]">
+      <Reveal delay={0.08} as="figure" className="tw:m-0 tw:md:col-span-5 tw:md:col-start-8 tw:lg:sticky tw:lg:top-[12vh]">
         <Foto src="img/balai.jpg" alt="Balai Desa Pandansari di Kabupaten Malang, bangunan putih berpilar biru di atas tembok batu" w={960} h={720} className="tw:aspect-[4/3]" />
         <figcaption className="tw:mt-3 tw:text-[15px] tw:text-body">Balai desa, tempat RAT tatap muka digelar. e-RAT melengkapinya, tidak menggantikannya.</figcaption>
       </Reveal>
@@ -500,11 +505,11 @@ function Pilot() {
 /* ---------------- Surat penggagas ---------------- */
 function Surat() {
   return (
-    <section aria-labelledby="lp-surat-h" className={WRAP + ' ' + GAP + ' tw:grid tw:gap-10 tw:lg:grid-cols-12 tw:items-center'}>
-      <Reveal as="figure" className="tw:m-0 tw:lg:col-span-6">
+    <section aria-labelledby="lp-surat-h" className={WRAP + ' ' + GAP + ' tw:grid tw:gap-10 tw:md:grid-cols-12 tw:items-center'}>
+      <Reveal as="figure" className="tw:m-0 tw:md:col-span-6">
         <Foto src="img/sawah.jpg" alt="Petani menanam padi di sawah berair di Desa Gebangsari, Banyumas" w={960} h={720} className="tw:aspect-[4/3] tw:lg:aspect-[4/5]" />
       </Reveal>
-      <Reveal delay={0.08} className="tw:lg:col-span-6 tw:lg:col-start-7 tw:flex tw:flex-col tw:gap-4">
+      <Reveal delay={0.08} className="tw:md:col-span-6 tw:md:col-start-7 tw:flex tw:flex-col tw:gap-4">
         <SectionTitle id="lp-surat-h">Mengapa koperasi pemuda</SectionTitle>
         <span aria-hidden="true" className="tw:grid tw:size-11 tw:place-items-center tw:rounded-full tw:bg-brand tw:text-[13px] tw:font-bold tw:text-white">MY</span>
         <p className="tw:text-[17px] tw:leading-relaxed lp-justify">Program magang dan KKN mendekatkan mahasiswa dengan koperasi, tetapi penempatannya sementara, sedangkan pembukuan menuntut kesinambungan setiap bulan. Perangkat lunak saja juga tidak menjamin kebiasaan memakainya.</p>

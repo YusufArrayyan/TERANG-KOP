@@ -58,3 +58,10 @@ Tombol: `primary` (satu aksi utama per layar), `secondary` (bergaris tepi; `.out
 ## Halaman depan React (Oktober 2026)
 
 Dibangun ulang dengan React + Tailwind CSS 4 + Motion + Three.js (`landing/`). Tailwind memakai awalan `tw:` tanpa reset global; seluruh CSS aplikasi berada di `@layer app`, sehingga utilitas halaman depan tidak bertabrakan dengan komponen aplikasi. Warna Tailwind dipetakan ke token aplikasi (`@theme inline`). Satu elemen 3D: batang riwayat skor Januari sampai September dengan bidang ambang 80 dan 55, berayun pelan, bisa diseret, berhenti saat di luar layar, statis bila gerak dikurangi, dan beralih ke batang 2D bila WebGL tidak ada. Animasi lain hanya geser naik pendek tanpa mengubah opasitas, jadi isi selalu terlihat. Berkas tunggal menjadi sekitar 1,6 MB karena Three.js (melewati batas 1 MB konsep v1.0, atas persetujuan pemilik).
+
+## Perbedaan tata letak per perangkat
+
+- Ponsel (< 768 px): satu kolom; tautan Cara pakai dan Masuk di baris logo; grafik riwayat skor memakai batang SVG.
+- Tablet (768 sampai 1023 px): bagian masalah, pilot, dan surat penggagas dua kolom; hero masih satu kolom.
+- Desktop (≥ 1024 px): hero dua bidang dengan isi selebar paling banyak 640 px per sisi, rapat ke garis tengah; seluruh isi berhenti di 1360 px.
+- Grafik 3D Three.js hanya dipakai bila layar ≥ 768 px dan penunjuknya mouse (`pointer: fine`), dan hanya bila WebGL terbukti menggambar (piksel dibaca setelah render pertama). Selain itu, termasuk Safari iOS dan tablet sentuh, memakai batang SVG berkesan 3D.

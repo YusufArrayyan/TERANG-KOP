@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'motion/react';
 import { Scene, PerspectiveCamera, WebGLRenderer, BoxGeometry, PlaneGeometry, MeshStandardMaterial, MeshBasicMaterial, Mesh, Group, AmbientLight, DirectionalLight, Color, DoubleSide } from 'three';
-import { STATUS } from './ui.jsx';
 import { bulan } from './data.js';
 
 /* Warna token aplikasi ditulis dalam OKLCH; three.js butuh RGB. Ubah lewat kanvas 1 piksel. */
@@ -18,18 +18,59 @@ function tokenRGB(cssVar) {
 }
 const VAR = { 'Sehat': '--ok-mark', 'Waspada': '--warn-mark', 'Perlu tindakan': '--bad-mark', 'Dikalibrasi': '--cal-mark' };
 
-/* Riwayat skor Sukamaju Januari sampai September sebagai batang 3D. Datanya dari buku besar simulasi. */
+/* WebGL hanya untuk layar lebar dengan mouse. Ponsel dan tablet sentuh memakai batang SVG:
+ * tampil di semua peramban (termasuk Safari iOS) dan ringan untuk ponsel Android murah. */
+function bolehWebGL() {
+  if (typeof window === 'undefined' || !window.matchMedia) return false;
+  if (!matchMedia('(min-width: 768px) and (pointer: fine)').matches) return false;
+  try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; }
+}
+
+/* Batang dengan sisi dan atap (kesan 3D) dalam SVG. Warna dari token lewat style, bukan atribut. */
+function BatangSVG({ riwayat }) {
+  const W = 360, H = 220, kiri = 26, bawah = 196, tinggi = 160, dx = 9, dy = -6;
+  const n = riwayat.length, slot = (W - kiri - 16) / n, bw = slot * 0.56;
+  const y = (v) => bawah - (v / 100) * tinggi;
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="tw:block tw:size-full" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+      <polygon points={`${kiri - 6},${bawah + 2} ${W - 10},${bawah + 2} ${W - 10 + dx},${bawah + 2 + dy} ${kiri - 6 + dx},${bawah + 2 + dy}`} style={{ fill: '#cfe3dc', opacity: 0.22 }} />
+      {[[80, '--ok-mark'], [55, '--warn-mark']].map(([v, c]) => (
+        <g key={v}>
+          <line x1={kiri} x2={W - 8} y1={y(v)} y2={y(v)} strokeDasharray="4 4" strokeWidth="1.2" style={{ stroke: `var(${c})`, opacity: 0.85 }} />
+          <text x={kiri - 6} y={y(v) + 4} textAnchor="end" fontSize="10" fontWeight="700" style={{ fill: `var(${c})` }}>{v}</text>
+        </g>
+      ))}
+      {riwayat.map((b, i) => {
+        const x = kiri + i * slot + (slot - bw) / 2, t = y(b.nilai), warna = `var(${VAR[b.status] || '--brand'})`;
+        return (
+          <motion.g key={b.periode} initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ duration: 0.6, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }} style={{ originY: `${bawah}px`, transformBox: 'view-box' }}>
+            <polygon points={`${x + bw},${t} ${x + bw + dx},${t + dy} ${x + bw + dx},${bawah + dy} ${x + bw},${bawah}`} style={{ fill: warna }} />
+            <polygon points={`${x + bw},${t} ${x + bw + dx},${t + dy} ${x + bw + dx},${bawah + dy} ${x + bw},${bawah}`} style={{ fill: '#000', opacity: 0.28 }} />
+            <rect x={x} y={t} width={bw} height={bawah - t} style={{ fill: warna }} />
+            <polygon points={`${x},${t} ${x + dx},${t + dy} ${x + bw + dx},${t + dy} ${x + bw},${t}`} style={{ fill: warna }} />
+            <polygon points={`${x},${t} ${x + dx},${t + dy} ${x + bw + dx},${t + dy} ${x + bw},${t}`} style={{ fill: '#fff', opacity: 0.32 }} />
+          </motion.g>
+        );
+      })}
+    </svg>
+  );
+}
+
+/* Riwayat skor Sukamaju Januari sampai September. Datanya dari buku besar simulasi. */
 export default function Score3D({ riwayat }) {
   const wrap = useRef(null);
-  const [gagal, setGagal] = useState(false);
+  const [mode, setMode] = useState(() => (bolehWebGL() ? '3d' : 'svg'));
 
   useEffect(() => {
+    if (mode !== '3d') return undefined;
     const el = wrap.current;
     let renderer;
-    try { renderer = new WebGLRenderer({ antialias: true, alpha: true }); } catch { setGagal(true); return undefined; }
+    try { renderer = new WebGLRenderer({ antialias: true, alpha: true }); } catch { setMode('svg'); return undefined; }
     renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
     el.appendChild(renderer.domElement);
     renderer.domElement.style.display = 'block';
+    const hilang = () => setMode('svg');
+    renderer.domElement.addEventListener('webglcontextlost', hilang);
 
     const scene = new Scene();
     const camera = new PerspectiveCamera(32, 1, 0.1, 100);
@@ -67,6 +108,20 @@ export default function Score3D({ riwayat }) {
     ukur();
     const ro = new ResizeObserver(ukur); ro.observe(el);
 
+    // Pastikan WebGL benar-benar menggambar: baca piksel setelah render pertama.
+    // Beberapa peramban membuat konteks tanpa galat tetapi kanvasnya kosong; saat itu pakai SVG.
+    g.rotation.y = -0.25;
+    renderer.render(scene, camera);
+    try {
+      const gl = renderer.getContext();
+      const w = gl.drawingBufferWidth, h = gl.drawingBufferHeight;
+      const px = new Uint8Array(w * h * 4);
+      gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, px);
+      let ada = false;
+      for (let i = 3; i < px.length; i += 4 * 97) { if (px[i] > 0) { ada = true; break; } }
+      if (!ada || gl.isContextLost()) { ro.disconnect(); renderer.dispose(); renderer.domElement.remove(); setMode('svg'); return undefined; }
+    } catch { /* bila readPixels tidak didukung, biarkan WebGL tetap dipakai */ }
+
     const diam = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let drag = null, putar = 0, terlihat = true, raf = 0, t0 = performance.now();
     const down = (e) => { drag = { x: e.clientX, r: putar }; el.setPointerCapture?.(e.pointerId); };
@@ -87,27 +142,26 @@ export default function Score3D({ riwayat }) {
 
     return () => {
       cancelAnimationFrame(raf); ro.disconnect(); io.disconnect();
+      renderer.domElement.removeEventListener('webglcontextlost', hilang);
       el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up);
       geos.forEach((x) => x.dispose()); mats.forEach((x) => x.dispose()); renderer.dispose(); renderer.domElement.remove();
     };
-  }, [riwayat]);
+  }, [riwayat, mode]);
 
   const label = 'Riwayat skor Kopdes Sukamaju: ' + riwayat.map((b) => bulan(b.periode) + ' ' + b.nilai + ' ' + b.status).join(', ');
+  const tiga = mode === '3d';
   return (
-    <figure className="tw:m-0 tw:flex tw:flex-col tw:gap-3">
-      <div ref={wrap} role="img" aria-label={label} className="tw:relative tw:h-[clamp(220px,34vh,340px)] tw:w-full tw:cursor-grab tw:touch-pan-y tw:active:cursor-grabbing">
-        {gagal && (
-          <div className="tw:absolute tw:inset-0 tw:flex tw:items-end tw:gap-1.5 tw:px-2">
-            {riwayat.map((b) => (
-              <i key={b.periode} className={'tw:block tw:flex-1 tw:rounded-t-md ' + (b.status === 'Dikalibrasi' ? 'lp-hatch' : '')} style={{ height: b.nilai + '%', background: b.status === 'Dikalibrasi' ? undefined : STATUS[b.status].mark }} />
-            ))}
-          </div>
-        )}
+    <figure className="tw:m-0 tw:flex tw:flex-col tw:gap-3" data-grafik={mode}>
+      <div ref={wrap} role="img" aria-label={label}
+        className={'tw:relative tw:w-full ' + (tiga ? 'tw:h-[clamp(220px,34vh,340px)] tw:cursor-grab tw:touch-pan-y tw:active:cursor-grabbing' : 'tw:aspect-[360/220] tw:max-h-[300px]')}>
+        {!tiga && <BatangSVG riwayat={riwayat} />}
       </div>
-      <div className="tw:grid tw:gap-1 tw:text-center tw:text-[13px] tw:text-on-deep-soft" style={{ gridTemplateColumns: `repeat(${riwayat.length}, minmax(0, 1fr))` }} aria-hidden="true">
+      <div className="tw:grid tw:gap-1 tw:text-center tw:text-[13px] tw:text-on-deep-soft" style={{ gridTemplateColumns: `repeat(${riwayat.length}, minmax(0, 1fr))`, paddingLeft: tiga ? 0 : '7%', paddingRight: tiga ? 0 : '3%' }} aria-hidden="true">
         {riwayat.map((b) => <span key={b.periode}><b className="tw:block tw:text-[15px] tw:text-on-deep tw:tabular-nums">{b.nilai}</b>{bulan(b.periode).slice(0, 3)}</span>)}
       </div>
-      <figcaption className="tw:text-sm tw:text-on-deep-soft">Riwayat skor Kopdes Sukamaju, Januari sampai September 2026. Batang biru: tiga bulan kalibrasi; bidang tipis menandai ambang 80 (Sehat) dan 55 (Waspada). Seret untuk memutar.</figcaption>
+      <figcaption className="tw:text-sm tw:text-on-deep-soft">
+        Riwayat skor Kopdes Sukamaju, Januari sampai September 2026. Batang biru: tiga bulan kalibrasi; {tiga ? 'bidang tipis' : 'garis putus-putus'} menandai ambang 80 (Sehat) dan 55 (Waspada).{tiga ? ' Seret untuk memutar.' : ''}
+      </figcaption>
     </figure>
   );
 }
